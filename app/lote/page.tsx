@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Settings, Plus, ArrowRight, FileText } from "lucide-react";
+import {
+  Settings, Plus, ArrowRight, FileText, Download,
+  Briefcase, GraduationCap, Rocket, Calendar, Heart, Trophy, MoreHorizontal,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SessionBar } from "@/components/session-bar";
 import { OpportunityRow } from "@/components/opportunity-row";
@@ -12,9 +15,24 @@ import { useSession } from "@/stores/session";
 import { useBatch } from "@/stores/batch";
 import { estimateBatchCost, formatCost } from "@/lib/ai/cost";
 import { extractPdfText } from "@/lib/extract/pdf";
-import type { Opportunity, SortBy } from "@/lib/types";
+import type { Opportunity, OpportunityCategory, SortBy } from "@/lib/types";
 
 type View = "input" | "queue" | "results";
+
+const CATEGORIES: {
+  value: OpportunityCategory;
+  label: string;
+  icon: typeof Briefcase;
+  desc: string;
+}[] = [
+  { value: "empleo", label: "Empleo", icon: Briefcase, desc: "Ofertas de trabajo, pasantías" },
+  { value: "beca", label: "Beca", icon: GraduationCap, desc: "Becas de estudio, investigación" },
+  { value: "hackathon", label: "Hackathon", icon: Trophy, desc: "Competencias, challenges" },
+  { value: "aceleradora", label: "Aceleradora", icon: Rocket, desc: "Programas de aceleración, fondos" },
+  { value: "evento", label: "Evento", icon: Calendar, desc: "Conferencias, workshops, calls" },
+  { value: "voluntariado", label: "Voluntariado", icon: Heart, desc: "Servicio social, comunidad" },
+  { value: "otro", label: "Otro", icon: MoreHorizontal, desc: "Cualquier otra convocatoria" },
+];
 
 export default function LotePage() {
   const router = useRouter();
@@ -30,8 +48,9 @@ export default function LotePage() {
     pasteManual,
     removeSource,
     setSortBy,
+    category,
+    setCategory,
     processAll,
-    discard,
   } = useBatch();
 
   const [view, setView] = useState<View>("input");
@@ -41,14 +60,12 @@ export default function LotePage() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  if (!context) {
-    if (typeof window !== "undefined") router.replace("/contexto");
-    return null;
-  }
-  if (connection.status !== "connected") {
-    if (typeof window !== "undefined") router.replace("/conectar");
-    return null;
-  }
+  useEffect(() => {
+    if (!context) router.replace("/contexto");
+    else if (connection.status !== "connected") router.replace("/conectar");
+  }, [context, connection.status, router]);
+
+  if (!context || connection.status !== "connected") return null;
 
   const urls = urlText
     .split("\n")
@@ -64,6 +81,12 @@ export default function LotePage() {
 
   const totalSources = sources.length + urls.length;
   const cost = estimateBatchCost(totalSources);
+
+  const sourcesForCategory = sources.filter((s) => s.category === category);
+  const sourceCounts = CATEGORIES.map((c) => ({
+    ...c,
+    count: sources.filter((s) => s.category === c.value).length,
+  }));
 
   const handleAnalyze = async () => {
     if (urls.length > 0) addUrls(urls);
@@ -112,121 +135,157 @@ export default function LotePage() {
 
   // --- INPUT VIEW ---
   if (view === "input") {
+    const activeCat = CATEGORIES.find((c) => c.value === category)!;
+    const ActiveIcon = activeCat.icon;
+
     return (
       <Shell connection={connection}>
-        <main className="flex-1 px-6 py-12">
+        <main className="flex-1 px-6 py-10">
           <div className="mx-auto max-w-[1100px]">
             <h1 className="font-display text-2xl font-bold">
-              ¿A qué estás mirando postular?
+              ¿A qué estás postulando?
             </h1>
             <p className="mt-2 text-ink-muted">
-              Pega los enlaces de todas las convocatorias que estés considerando. Uno por línea.
+              Elige el tipo de oportunidad y agrega tus convocatorias. Cada sector usa una estrategia de análisis distinta.
             </p>
 
-            <textarea
-              value={urlText}
-              onChange={(e) => setUrlText(e.target.value)}
-              placeholder={"https://www.corfo.cl/sites/cpp/convocatorias/semilla_inicia\nhttps://www.conacyt.gob.mx/convocatorias/becas_extranjero_2024"}
-              className="mt-6 w-full h-56 p-4 text-sm border border-rule rounded bg-surface resize-y font-body leading-relaxed"
-            />
-
-            <div className="mt-2 flex justify-end">
-              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-                {urls.length + sources.filter((s) => s.kind !== "url" || s.status !== "pending").length} ENLACES
-              </span>
-            </div>
-
-            {/* PDF + Paste cards */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  handlePdfDrop(e.dataTransfer.files);
-                }}
-                className="flex flex-col items-center justify-center p-6 border border-rule rounded bg-surface hover:border-ink-muted transition-colors cursor-pointer"
-              >
-                <FileText className="size-6 text-ink-muted" />
-                <p className="mt-2 font-medium text-sm">
-                  {pdfLoading ? "Leyendo PDF..." : "Arrastra bases en PDF"}
-                </p>
-                <p className="text-xs text-ink-muted mt-1">
-                  Se leen en tu navegador
-                </p>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".pdf"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => handlePdfDrop(e.target.files)}
-                />
-              </button>
-
-              <div className="flex flex-col items-center justify-center p-6 border border-rule rounded bg-surface">
-                <p className="text-sm text-ink-muted">
-                  ¿La convocatoria no tiene link?
-                </p>
-                <Button
-                  variant="outline"
-                  className="mt-3"
-                  onClick={() => setShowPasteModal(true)}
-                >
-                  PEGAR TEXTO A MANO
-                </Button>
-              </div>
-            </div>
-
-            {/* Already added sources */}
-            {sources.length > 0 && (
-              <div className="mt-6 border border-rule rounded p-4">
-                <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted mb-2">
-                  FUENTES AGREGADAS ({sources.length})
-                </p>
-                {sources.map((s) => (
-                  <div
-                    key={s.id}
-                    className="flex items-center justify-between py-1 text-sm"
+            {/* Category cards */}
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {sourceCounts.map((c) => {
+                const Icon = c.icon;
+                const selected = category === c.value;
+                return (
+                  <button
+                    key={c.value}
+                    onClick={() => setCategory(c.value)}
+                    className={`relative flex flex-col items-start p-4 rounded-xl border transition-all duration-200 active:scale-[0.97] text-left ${
+                      selected
+                        ? "border-stamp/40 bg-stamp/5 shadow-sm"
+                        : "border-rule/40 hover:border-rule hover:bg-paper/50"
+                    }`}
                   >
-                    <span className="truncate">{s.origin}</span>
-                    <button
-                      onClick={() => removeSource(s.id)}
-                      className="text-xs text-ink-muted hover:text-alert ml-2"
+                    <Icon className={`size-5 ${selected ? "text-stamp" : "text-ink-muted"}`} />
+                    <p className={`mt-2 text-sm font-medium ${selected ? "text-stamp" : "text-ink"}`}>
+                      {c.label}
+                    </p>
+                    <p className="text-[11px] text-ink-muted leading-snug mt-0.5">
+                      {c.desc}
+                    </p>
+                    {c.count > 0 && (
+                      <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-stamp text-white text-[10px] font-bold flex items-center justify-center">
+                        {c.count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active category input area */}
+            <div className="mt-8 border border-rule/40 rounded-xl p-6 bg-surface">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-9 h-9 rounded-xl bg-stamp/10 flex items-center justify-center">
+                  <ActiveIcon className="size-4.5 text-stamp" />
+                </div>
+                <div>
+                  <h2 className="font-medium">{activeCat.label}</h2>
+                  <p className="text-xs text-ink-muted">{activeCat.desc}</p>
+                </div>
+              </div>
+
+              <textarea
+                value={urlText}
+                onChange={(e) => setUrlText(e.target.value)}
+                placeholder={"Pega los enlaces de las convocatorias, uno por línea\nhttps://ejemplo.com/convocatoria-1\nhttps://ejemplo.com/convocatoria-2"}
+                className="w-full h-40 p-4 text-sm border border-rule/30 rounded-xl bg-paper resize-y font-body leading-relaxed focus:border-stamp/40 focus:ring-2 focus:ring-stamp/10 outline-none transition-all duration-200"
+              />
+
+              <div className="mt-3 flex flex-wrap gap-3">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex items-center gap-2 px-4 py-2 text-sm border border-rule/40 rounded-lg hover:border-rule transition-colors"
+                >
+                  <FileText className="size-4 text-ink-muted" />
+                  {pdfLoading ? "Leyendo..." : "Subir PDF"}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".pdf"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => handlePdfDrop(e.target.files)}
+                  />
+                </button>
+                <button
+                  onClick={() => setShowPasteModal(true)}
+                  className="flex items-center gap-2 px-4 py-2 text-sm border border-rule/40 rounded-lg hover:border-rule transition-colors"
+                >
+                  Pegar texto
+                </button>
+              </div>
+
+              {/* Sources in this category */}
+              {sourcesForCategory.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-rule/20">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted mb-2">
+                    {sourcesForCategory.length} fuente{sourcesForCategory.length !== 1 ? "s" : ""} en {activeCat.label}
+                  </p>
+                  {sourcesForCategory.map((s) => (
+                    <div
+                      key={s.id}
+                      className="flex items-center justify-between py-1.5 text-sm"
                     >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                      <span className="truncate text-ink/80">
+                        {s.kind === "url"
+                          ? new URL(s.origin).hostname.replace(/^www\./, "")
+                          : s.origin}
+                      </span>
+                      <button
+                        onClick={() => removeSource(s.id)}
+                        className="text-xs text-ink-muted hover:text-alert ml-2 shrink-0"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Global summary + analyze */}
+            {sources.length > 0 && (
+              <div className="mt-6 p-4 bg-paper rounded-xl border border-rule/30">
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {sourceCounts
+                    .filter((c) => c.count > 0)
+                    .map((c) => (
+                      <span
+                        key={c.value}
+                        className="px-2.5 py-1 text-xs font-medium rounded-lg bg-stamp/8 text-stamp"
+                      >
+                        {c.count} {c.label}
+                      </span>
+                    ))}
+                </div>
+                <p className="text-xs text-ink-muted">
+                  Total: {sources.length} fuente{sources.length !== 1 ? "s" : ""} · Costo estimado: {formatCost(cost)}
+                </p>
               </div>
             )}
 
-            {/* Footer bar */}
-            <div className="mt-8 pt-6 border-t border-rule flex items-center justify-between">
-              <button className="text-sm text-stamp underline">
-                ¿Qué revisa Calco en cada una?
-              </button>
-              <div className="flex items-center gap-4">
-                <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-                  COSTO ESTIMADO DEL ANÁLISIS {formatCost(cost)}
-                </span>
-                <Button
-                  disabled={totalSources === 0}
-                  onClick={handleAnalyze}
-                  className="gap-2"
-                >
-                  ANALIZAR {totalSources > 0 ? `LAS ${totalSources}` : ""}{" "}
-                  <ArrowRight className="size-4" />
-                </Button>
-              </div>
+            <div className="mt-6 flex items-center justify-end gap-4">
+              <Button
+                disabled={totalSources === 0}
+                onClick={handleAnalyze}
+                className="gap-2"
+              >
+                ANALIZAR {totalSources > 0 ? `LAS ${totalSources}` : ""}{" "}
+                <ArrowRight className="size-4" />
+              </Button>
             </div>
           </div>
         </main>
 
-        {/* Paste modal */}
         {showPasteModal && (
           <PasteModal
             value={pastedText}
@@ -255,7 +314,6 @@ export default function LotePage() {
               </p>
             </div>
 
-            {/* Progress bar */}
             <div className="mt-6 flex h-2 rounded overflow-hidden bg-rule/20">
               {sources.map((s) => (
                 <div
@@ -273,7 +331,6 @@ export default function LotePage() {
               ))}
             </div>
 
-            {/* Queue list */}
             <div className="mt-8">
               {sources.map((s) => (
                 <SourceQueueItem
@@ -285,7 +342,6 @@ export default function LotePage() {
               ))}
             </div>
 
-            {/* Footer */}
             <div className="mt-8 flex justify-center">
               {readySources > 0 && (
                 <div className="text-center">
@@ -318,10 +374,10 @@ export default function LotePage() {
                 <button
                   key={key}
                   onClick={() => setSortBy(key)}
-                  className={`px-3 py-1.5 text-sm rounded border transition-colors ${
+                  className={`px-3 py-1.5 text-sm rounded-lg border transition-all duration-200 active:scale-[0.97] ${
                     sortBy === key
-                      ? "border-stamp bg-stamp/5 text-stamp font-medium"
-                      : "border-rule text-ink-muted hover:border-ink-muted"
+                      ? "border-stamp/40 bg-stamp/8 text-stamp font-medium"
+                      : "border-rule/50 text-ink-muted hover:border-ink-muted/50"
                   }`}
                 >
                   {key === "fit"
@@ -333,16 +389,64 @@ export default function LotePage() {
               ))}
               <Button variant="outline" onClick={handleAddMore} className="gap-1">
                 <Plus className="size-4" />
-                AGREGAR MÁS ENLACES
+                AGREGAR MÁS
               </Button>
+              {opportunities.length > 0 && (
+                <Button
+                  variant="outline"
+                  className="gap-1"
+                  onClick={() => {
+                    const blob = new Blob(
+                      [JSON.stringify(opportunities, null, 2)],
+                      { type: "application/json" },
+                    );
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "postulai-analisis.json";
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  }}
+                >
+                  <Download className="size-4" />
+                  DESCARGAR
+                </Button>
+              )}
             </div>
           </div>
 
-          {/* Opportunity cards */}
-          <div className="mt-8 space-y-4">
-            {sortedOpportunities.map((opp) => (
-              <OpportunityRow key={opp.id} opp={opp} />
-            ))}
+          {/* Results grouped by category */}
+          <div className="mt-8 space-y-8">
+            {CATEGORIES.filter((c) =>
+              sortedOpportunities.some((opp) =>
+                sources.some(
+                  (s) => s.opportunityId === opp.id && s.category === c.value,
+                ),
+              ),
+            ).map((c) => {
+              const Icon = c.icon;
+              const catOpps = sortedOpportunities.filter((opp) =>
+                sources.some(
+                  (s) => s.opportunityId === opp.id && s.category === c.value,
+                ),
+              );
+              return (
+                <div key={c.value}>
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <Icon className="size-4.5 text-stamp" />
+                    <h2 className="font-display text-lg font-bold">{c.label}</h2>
+                    <span className="text-xs text-ink-muted">
+                      {catOpps.length} resultado{catOpps.length !== 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <div className="space-y-4">
+                    {catOpps.map((opp) => (
+                      <OpportunityRow key={opp.id} opp={opp} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {opportunities.length === 0 && !processing && (
@@ -365,20 +469,22 @@ function Shell({
 }) {
   return (
     <div className="flex flex-col min-h-full">
-      <header className="flex items-center justify-between px-6 md:px-10 h-14 bg-surface border-b border-rule">
-        <Link
-          href="/"
-          className="font-display text-xl font-bold tracking-tight"
-        >
-          CALCO
+      <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
+            <span className="text-white text-[11px] font-bold">P</span>
+          </div>
+          <span className="font-display text-xl font-bold tracking-tight">
+            PostulAI
+          </span>
         </Link>
         <div className="flex items-center gap-4">
           {connection.credit && (
             <span className="font-mono text-xs text-ink-muted">
-              Créditos: {connection.credit.remaining.toFixed(2)}
+              Creditos: {connection.credit.remaining.toFixed(2)}
             </span>
           )}
-          <Link href="/ajustes" className="text-ink-muted hover:text-ink">
+          <Link href="/ajustes" className="text-ink-muted hover:text-ink transition-colors duration-200">
             <Settings className="size-5" />
           </Link>
         </div>
@@ -401,8 +507,8 @@ function PasteModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40">
-      <div className="bg-surface rounded border border-rule p-6 w-full max-w-lg mx-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/30 backdrop-blur-sm">
+      <div className="bg-surface rounded-2xl border border-rule/30 p-6 w-full max-w-lg mx-4 shadow-xl">
         <h2 className="font-display text-lg font-semibold">
           Pegar texto de convocatoria
         </h2>

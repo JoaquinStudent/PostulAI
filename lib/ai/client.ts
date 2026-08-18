@@ -32,7 +32,7 @@ function getHeaders(): HeadersInit {
     Authorization: `Bearer ${key}`,
     "Content-Type": "application/json",
     "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "",
-    "X-Title": "Calco",
+    "X-Title": "PostulAI",
   };
 }
 
@@ -147,7 +147,7 @@ export async function validateKey(key: string): Promise<{
     headers: {
       Authorization: `Bearer ${key}`,
       "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "",
-      "X-Title": "Calco",
+      "X-Title": "PostulAI",
     },
   });
 

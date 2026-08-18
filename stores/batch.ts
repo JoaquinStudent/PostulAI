@@ -3,15 +3,18 @@ import type {
   Source,
   SourceKind,
   Opportunity,
+  OpportunityBrief,
+  OpportunityCategory,
   SortBy,
   FailureCause,
 } from "@/lib/types";
 import { makeFailure } from "@/lib/extract/failures";
-import { buildPR03Prompt, parsePR03Response } from "@/lib/prompts/pr-03";
-import { buildPR04Prompt, parsePR04Response } from "@/lib/prompts/pr-04";
+import { buildPR03Messages, parsePR03Response } from "@/lib/prompts/pr-03";
+import { buildPR04Messages, parsePR04Response } from "@/lib/prompts/pr-04";
 import { verifyCitations } from "@/lib/ai/verify";
 import { truncateForContext } from "@/lib/extract/normalize";
-import { complete } from "@/lib/ai/client";
+import { complete, AiError } from "@/lib/ai/client";
+import { safeguardModel } from "@/lib/ai/models";
 import { useSession } from "./session";
 
 const MAX_CONCURRENT = 3;
@@ -24,8 +27,10 @@ interface BatchState {
   sources: Source[];
   opportunities: Opportunity[];
   sortBy: SortBy;
+  category: OpportunityCategory;
   processing: boolean;
 
+  setCategory: (c: OpportunityCategory) => void;
   addUrls: (urls: string[]) => void;
   addPasted: (text: string) => void;
   addPdf: (fileName: string, text: string, wordCount: number) => void;
@@ -34,6 +39,7 @@ interface BatchState {
   undiscard: (opportunityId: string) => void;
   removeSource: (sourceId: string) => void;
   setSortBy: (s: SortBy) => void;
+  updateBrief: (opportunityId: string, brief: Partial<OpportunityBrief>) => void;
   processAll: () => Promise<void>;
 }
 
@@ -41,9 +47,13 @@ export const useBatch = create<BatchState>((set, get) => ({
   sources: [],
   opportunities: [],
   sortBy: "fit",
+  category: "hackathon",
   processing: false,
 
+  setCategory: (category) => set({ category }),
+
   addUrls: (urls) => {
+    const cat = get().category;
     const existing = new Set(get().sources.map((s) => s.origin));
     const newSources: Source[] = urls
       .filter((u) => !existing.has(u))
@@ -56,6 +66,7 @@ export const useBatch = create<BatchState>((set, get) => ({
         wordCount: null,
         failure: null,
         opportunityId: null,
+        category: cat,
       }));
     set((s) => ({ sources: [...s.sources, ...newSources] }));
   },
@@ -70,6 +81,7 @@ export const useBatch = create<BatchState>((set, get) => ({
       wordCount: text.split(/\s+/).filter(Boolean).length,
       failure: null,
       opportunityId: null,
+      category: get().category,
     };
     set((s) => ({ sources: [...s.sources, source] }));
   },
@@ -84,6 +96,7 @@ export const useBatch = create<BatchState>((set, get) => ({
       wordCount,
       failure: null,
       opportunityId: null,
+      category: get().category,
     };
     set((s) => ({ sources: [...s.sources, source] }));
   },
@@ -127,6 +140,16 @@ export const useBatch = create<BatchState>((set, get) => ({
   },
 
   setSortBy: (sortBy) => set({ sortBy }),
+
+  updateBrief: (opportunityId, brief) => {
+    set((s) => ({
+      opportunities: s.opportunities.map((o) =>
+        o.id === opportunityId
+          ? { ...o, brief: { ...o.brief, ...brief } }
+          : o,
+      ),
+    }));
+  },
 
   processAll: async () => {
     set({ processing: true });
@@ -178,34 +201,26 @@ export const useBatch = create<BatchState>((set, get) => ({
 
     const session = useSession.getState();
     const contextRaw = session.context?.raw ?? "";
-    const economyModel = session.connection.models.economy ||
-      "google/gemini-2.0-flash-001";
+    const economyModel = safeguardModel(session.connection.models.economy || "openai/gpt-4o-mini");
 
     await processConcurrent(extracted, MAX_CONCURRENT, async (source) => {
       updateSource(set, source.id, { status: "analyzing" });
       try {
         const truncated = truncateForContext(source.text!);
 
-        // PR-03: Extract opportunity
+        // PR-03: Extract opportunity (system/user split for prompt caching)
         const pr03Response = await complete({
           model: economyModel,
-          messages: [
-            { role: "user", content: buildPR03Prompt(truncated) },
-          ],
+          messages: buildPR03Messages(truncated),
           temperature: 0.1,
         });
 
         const extractedData = parsePR03Response(pr03Response);
 
-        // PR-04: Evaluate fit
+        // PR-04: Evaluate fit (system/user split for prompt caching)
         const pr04Response = await complete({
           model: economyModel,
-          messages: [
-            {
-              role: "user",
-              content: buildPR04Prompt(extractedData.brief, contextRaw),
-            },
-          ],
+          messages: buildPR04Messages(extractedData.brief, contextRaw, source.category),
           temperature: 0.1,
         });
 
@@ -245,10 +260,13 @@ export const useBatch = create<BatchState>((set, get) => ({
         set((s) => ({
           opportunities: [...s.opportunities, opportunity],
         }));
-      } catch {
+      } catch (err) {
+        console.error("[postulai] analysis failed:", source.origin, err);
+        const cause: FailureCause =
+          err instanceof AiError && err.code === "auth" ? "network" : "ai";
         updateSource(set, source.id, {
           status: "failed",
-          failure: makeFailure("network"),
+          failure: makeFailure(cause),
         });
       }
     });

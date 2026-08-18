@@ -1,102 +1,485 @@
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import { LimitRulerDemo } from "@/components/limit-ruler-demo";
+import {
+  FileText,
+  Link2,
+  PenTool,
+  Shield,
+  Lock,
+  Trash2,
+  Eye,
+  ArrowRight,
+  Target,
+  Sparkles,
+  Ruler,
+  Search,
+  Lightbulb,
+  BarChart3,
+  Mic,
+  MessageCircle,
+  FolderGit2,
+} from "lucide-react";
+
+function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.2, 0, 0, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function GlassCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative rounded-2xl border border-white/30 bg-white/50 backdrop-blur-xl shadow-[0_2px_24px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.6)] ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-full">
-      {/* Header */}
-      <header className="flex items-center justify-between px-6 md:px-10 h-14 bg-surface border-b border-rule">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-stamp" />
+    <div className="flex flex-col min-h-full overflow-x-hidden">
+      {/* ─── NAV ─── */}
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 xl:px-16 h-14 xl:h-16 glass border-b border-white/20">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 bg-stamp rounded-[10px] flex items-center justify-center shadow-sm">
+            <span className="text-white text-xs font-bold">P</span>
+          </div>
           <span className="font-display text-xl font-bold tracking-tight">
-            Calco
+            PostulAI
           </span>
         </div>
-        <a href="#como-funciona" className="text-sm underline text-ink hover:text-stamp">
-          Cómo funciona
-        </a>
+        <nav className="hidden md:flex items-center gap-6 xl:gap-8">
+          {[
+            ["#como-funciona", "Como funciona"],
+            ["#features", "Funciones"],
+            ["#seguridad", "Seguridad"],
+          ].map(([href, label]) => (
+            <a
+              key={href}
+              href={href}
+              className="text-sm text-ink-muted hover:text-ink transition-colors duration-200"
+            >
+              {label}
+            </a>
+          ))}
+          <Link
+            href="/contexto"
+            className="inline-flex items-center justify-center h-9 px-5 rounded-full bg-stamp text-white text-sm font-medium hover:bg-stamp/90 active:scale-[0.97] transition-all duration-200"
+          >
+            Empezar gratis
+          </Link>
+        </nav>
+        <Link
+          href="/contexto"
+          className="md:hidden inline-flex items-center justify-center h-9 px-5 rounded-full bg-stamp text-white text-sm font-medium active:scale-[0.97]"
+        >
+          Empezar
+        </Link>
       </header>
 
-      {/* Hero */}
-      <main className="flex-1 flex items-center justify-center px-6 py-16 md:py-24">
-        <div className="w-full max-w-[1100px] grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
-          {/* Left */}
-          <div>
-            <h1 className="font-display text-4xl md:text-[56px] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
-              Pega todas tus convocatorias.{" "}
-              <br className="hidden md:block" />
-              Sal con las respuestas escritas.
-            </h1>
-            <p className="mt-6 text-lg leading-relaxed text-ink-muted max-w-md">
-              Calco lee las bases de cualquier postulación, filtra los
-              requisitos cruzándolos con tu perfil profesional y redacta
-              respuestas con la longitud y formato exactos requeridos. Sin
-              desviaciones.
-            </p>
-            <div className="mt-8 flex gap-4">
+      {/* ─── HERO ─── */}
+      <section className="relative px-6 md:px-10 xl:px-16 2xl:px-24 pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-36 lg:pb-28 xl:pt-44 xl:pb-32 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] xl:w-[1000px] xl:h-[1000px] rounded-full bg-stamp/8 blur-[120px] lg:blur-[160px]" />
+          <div className="absolute bottom-[-30%] right-[-10%] w-[500px] h-[500px] lg:w-[700px] lg:h-[700px] xl:w-[900px] xl:h-[900px] rounded-full bg-confirm/6 blur-[100px] lg:blur-[140px]" />
+        </div>
+
+        <div className="relative w-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-center">
+          {/* Left: text */}
+          <div className="text-center lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.2, 0, 0, 1] }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-stamp/15 bg-white/60 backdrop-blur-sm mb-8"
+            >
+              <Sparkles className="size-3.5 text-stamp" />
+              <span className="text-xs font-medium tracking-wide text-stamp">
+                IA que trabaja para ti
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.2, 0, 0, 1] }}
+              className="font-display text-[44px] md:text-[56px] lg:text-[64px] xl:text-[76px] 2xl:text-[88px] font-bold leading-[1.02] tracking-[-0.04em] text-ink"
+            >
+              Tu copiloto
+              <br />
+              <span className="text-stamp">para postulaciones.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.2, 0, 0, 1] }}
+              className="mt-6 text-lg md:text-xl xl:text-[22px] leading-relaxed text-ink-muted max-w-xl lg:max-w-none"
+            >
+              Analiza convocatorias, evalua tu encaje, mejora tu CV o portafolio,
+              prepara tu pitch y redacta respuestas con evidencia real.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.2, 0, 0, 1] }}
+              className="mt-10 flex flex-col sm:flex-row lg:justify-start justify-center gap-3"
+            >
               <Link
                 href="/contexto"
-                className="inline-flex items-center justify-center h-12 px-8 rounded bg-stamp text-white font-medium text-base hover:bg-stamp/90 transition-colors"
+                className="inline-flex items-center justify-center gap-2 h-14 px-10 rounded-full bg-stamp text-white font-medium text-base hover:bg-stamp/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,113,227,0.3)]"
               >
-                Empezar
+                Empezar ahora
+                <ArrowRight className="size-4" />
               </Link>
-              <button
-                type="button"
-                className="inline-flex items-center justify-center h-12 px-8 rounded border border-stamp text-stamp font-medium text-base hover:bg-stamp/5 transition-colors"
+              <a
+                href="#como-funciona"
+                className="inline-flex items-center justify-center h-14 px-10 rounded-full border border-rule/40 bg-white/60 backdrop-blur-sm text-ink font-medium text-base hover:bg-white/80 active:scale-[0.97] transition-all duration-200"
               >
-                Ver ejemplo
-              </button>
-            </div>
+                Ver como funciona
+              </a>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="mt-5 text-xs text-ink-muted/60 tracking-wide"
+            >
+              Sin registro · Sin servidor · Tu clave API, tu control
+            </motion.p>
           </div>
 
-          {/* Right — LimitRuler demo */}
-          <LimitRulerDemo />
-        </div>
-      </main>
+          {/* Right: demo + stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.2, 0, 0, 1] }}
+            className="space-y-5"
+          >
+            <GlassCard className="p-1.5 overflow-hidden">
+              <div className="rounded-[14px] overflow-hidden bg-paper/80">
+                <LimitRulerDemo />
+              </div>
+            </GlassCard>
 
-      {/* Steps */}
-      <section
-        id="como-funciona"
-        className="px-6 pb-16 md:pb-24"
-      >
-        <div className="w-full max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            {
-              step: "01",
-              title: "Adjunta tu contexto",
-              desc: "Sube tu CV, portafolio o un documento base definiendo tu perfil. Calco lo usará como la única fuente de verdad para extraer datos empíricos.",
-            },
-            {
-              step: "02",
-              title: "Pega los enlaces",
-              desc: "Introduce las URLs de las convocatorias o copia el texto de las bases. El sistema analizará los requisitos obligatorios y deseables automáticamente.",
-            },
-            {
-              step: "03",
-              title: "Exporta las respuestas",
-              desc: "Obtén formularios completados con redacción precisa, calibrados para cumplir con límites de caracteres y tonos formales. Listos para enviar.",
-            },
-          ].map((item) => (
-            <div
-              key={item.step}
-              className="bg-surface border border-rule rounded p-6"
-            >
-              <p className="font-mono text-xs uppercase tracking-[0.08em] text-stamp font-medium">
-                {item.step} {item.title}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                {item.desc}
-              </p>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { value: "85%", label: "Menos tiempo", sub: "6 min vs 40 min" },
+                { value: "STAR", label: "Metodo estandar", sub: "Situacion + Resultado" },
+                { value: "100%", label: "Privacidad", sub: "Todo en tu navegador" },
+              ].map((stat) => (
+                <GlassCard key={stat.label} className="p-4 xl:p-5 text-center">
+                  <p className="font-display text-xl xl:text-2xl font-bold text-stamp">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs font-medium text-ink mt-1">{stat.label}</p>
+                  <p className="text-[11px] text-ink-muted mt-0.5">{stat.sub}</p>
+                </GlassCard>
+              ))}
             </div>
-          ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-6 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-          Todo ocurre en tu navegador. Calco no guarda nada.
-        </p>
+      {/* ─── SOCIAL PROOF ─── */}
+      <FadeIn>
+        <div className="mx-6 md:mx-10 xl:mx-16 2xl:mx-24">
+          <GlassCard className="max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-6 xl:px-10 py-5 xl:py-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-10 xl:gap-x-16 gap-y-3">
+              {[
+                "Hackathons",
+                "Becas",
+                "Aceleradoras",
+                "Voluntariados",
+                "Empleos",
+                "Eventos",
+              ].map((type) => (
+                <div key={type} className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-confirm" />
+                  <span className="text-sm font-medium text-ink/80">{type}</span>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+        </div>
+      </FadeIn>
+
+      {/* ─── HOW IT WORKS ─── */}
+      <section id="como-funciona" className="px-6 md:px-10 xl:px-16 2xl:px-24 py-24 md:py-36 lg:py-44">
+        <div className="w-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto">
+          <FadeIn className="text-center mb-16 xl:mb-20">
+            <p className="text-sm font-medium text-stamp tracking-wide mb-3">
+              COMO FUNCIONA
+            </p>
+            <h2 className="font-display text-[36px] md:text-[52px] lg:text-[60px] font-bold tracking-[-0.03em] leading-[1.05]">
+              Tres pasos. Cero friccion.
+            </h2>
+            <p className="mt-4 text-ink-muted max-w-lg mx-auto leading-relaxed lg:text-lg">
+              De tener 10 convocatorias abiertas a saber tu encaje, mejorar tu
+              perfil y tener las respuestas listas.
+            </p>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 xl:gap-6">
+            {[
+              {
+                step: "01",
+                icon: FileText,
+                title: "Sube tu perfil",
+                desc: "Tu contexto profesional y CV o portafolio. PostulAI lo usa como unica fuente de verdad — nunca inventa datos.",
+              },
+              {
+                step: "02",
+                icon: Link2,
+                title: "Agrega convocatorias",
+                desc: "URLs, PDFs o texto pegado. Extrae requisitos, evalua tu encaje y te dice que mejorar en tu perfil.",
+              },
+              {
+                step: "03",
+                icon: PenTool,
+                title: "Prepara y postula",
+                desc: "Pitch personalizado, tips de entrevista, mejoras de CV o portafolio, y respuestas listas para copiar.",
+              },
+            ].map((item, i) => (
+              <FadeIn key={item.step} delay={i * 0.1}>
+                <GlassCard className="p-7 xl:p-9 h-full">
+                  <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-2xl bg-stamp/8 flex items-center justify-center mb-5">
+                    <item.icon className="size-6 xl:size-7 text-stamp" />
+                  </div>
+                  <p className="text-xs font-medium text-stamp tracking-wider mb-2">
+                    PASO {item.step}
+                  </p>
+                  <h3 className="font-display text-xl xl:text-2xl font-bold tracking-[-0.01em]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm xl:text-base leading-relaxed text-ink-muted">
+                    {item.desc}
+                  </p>
+                </GlassCard>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FEATURES ─── */}
+      <section id="features" className="px-6 md:px-10 xl:px-16 2xl:px-24 py-24 md:py-36 lg:py-44 relative">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-stamp/5 blur-[100px] lg:blur-[140px]" />
+        </div>
+
+        <div className="relative w-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto">
+          <FadeIn className="text-center mb-16 xl:mb-20">
+            <p className="text-sm font-medium text-stamp tracking-wide mb-3">
+              FUNCIONES
+            </p>
+            <h2 className="font-display text-[36px] md:text-[52px] lg:text-[60px] font-bold tracking-[-0.03em] leading-[1.05]">
+              Mas que rellenar campos
+            </h2>
+            <p className="mt-4 text-ink-muted max-w-lg mx-auto leading-relaxed lg:text-lg">
+              Analisis por sector, coaching de perfil y respuestas que venden
+              tu experiencia real con precision.
+            </p>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-6">
+            {[
+              {
+                icon: Target,
+                title: "Analisis de encaje",
+                desc: "Cruza tu perfil con los criterios de cada convocatoria y te dice tu porcentaje de coincidencia.",
+              },
+              {
+                icon: FolderGit2,
+                title: "CV o portafolio",
+                desc: "Para empleos y becas mejora tu CV. Para hackathons y aceleradoras te recomienda proyectos concretos.",
+              },
+              {
+                icon: Mic,
+                title: "Elevator pitch",
+                desc: "Pitch personalizado con tus datos reales, adaptado al sector. Estructura lista para practicar.",
+              },
+              {
+                icon: MessageCircle,
+                title: "Tips de entrevista",
+                desc: "Consejos especificos para cada convocatoria basados en tus fortalezas y gaps reales.",
+              },
+              {
+                icon: Sparkles,
+                title: "Coaching de perfil",
+                desc: "Certificaciones, habilidades y experiencias alcanzables que mejoran tu encaje con cada oportunidad.",
+              },
+              {
+                icon: Ruler,
+                title: "Respuestas calibradas",
+                desc: "Metodo STAR con evidencia real, ajustadas al limite exacto de cada campo. Listas para copiar.",
+              },
+            ].map((item, i) => (
+              <FadeIn key={i} delay={(i % 3) * 0.1}>
+                <GlassCard className="p-6 xl:p-8 h-full group">
+                  <div className="w-10 h-10 xl:w-12 xl:h-12 rounded-xl bg-stamp/8 flex items-center justify-center mb-4 group-hover:bg-stamp/12 transition-colors duration-300">
+                    <item.icon className="size-5 xl:size-6 text-stamp" />
+                  </div>
+                  <h3 className="font-display text-lg xl:text-xl font-bold tracking-[-0.01em]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm xl:text-base leading-relaxed text-ink-muted">
+                    {item.desc}
+                  </p>
+                </GlassCard>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── SECURITY ─── */}
+      <section id="seguridad" className="px-6 md:px-10 xl:px-16 2xl:px-24 py-24 md:py-36 lg:py-44 relative">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute bottom-[10%] left-[-5%] w-[400px] h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-confirm/5 blur-[100px] lg:blur-[140px]" />
+        </div>
+
+        <div className="relative w-full max-w-[1100px] 2xl:max-w-[1300px] mx-auto">
+          <FadeIn className="text-center mb-16 xl:mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-confirm/15 bg-confirm/5 mb-5">
+              <Shield className="size-3.5 text-confirm" />
+              <span className="text-xs font-medium tracking-wide text-confirm">
+                Privacidad por diseno
+              </span>
+            </div>
+            <h2 className="font-display text-[36px] md:text-[52px] lg:text-[60px] font-bold tracking-[-0.03em] leading-[1.05]">
+              Tu clave API
+              <br />
+              nunca toca un servidor
+            </h2>
+            <p className="mt-5 text-ink-muted max-w-lg mx-auto leading-relaxed lg:text-lg">
+              PostulAI es 100% cliente. Tu clave va directo de tu navegador a
+              OpenRouter. No hay backend, no hay proxy.
+            </p>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-5">
+            {[
+              {
+                icon: Eye,
+                title: "Sin cuenta ni registro",
+                desc: "No hay base de datos de usuarios. Empiezas directamente.",
+              },
+              {
+                icon: Lock,
+                title: "Cifrado local opcional",
+                desc: "AES-256-GCM en tu navegador. La clave nunca sale en texto plano.",
+              },
+              {
+                icon: Trash2,
+                title: "Sesion temporal",
+                desc: "Al cerrar la pestana, contexto, clave y respuestas desaparecen.",
+              },
+              {
+                icon: Shield,
+                title: "Codigo abierto",
+                desc: "Todo el codigo es auditable. Sin telemetria, sin tracking.",
+              },
+            ].map((item, i) => (
+              <FadeIn key={item.title} delay={i * 0.08}>
+                <GlassCard className="p-5 xl:p-6 flex items-start gap-4 h-full">
+                  <div className="w-10 h-10 xl:w-11 xl:h-11 rounded-xl bg-confirm/8 flex items-center justify-center shrink-0">
+                    <item.icon className="size-4 xl:size-5 text-confirm" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm xl:text-base">{item.title}</p>
+                    <p className="text-sm text-ink-muted mt-1 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </GlassCard>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section className="px-6 md:px-10 xl:px-16 2xl:px-24 py-24 md:py-36">
+        <FadeIn>
+          <div className="relative max-w-[1100px] 2xl:max-w-[1300px] mx-auto overflow-hidden rounded-[2rem] xl:rounded-[2.5rem] bg-gradient-to-br from-stamp via-stamp to-[#0060c0] p-12 md:p-16 xl:p-24 text-center text-white">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute top-[-30%] right-[-20%] w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] rounded-full bg-white/10 blur-[80px]" />
+              <div className="absolute bottom-[-20%] left-[-10%] w-[200px] h-[200px] lg:w-[300px] lg:h-[300px] rounded-full bg-white/5 blur-[60px]" />
+            </div>
+            <div className="relative">
+              <h2 className="font-display text-[32px] md:text-[46px] lg:text-[54px] font-bold tracking-[-0.03em] leading-[1.05]">
+                Mejora tu perfil.
+                <br />
+                Postula con confianza.
+              </h2>
+              <p className="mt-5 text-white/60 max-w-md mx-auto leading-relaxed lg:text-lg">
+                PostulAI analiza, te prepara y redacta. Tu revisas y envias.
+              </p>
+              <Link
+                href="/contexto"
+                className="inline-flex items-center justify-center gap-2 h-14 px-10 mt-10 rounded-full bg-white text-stamp font-medium text-base hover:bg-white/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
+              >
+                Empezar ahora
+                <ArrowRight className="size-4" />
+              </Link>
+              <p className="mt-4 text-xs text-white/40 tracking-wide">
+                Solo necesitas una clave de OpenRouter
+              </p>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* ─── FOOTER ─── */}
+      <footer className="px-6 md:px-10 xl:px-16 2xl:px-24 py-10 xl:py-12 border-t border-rule/20">
+        <div className="max-w-[1400px] 2xl:max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 bg-stamp rounded-[8px] flex items-center justify-center">
+              <span className="text-white text-[10px] font-bold">P</span>
+            </div>
+            <span className="font-display text-sm font-bold tracking-tight">
+              PostulAI
+            </span>
+            <span className="text-ink-muted text-xs">
+              — Tu copiloto de postulaciones con IA
+            </span>
+          </div>
+          <p className="text-xs text-ink-muted/60 tracking-wide">
+            Todo ocurre en tu navegador · Nada se guarda al cerrar
+          </p>
+        </div>
       </footer>
     </div>
   );

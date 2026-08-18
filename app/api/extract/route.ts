@@ -104,7 +104,7 @@ async function safeFetch(
       signal,
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; Calco/1.0; +https://calco.app)",
+          "Mozilla/5.0 (compatible; PostulAI/1.0; +https://postulai.app)",
         Accept: "text/html, application/xhtml+xml, application/pdf",
       },
       redirect: "manual",
@@ -223,7 +223,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const text = normalizeText(article.textContent);
+    let text = normalizeText(article.textContent);
+    // Cap at ~8K tokens (~32K chars) to avoid bloating downstream LLM calls
+    const MAX_CHARS = 32_000;
+    if (text.length > MAX_CHARS) {
+      text = text.slice(0, MAX_CHARS);
+    }
     const wordCount = text.split(/\s+/).filter(Boolean).length;
     const domain = new URL(url).hostname.replace(/^www\./, "");
 

@@ -34,7 +34,7 @@ export function OpportunityRow({ opp }: { opp: Opportunity }) {
 
   return (
     <div
-      className={`border border-rule rounded p-5 transition-opacity ${
+      className={`card-hover border border-rule/40 rounded-xl p-5 ${
         opp.discarded ? "opacity-40" : ""
       }`}
     >
@@ -96,10 +96,10 @@ export function OpportunityRow({ opp }: { opp: Opportunity }) {
         {/* Action */}
         <Link
           href={`/lote/${opp.id}`}
-          className={`font-mono text-xs uppercase tracking-[0.08em] px-4 py-2 rounded border transition-colors ${
+          className={`font-mono text-xs uppercase tracking-[0.08em] px-4 py-2 rounded-lg border transition-all duration-200 active:scale-[0.97] ${
             opp.fit.score >= 40
               ? "bg-stamp text-white border-stamp hover:bg-stamp/90"
-              : "border-rule text-ink-muted hover:border-ink-muted"
+              : "border-rule/50 text-ink-muted hover:border-ink-muted/50"
           }`}
         >
           {opp.fit.score >= 40 ? "PREPARAR" : "REVISAR"}
@@ -144,10 +144,10 @@ export function OpportunityRow({ opp }: { opp: Opportunity }) {
         <div className="mt-3">
           <Link
             href={`/lote/${opp.id}`}
-            className={`inline-block font-mono text-xs uppercase tracking-[0.08em] px-4 py-2 rounded border transition-colors ${
+            className={`inline-block font-mono text-xs uppercase tracking-[0.08em] px-4 py-2 rounded-lg border transition-all duration-200 active:scale-[0.97] ${
               opp.fit.score >= 40
                 ? "bg-stamp text-white border-stamp"
-                : "border-rule text-ink-muted"
+                : "border-rule/50 text-ink-muted"
             }`}
           >
             {opp.fit.score >= 40 ? "PREPARAR" : "REVISAR"}

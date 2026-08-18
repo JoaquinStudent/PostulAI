@@ -6,7 +6,7 @@ const FAILURE_MAP: Record<FailureCause, { message: string; canRetry: boolean }> 
     canRetry: true,
   },
   blocked: {
-    message: "El sitio requiere inicio de sesión o bloqueó el acceso.",
+    message: "Este sitio bloquea lectura automática (Indeed, LinkedIn, Glassdoor lo hacen). Copia el texto de la publicación y pégalo abajo.",
     canRetry: false,
   },
   not_found: {
@@ -28,6 +28,10 @@ const FAILURE_MAP: Record<FailureCause, { message: string; canRetry: boolean }> 
   no_text_layer: {
     message: "El PDF es una imagen escaneada sin capa de texto.",
     canRetry: false,
+  },
+  ai: {
+    message: "El modelo de IA no devolvió una respuesta válida.",
+    canRetry: true,
   },
 };
 

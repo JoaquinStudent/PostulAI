@@ -9,9 +9,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { SessionBar } from "@/components/session-bar";
 import { useSession } from "@/stores/session";
-import { PRESET_META } from "@/lib/ai/models";
+import {
+  getAnalysisModels,
+  getGenerationModels,
+  RECOMMENDED_COMBOS,
+} from "@/lib/ai/models";
 import { clearAll as clearStorage } from "@/lib/storage";
-import type { ModelPreset, StorageMode } from "@/lib/types";
+import type { StorageMode } from "@/lib/types";
+import { Zap, PenTool } from "lucide-react";
 
 export default function AjustesPage() {
   const router = useRouter();
@@ -36,9 +41,12 @@ export default function AjustesPage() {
 
   return (
     <div className="flex flex-col min-h-full">
-      <header className="flex items-center justify-between px-6 md:px-10 h-14 bg-surface border-b border-rule">
-        <Link href="/" className="font-display text-xl font-bold tracking-tight">
-          CALCO
+      <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
+            <span className="text-white text-[11px] font-bold">P</span>
+          </div>
+          <span className="font-display text-xl font-bold tracking-tight">PostulAI</span>
         </Link>
         <div className="flex items-center gap-4">
           {connection.credit && (
@@ -82,7 +90,6 @@ export default function AjustesPage() {
               <ProviderSection
                 connection={connection}
                 onDisconnect={disconnect}
-                onPresetChange={setPreset}
               />
             )}
             {section === "context" && (
@@ -105,17 +112,35 @@ export default function AjustesPage() {
 function ProviderSection({
   connection,
   onDisconnect,
-  onPresetChange,
 }: {
   connection: import("@/lib/types").AiConnection;
   onDisconnect: () => void;
-  onPresetChange: (p: ModelPreset) => void;
 }) {
+  const { setModels } = useSession();
+
+  const handleModelChange = (role: "economy" | "balanced", modelId: string) => {
+    setModels({
+      ...connection.models,
+      [role]: modelId,
+      ...(role === "balanced" ? { quality: modelId } : {}),
+    });
+  };
+
+  const handleCombo = (combo: typeof RECOMMENDED_COMBOS[number]) => {
+    setModels({
+      economy: combo.analysis,
+      balanced: combo.generation,
+      quality: combo.generation,
+    });
+  };
+
+  const analysisModels = getAnalysisModels().filter((m, i, arr) => arr.findIndex((x) => x.id === m.id) === i);
+  const generationModels = getGenerationModels().filter((m, i, arr) => arr.findIndex((x) => x.id === m.id) === i);
+
   return (
     <>
       <h2 className="font-display text-xl font-semibold">Proveedor de IA</h2>
 
-      {/* Key info */}
       <div className="mt-6 flex items-center gap-3 flex-wrap">
         <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
           API Key
@@ -144,7 +169,6 @@ function ProviderSection({
         )}
       </div>
 
-      {/* Credits */}
       {connection.credit && (
         <div className="mt-6 pt-6 border-t border-rule">
           <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
@@ -169,35 +193,76 @@ function ProviderSection({
         </div>
       )}
 
-      {/* Presets */}
-      <div className="mt-6 pt-6 border-t border-rule">
+      <div className="mt-6 pt-6 border-t border-rule space-y-5">
         <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-          Selector de modelo
+          Combinaciones recomendadas
         </span>
-        <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
-          {(Object.keys(PRESET_META) as ModelPreset[]).map((preset) => {
-            const meta = PRESET_META[preset];
-            const selected = connection.preset === preset;
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {RECOMMENDED_COMBOS.map((combo) => {
+            const isActive =
+              connection.models.economy === combo.analysis &&
+              connection.models.balanced === combo.generation;
             return (
               <button
-                key={preset}
-                onClick={() => onPresetChange(preset)}
-                className={`text-left p-4 rounded border transition-colors ${
-                  selected
-                    ? "border-stamp bg-stamp/5"
-                    : "border-rule hover:border-ink-muted"
+                key={combo.name}
+                onClick={() => handleCombo(combo)}
+                className={`p-4 rounded-xl border-2 text-left transition-all active:scale-[0.98] ${
+                  isActive ? "border-stamp bg-stamp/5" : "border-rule/40 hover:border-rule"
                 }`}
               >
-                <p className="font-medium text-sm">{meta.label}</p>
-                <p className="text-sm text-ink-muted mt-1">{meta.description}</p>
+                <p className={`text-sm font-bold ${isActive ? "text-stamp" : ""}`}>{combo.name}</p>
+                <p className="text-[11px] text-ink-muted mt-1">{combo.costEstimate}/postulación</p>
               </button>
             );
           })}
         </div>
-        <p className="mt-3 font-mono text-[11px] text-ink-muted leading-relaxed">
-          El análisis del lote usa siempre el modelo económico; la redacción usa
-          el seleccionado.
-        </p>
+
+        <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted block pt-2">
+          O elige por separado
+        </span>
+
+        <div className="bg-surface border border-rule/40 rounded-xl p-5">
+          <div className="flex items-center gap-2.5 mb-3">
+            <Zap className="size-4 text-confirm" />
+            <div>
+              <p className="text-sm font-medium">Modelo de análisis</p>
+              <p className="text-[11px] text-ink-muted">Extracción, encaje, gaps</p>
+            </div>
+          </div>
+          <select
+            value={connection.models.economy}
+            onChange={(e) => handleModelChange("economy", e.target.value)}
+            className="w-full px-3 py-2.5 bg-paper border border-rule/40 rounded-lg text-sm appearance-none cursor-pointer"
+          >
+            {analysisModels.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.label} ({m.provider}) — {m.inputPrice} input
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="bg-surface border border-rule/40 rounded-xl p-5">
+          <div className="flex items-center gap-2.5 mb-3">
+            <PenTool className="size-4 text-stamp" />
+            <div>
+              <p className="text-sm font-medium">Modelo de redacción</p>
+              <p className="text-[11px] text-ink-muted">Generación y refinamiento</p>
+            </div>
+          </div>
+          <select
+            value={connection.models.balanced}
+            onChange={(e) => handleModelChange("balanced", e.target.value)}
+            className="w-full px-3 py-2.5 bg-paper border border-rule/40 rounded-lg text-sm appearance-none cursor-pointer"
+          >
+            {generationModels.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.label} ({m.provider}) — {m.inputPrice} input
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </>
   );

@@ -6,6 +6,8 @@ export interface UserContext {
   sizeBytes: number;
   loadedAt: number;
   summary: ContextSummary | null;
+  cvRaw: string | null;
+  cvFileName: string | null;
 }
 
 export interface ContextSummary {
@@ -66,7 +68,8 @@ export type FailureCause =
   | "unsupported"
   | "empty"
   | "network"
-  | "no_text_layer";
+  | "no_text_layer"
+  | "ai";
 
 export interface SourceFailure {
   cause: FailureCause;
@@ -83,6 +86,7 @@ export interface Source {
   wordCount: number | null;
   failure: SourceFailure | null;
   opportunityId: string | null;
+  category: OpportunityCategory;
 }
 
 // Sprint 2 — Opportunity
@@ -124,11 +128,32 @@ export interface FitAssessment {
   strengths: FitPoint[];
   gaps: FitPoint[];
   blocking: boolean;
+  keywordMatch?: number | null;
 }
 
 export interface FitPoint {
   claim: string;
   evidence: string | null;
+  improvement?: string | null;
+}
+
+export interface CvRecommendation {
+  section: string;
+  action: "add" | "modify" | "remove";
+  current: string | null;
+  suggested: string;
+  reason: string;
+}
+
+export interface ProfileCoach {
+  certifications: string[];
+  skills: string[];
+  experiences: string[];
+  cvChanges: CvRecommendation[];
+  idealCvOutline: string;
+  portfolioProjects: string[];
+  elevatorPitch: string;
+  interviewTips: string[];
 }
 
 export interface EffortEstimate {
@@ -138,3 +163,69 @@ export interface EffortEstimate {
 }
 
 export type SortBy = "fit" | "deadline" | "effort";
+
+// Sprint 3 — Drafting
+
+export type LimitUnit = "characters" | "words";
+
+export interface Question {
+  id: string;
+  index: number;
+  text: string;
+  limit: { value: number; unit: LimitUnit; detected: boolean } | null;
+  raw: string;
+}
+
+export type AnswerStatus =
+  | "empty"
+  | "generating"
+  | "draft"
+  | "over_limit"
+  | "approved";
+
+export interface Answer {
+  questionId: string;
+  text: string;
+  status: AnswerStatus;
+  charCount: number;
+  wordCount: number;
+  withinLimit: boolean;
+  evidence: Evidence[];
+  gaps: Gap[];
+  history: string[];
+  generatedAt: number | null;
+}
+
+export interface Evidence {
+  ref: number;
+  origin: "user_context" | "opportunity";
+  section: string;
+  quote: string;
+  supportsCriterion: string | null;
+}
+
+export interface Gap {
+  id: string;
+  description: string;
+  placeholder: string;
+  improvement?: string | null;
+  resolved: boolean;
+  userInput: string | null;
+}
+
+export type ExportFormat = "markdown" | "text" | "json" | "clipboard";
+
+export type OpportunityCategory =
+  | "hackathon"
+  | "beca"
+  | "aceleradora"
+  | "evento"
+  | "voluntariado"
+  | "empleo"
+  | "otro";
+
+export interface AnswerScore {
+  keywords: number;
+  impact: number;
+  narrative: number;
+}

@@ -7,7 +7,33 @@ export function normalizeText(raw: string): string {
     .replace(/\n{3,}/g, "\n\n");
 
   text = removeDuplicateLines(text);
+  text = removeBoilerplate(text);
   return text.trim();
+}
+
+function removeBoilerplate(text: string): string {
+  const NOISE_PATTERNS = [
+    /cookie[s]?\s*(policy|notice|banner|preferences)/gi,
+    /accept\s*(all\s*)?cookies/gi,
+    /privacy\s*policy/gi,
+    /terms\s*(of\s*service|and\s*conditions|of\s*use)/gi,
+    /©\s*\d{4}/g,
+    /all\s*rights\s*reserved/gi,
+    /todos\s*los\s*derechos\s*reservados/gi,
+    /subscribe\s*to\s*(our\s*)?newsletter/gi,
+    /suscr[ií]bete\s*a\s*nuestro/gi,
+    /follow\s*us\s*on\s*(social\s*media|twitter|facebook|instagram|linkedin)/gi,
+    /s[ií]guenos\s*en\s*(redes\s*sociales|twitter|facebook|instagram|linkedin)/gi,
+  ];
+
+  const lines = text.split("\n");
+  return lines
+    .filter((line) => {
+      const trimmed = line.trim();
+      if (trimmed.length < 5) return true;
+      return !NOISE_PATTERNS.some((p) => p.test(trimmed));
+    })
+    .join("\n");
 }
 
 function removeDuplicateLines(text: string): string {
@@ -33,7 +59,7 @@ function removeDuplicateLines(text: string): string {
     .join("\n");
 }
 
-export function truncateForContext(text: string, maxTokensApprox = 12000): string {
+export function truncateForContext(text: string, maxTokensApprox = 8000): string {
   // ponytail: ~4 chars per token rough estimate
   const maxChars = maxTokensApprox * 4;
   if (text.length <= maxChars) return text;

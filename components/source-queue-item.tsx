@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Source } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Loader2, AlertCircle, CheckCircle } from "lucide-react";
@@ -31,6 +31,12 @@ export function SourceQueueItem({
   onRemove: (id: string) => void;
 }) {
   const [showPaste, setShowPaste] = useState(false);
+
+  useEffect(() => {
+    if (source.status === "failed" && source.failure?.cause === "blocked") {
+      setShowPaste(true);
+    }
+  }, [source.status, source.failure?.cause]);
   const [pastedText, setPastedText] = useState("");
 
   const isSpinning = source.status === "extracting" || source.status === "analyzing";
@@ -39,7 +45,7 @@ export function SourceQueueItem({
     : source.origin;
 
   return (
-    <div className="flex items-start gap-4 py-4 border-b border-rule last:border-b-0">
+    <div className="flex items-start gap-4 py-4 border-b border-rule/30 last:border-b-0">
       {/* Status icon */}
       <div className="w-12 shrink-0 flex justify-center pt-1">
         {isSpinning && <Loader2 className="size-5 text-stamp animate-spin" />}

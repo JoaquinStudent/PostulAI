@@ -3,11 +3,12 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Copy, Check, Upload, FileText, AlertTriangle } from "lucide-react";
+import { Copy, Check, Upload, FileText, AlertTriangle, FileUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { GENERATOR_PROMPT } from "@/lib/prompts/pr-01";
 import { validateContextFile } from "@/lib/extract/text";
+import { extractPdfText } from "@/lib/extract/pdf";
 import { useSession } from "@/stores/session";
 import { saveContext } from "@/lib/storage";
 import type { UserContext, ContextSummary, ContextWarning } from "@/lib/types";
@@ -46,18 +47,33 @@ export default function ContextoPage() {
 
 function Header({ view, onSkip }: { view: View; onSkip: () => void }) {
   return (
-    <header className="flex items-center justify-between px-6 md:px-10 h-14 bg-surface border-b border-rule">
-      <Link href="/" className="font-display text-xl font-bold tracking-tight">
-        CALCO
+    <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
+      <Link href="/" className="flex items-center gap-2.5">
+        <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
+          <span className="text-white text-[11px] font-bold">P</span>
+        </div>
+        <span className="font-display text-xl font-bold tracking-tight">
+          PostulAI
+        </span>
       </Link>
-      {view === "generator" && (
-        <button
-          onClick={onSkip}
-          className="text-sm underline text-ink hover:text-stamp"
-        >
-          Ya tengo mi archivo
-        </button>
-      )}
+      <div className="flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-1.5 text-xs tracking-wide">
+          <span className="px-2.5 py-0.5 rounded-full bg-stamp text-white text-[11px] font-medium">1</span>
+          <span className="text-stamp font-medium">Contexto</span>
+          <span className="text-ink-muted/40 mx-1">—</span>
+          <span className="text-ink-muted/60">2 Conectar</span>
+          <span className="text-ink-muted/40 mx-1">—</span>
+          <span className="text-ink-muted/60">3 Analizar</span>
+        </div>
+        {view === "generator" && (
+          <button
+            onClick={onSkip}
+            className="text-sm text-ink-muted hover:text-stamp transition-colors duration-200"
+          >
+            Ya tengo mi archivo
+          </button>
+        )}
+      </div>
     </header>
   );
 }
@@ -81,8 +97,8 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
         bueno; se reutiliza en todas tus postulaciones.
       </p>
 
-      <div className="mt-8 bg-surface border border-rule rounded overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-rule">
+      <div className="mt-8 bg-surface border border-rule/40 rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-rule/30">
           <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
             Prompt generador
           </span>
@@ -116,7 +132,7 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
             desc: "El contexto debe ser narrativo y profundo. Evita hacer una lista cronológica de fechas y cargos vacíos de significado.",
           },
         ].map((tip) => (
-          <div key={tip.title} className="bg-surface border border-rule rounded p-5">
+          <div key={tip.title} className="bg-surface border border-rule/40 rounded-xl p-5">
             <p className="font-medium text-sm text-ink">{tip.title}</p>
             <p className="mt-2 text-sm text-ink-muted leading-relaxed">
               {tip.desc}
@@ -125,7 +141,7 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
         ))}
       </div>
 
-      <div className="mt-8 bg-stamp/5 border border-rule rounded p-4 flex gap-3 items-start">
+      <div className="mt-8 bg-stamp/5 border border-stamp/10 rounded-xl p-4 flex gap-3 items-start">
         <span className="text-stamp mt-0.5">ℹ</span>
         <p className="text-sm text-ink-muted">
           Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe
@@ -155,6 +171,10 @@ function UploadView({
   const [file, setFile] = useState<{ name: string; size: number; text: string } | null>(
     existingContext ? { name: existingContext.fileName, size: existingContext.sizeBytes, text: existingContext.raw } : null,
   );
+  const [cvFile, setCvFile] = useState<{ name: string; text: string } | null>(
+    existingContext?.cvRaw ? { name: existingContext.cvFileName ?? "cv.pdf", text: existingContext.cvRaw } : null,
+  );
+  const [cvLoading, setCvLoading] = useState(false);
   const [summary, setSummary] = useState<ContextSummary | null>(
     existingContext?.summary ?? null,
   );
@@ -260,6 +280,22 @@ function UploadView({
     }
   }, []);
 
+  const handleCvFile = useCallback(async (f: File) => {
+    setCvLoading(true);
+    try {
+      const result = await extractPdfText(f);
+      if (result.ok) {
+        setCvFile({ name: f.name, text: result.text });
+      } else {
+        setError("No se pudo leer el PDF del CV.");
+      }
+    } catch {
+      setError("Error al procesar el PDF del CV.");
+    } finally {
+      setCvLoading(false);
+    }
+  }, []);
+
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
@@ -278,6 +314,8 @@ function UploadView({
       sizeBytes: file.size,
       loadedAt: Date.now(),
       summary,
+      cvRaw: cvFile?.text ?? null,
+      cvFileName: cvFile?.name ?? null,
     };
     if (persist) {
       await saveContext(file.text);
@@ -297,8 +335,8 @@ function UploadView({
 
       {/* Drop zone / file info */}
       <div
-        className={`mt-8 bg-surface border-2 border-dashed rounded p-8 text-center transition-colors ${
-          dragOver ? "border-stamp bg-stamp/5" : "border-rule"
+        className={`mt-8 bg-surface border-2 border-dashed rounded-xl p-8 text-center transition-colors duration-200 ${
+          dragOver ? "border-stamp bg-stamp/5" : "border-rule/50"
         }`}
         onDragOver={(e) => {
           e.preventDefault();
@@ -370,8 +408,8 @@ function UploadView({
 
       {summary && !analyzing && (
         <div className="mt-8">
-          <h2 className="font-display text-xl font-semibold">Lo que Calco leyó</h2>
-          <div className="mt-4 bg-surface border border-rule rounded divide-y divide-rule">
+          <h2 className="font-display text-xl font-semibold">Lo que PostulAI leyó</h2>
+          <div className="mt-4 bg-surface border border-rule/40 rounded-xl divide-y divide-rule/30">
             {summary.sections.map((section) => (
               <div
                 key={section.key}
@@ -414,6 +452,75 @@ function UploadView({
                 <p className="mt-1 text-sm text-ink-muted">{w.suggestion}</p>
               </div>
             ))}
+        </div>
+      )}
+
+      {/* CV upload (optional) */}
+      {file && (
+        <div className="mt-8">
+          <h2 className="font-display text-xl font-semibold">CV (opcional)</h2>
+          <p className="mt-2 text-sm text-ink-muted">
+            Sube tu CV en PDF y PostulAI te dirá qué cambiar para cada convocatoria.
+          </p>
+          <div className="mt-4 bg-surface border border-rule/40 rounded-xl p-5">
+            {cvFile ? (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <FileText className="size-5 text-confirm" />
+                  <div>
+                    <p className="font-mono text-sm font-medium">{cvFile.name}</p>
+                    <p className="text-xs text-ink-muted">
+                      {cvFile.text.split(/\s+/).length} palabras extraídas
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-stamp cursor-pointer hover:underline">
+                    Reemplazar
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      className="sr-only"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) handleCvFile(f);
+                      }}
+                    />
+                  </label>
+                  <button
+                    onClick={() => setCvFile(null)}
+                    className="text-sm text-ink-muted hover:text-alert"
+                  >
+                    Quitar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <label className="flex items-center gap-4 cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-stamp/10 flex items-center justify-center shrink-0">
+                  <FileUp className="size-5 text-stamp" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">
+                    {cvLoading ? "Leyendo PDF..." : "Subir CV en PDF"}
+                  </p>
+                  <p className="text-xs text-ink-muted">
+                    PostulAI analizará tu CV contra cada convocatoria y te recomendará qué mejorar.
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept=".pdf"
+                  className="sr-only"
+                  disabled={cvLoading}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleCvFile(f);
+                  }}
+                />
+              </label>
+            )}
+          </div>
         </div>
       )}
 
