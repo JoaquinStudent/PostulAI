@@ -16,6 +16,7 @@ import { truncateForContext } from "@/lib/extract/normalize";
 import { complete, AiError } from "@/lib/ai/client";
 import { safeguardModel } from "@/lib/ai/models";
 import { useSession } from "./session";
+import { useTracker } from "./tracker";
 
 const MAX_CONCURRENT = 3;
 
@@ -260,6 +261,14 @@ export const useBatch = create<BatchState>((set, get) => ({
         set((s) => ({
           opportunities: [...s.opportunities, opportunity],
         }));
+
+        useTracker.getState().add({
+          opportunityId,
+          title: extractedData.title,
+          organizer: extractedData.organizer,
+          score: fit.score,
+          deadline: extractedData.deadline,
+        });
       } catch (err) {
         console.error("[postulai] analysis failed:", source.origin, err);
         const cause: FailureCause =

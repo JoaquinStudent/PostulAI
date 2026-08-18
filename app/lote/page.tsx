@@ -4,7 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Settings, Plus, ArrowRight, FileText, Download,
+  Settings, Plus, ArrowRight, FileText, Download, GitCompareArrows, X, ClipboardList,
   Briefcase, GraduationCap, Rocket, Calendar, Heart, Trophy, MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,16 @@ export default function LotePage() {
   const [showPasteModal, setShowPasteModal] = useState(false);
   const [pastedText, setPastedText] = useState("");
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [compareIds, setCompareIds] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const toggleCompare = (id: string) =>
+    setCompareIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else if (next.size < 4) next.add(id);
+      return next;
+    });
 
   useEffect(() => {
     if (!context) router.replace("/contexto");
@@ -392,6 +401,12 @@ export default function LotePage() {
                       : t("Esfuerzo")}
                 </button>
               ))}
+              <Link href="/tracker">
+                <Button variant="outline" className="gap-1">
+                  <ClipboardList className="size-4" />
+                  Tracker
+                </Button>
+              </Link>
               <Button variant="outline" onClick={handleAddMore} className="gap-1">
                 <Plus className="size-4" />
                 {t("AGREGAR MÁS")}
@@ -446,7 +461,19 @@ export default function LotePage() {
                   </div>
                   <div className="space-y-4">
                     {catOpps.map((opp) => (
-                      <OpportunityRow key={opp.id} opp={opp} />
+                      <div key={opp.id} className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          checked={compareIds.has(opp.id)}
+                          onChange={() => toggleCompare(opp.id)}
+                          disabled={!compareIds.has(opp.id) && compareIds.size >= 4}
+                          className="mt-6 shrink-0 accent-stamp"
+                          title={t("Comparar")}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <OpportunityRow opp={opp} />
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -458,6 +485,14 @@ export default function LotePage() {
             <div className="mt-12 text-center text-ink-muted">
               <p>No hay convocatorias analizadas todavía.</p>
             </div>
+          )}
+
+          {/* Compare panel */}
+          {compareIds.size >= 2 && (
+            <ComparePanel
+              opportunities={opportunities.filter((o) => compareIds.has(o.id))}
+              onClear={() => setCompareIds(new Set())}
+            />
           )}
         </div>
       </main>
@@ -536,6 +571,119 @@ function PasteModal({
             Agregar
           </Button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function daysUntil(iso: string | null): number | null {
+  if (!iso) return null;
+  return Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000);
+}
+
+function urgencyScore(opp: Opportunity): number {
+  const days = daysUntil(opp.deadline);
+  const urgency = days === null ? 0.5 : days <= 0 ? 0 : Math.min(1, 1 / (days / 7));
+  return opp.fit.score * (0.6 + 0.4 * urgency);
+}
+
+function ComparePanel({ opportunities, onClear }: { opportunities: Opportunity[]; onClear: () => void }) {
+  const sorted = [...opportunities].sort((a, b) => urgencyScore(b) - urgencyScore(a));
+
+  return (
+    <div className="mt-8 border border-stamp/30 rounded-2xl overflow-hidden bg-surface">
+      <div className="flex items-center justify-between px-5 py-3 bg-stamp/5 border-b border-stamp/20">
+        <div className="flex items-center gap-2">
+          <GitCompareArrows className="size-4 text-stamp" />
+          <h3 className="font-display font-bold text-sm">Comparador</h3>
+          <span className="text-xs text-ink-muted">{opportunities.length} seleccionadas</span>
+        </div>
+        <button onClick={onClear} className="text-ink-muted hover:text-ink">
+          <X className="size-4" />
+        </button>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-rule/30 text-left">
+              <th className="px-4 py-2.5 text-xs font-mono uppercase text-ink-muted w-[180px]">Oportunidad</th>
+              {sorted.map((o) => (
+                <th key={o.id} className="px-4 py-2.5 font-medium min-w-[160px]">
+                  <Link href={`/lote/${o.id}`} className="hover:text-stamp line-clamp-2">{o.title}</Link>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-rule/20">
+              <td className="px-4 py-2 text-xs font-mono uppercase text-ink-muted">Encaje</td>
+              {sorted.map((o) => (
+                <td key={o.id} className={`px-4 py-2 font-display text-xl font-bold ${o.fit.score >= 70 ? "text-confirm" : o.fit.score >= 40 ? "text-stamp" : "text-ink-muted"}`}>
+                  {o.fit.score}%
+                </td>
+              ))}
+            </tr>
+            <tr className="border-b border-rule/20">
+              <td className="px-4 py-2 text-xs font-mono uppercase text-ink-muted">Deadline</td>
+              {sorted.map((o) => {
+                const days = daysUntil(o.deadline);
+                return (
+                  <td key={o.id} className={`px-4 py-2 text-xs font-mono ${days !== null && days <= 3 ? "text-alert font-bold" : "text-ink-muted"}`}>
+                    {o.deadline ? `${new Date(o.deadline).toLocaleDateString("es", { day: "2-digit", month: "short" })} ${days !== null && days >= 0 ? `(${days}d)` : "(pasado)"}` : "—"}
+                  </td>
+                );
+              })}
+            </tr>
+            <tr className="border-b border-rule/20">
+              <td className="px-4 py-2 text-xs font-mono uppercase text-ink-muted">Esfuerzo</td>
+              {sorted.map((o) => (
+                <td key={o.id} className="px-4 py-2 text-xs text-ink-muted">
+                  {o.effort.questionCount ? `${o.effort.questionCount} preguntas` : "—"}
+                  {o.effort.approxWords ? ` · ~${o.effort.approxWords.toLocaleString()} palabras` : ""}
+                </td>
+              ))}
+            </tr>
+            <tr className="border-b border-rule/20">
+              <td className="px-4 py-2 text-xs font-mono uppercase text-ink-muted">Fortalezas</td>
+              {sorted.map((o) => (
+                <td key={o.id} className="px-4 py-2">
+                  <ul className="space-y-0.5">
+                    {o.fit.strengths.slice(0, 3).map((s, i) => (
+                      <li key={i} className="text-xs flex items-start gap-1">
+                        <span className="text-confirm shrink-0">●</span>
+                        <span className="line-clamp-1">{s.claim}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              ))}
+            </tr>
+            <tr className="border-b border-rule/20">
+              <td className="px-4 py-2 text-xs font-mono uppercase text-ink-muted">Gaps</td>
+              {sorted.map((o) => (
+                <td key={o.id} className="px-4 py-2">
+                  <ul className="space-y-0.5">
+                    {o.fit.gaps.slice(0, 3).map((g, i) => (
+                      <li key={i} className="text-xs flex items-start gap-1">
+                        <span className="text-alert shrink-0">●</span>
+                        <span className="line-clamp-1">{g.claim}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td className="px-4 py-2 text-xs font-mono uppercase text-stamp font-bold">Prioridad</td>
+              {sorted.map((o, i) => (
+                <td key={o.id} className={`px-4 py-2 font-display text-lg font-bold ${i === 0 ? "text-confirm" : "text-ink-muted"}`}>
+                  #{i + 1}
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

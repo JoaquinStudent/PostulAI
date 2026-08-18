@@ -310,6 +310,17 @@ const en: Dict = {
   "LinkedIn optimizado": "Optimized LinkedIn",
   Titular: "Headline",
   Resumen: "Summary",
+  "Tracker de postulaciones": "Application tracker",
+  oportunidades: "opportunities",
+  Comparar: "Compare",
+  "Analiza oportunidades en": "Analyze opportunities in",
+  "para empezar a trackear.": "to start tracking.",
+  Investigando: "Researching",
+  Analizando: "Analyzing",
+  Postulando: "Applying",
+  Enviada: "Sent",
+  Entrevista: "Interview",
+  Resultado: "Result",
 };
 
 const pt: Dict = {
@@ -558,6 +569,17 @@ const pt: Dict = {
   "LinkedIn optimizado": "LinkedIn otimizado",
   Titular: "Título",
   Resumen: "Resumo",
+  "Tracker de postulaciones": "Rastreador de candidaturas",
+  oportunidades: "oportunidades",
+  Comparar: "Comparar",
+  "Analiza oportunidades en": "Analise oportunidades em",
+  "para empezar a trackear.": "para começar a rastrear.",
+  Investigando: "Pesquisando",
+  Analizando: "Analisando",
+  Postulando: "Candidatando",
+  Enviada: "Enviada",
+  Entrevista: "Entrevista",
+  Resultado: "Resultado",
 };
 
 const fr: Dict = {
@@ -806,6 +828,17 @@ const fr: Dict = {
   "LinkedIn optimizado": "LinkedIn optimisé",
   Titular: "Titre",
   Resumen: "Résumé",
+  "Tracker de postulaciones": "Suivi des candidatures",
+  oportunidades: "opportunités",
+  Comparar: "Comparer",
+  "Analiza oportunidades en": "Analysez les opportunités dans",
+  "para empezar a trackear.": "pour commencer le suivi.",
+  Investigando: "Recherche",
+  Analizando: "Analyse",
+  Postulando: "Candidature",
+  Enviada: "Envoyée",
+  Entrevista: "Entretien",
+  Resultado: "Résultat",
 };
 
 const dicts: Record<Locale, Dict> = { es: {}, en, pt, fr };
