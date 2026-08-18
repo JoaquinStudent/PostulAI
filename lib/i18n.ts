@@ -299,6 +299,17 @@ const en: Dict = {
   "Evidencia verificable": "Verifiable evidence",
   "Línea temporal": "Timeline",
   "Cobertura sectorial": "Sector coverage",
+  "Simulador de entrevista": "Interview simulator",
+  preguntas: "questions",
+  "Ver consejo": "View tip",
+  "Escribe tu respuesta para practicar...": "Write your answer to practice...",
+  "Evaluando...": "Evaluating...",
+  "Evaluar con IA": "Evaluate with AI",
+  "A mejorar": "To improve",
+  "Respuesta modelo": "Model answer",
+  "LinkedIn optimizado": "Optimized LinkedIn",
+  Titular: "Headline",
+  Resumen: "Summary",
 };
 
 const pt: Dict = {
@@ -536,6 +547,17 @@ const pt: Dict = {
   "Evidencia verificable": "Evidência verificável",
   "Línea temporal": "Linha temporal",
   "Cobertura sectorial": "Cobertura setorial",
+  "Simulador de entrevista": "Simulador de entrevista",
+  preguntas: "perguntas",
+  "Ver consejo": "Ver dica",
+  "Escribe tu respuesta para practicar...": "Escreva sua resposta para praticar...",
+  "Evaluando...": "Avaliando...",
+  "Evaluar con IA": "Avaliar com IA",
+  "A mejorar": "A melhorar",
+  "Respuesta modelo": "Resposta modelo",
+  "LinkedIn optimizado": "LinkedIn otimizado",
+  Titular: "Título",
+  Resumen: "Resumo",
 };
 
 const fr: Dict = {
@@ -773,6 +795,17 @@ const fr: Dict = {
   "Evidencia verificable": "Preuves vérifiables",
   "Línea temporal": "Chronologie",
   "Cobertura sectorial": "Couverture sectorielle",
+  "Simulador de entrevista": "Simulateur d'entretien",
+  preguntas: "questions",
+  "Ver consejo": "Voir le conseil",
+  "Escribe tu respuesta para practicar...": "Écrivez votre réponse pour pratiquer...",
+  "Evaluando...": "Évaluation...",
+  "Evaluar con IA": "Évaluer avec l'IA",
+  "A mejorar": "À améliorer",
+  "Respuesta modelo": "Réponse modèle",
+  "LinkedIn optimizado": "LinkedIn optimisé",
+  Titular: "Titre",
+  Resumen: "Résumé",
 };
 
 const dicts: Record<Locale, Dict> = { es: {}, en, pt, fr };

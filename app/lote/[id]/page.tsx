@@ -40,6 +40,7 @@ import { buildPR09Messages, parsePR09Response } from "@/lib/prompts/pr-09";
 import { buildPR10Messages, parsePR10Response } from "@/lib/prompts/pr-10";
 import { getCompactSkill, CATEGORY_META } from "@/lib/prompts/sector-skills";
 import { windowContext } from "@/lib/ai/context-window";
+import { InterviewSim } from "@/components/interview-sim";
 import type { ProfileCoach, OpportunityCategory, Opportunity } from "@/lib/types";
 
 type Tab = "analisis" | "carta" | "preparacion" | "mejora";
@@ -640,20 +641,30 @@ export default function OpportunityDetailPage({
                   </Collapse>
                 )}
 
-                {/* Static interview tips */}
+                {/* Interview simulator */}
                 <Collapse
-                  title={`Guía de entrevista para ${category}`}
+                  title={t("Simulador de entrevista")}
                   icon={MessageCircle}
-                  badge={`${sectorSkill.interviewTips.length} temas`}
+                  badge={`${sectorSkill.interviewTips.length} ${t("preguntas")}`}
                 >
-                  <div className="space-y-2">
-                    {sectorSkill.interviewTips.map((tip, i) => (
-                      <div key={i} className="p-3 bg-surface/60 border border-rule/20 rounded-xl">
-                        <p className="text-xs font-semibold text-stamp mb-1">{tip.topic}</p>
-                        <p className="text-sm text-ink-muted leading-relaxed">{tip.advice}</p>
-                      </div>
-                    ))}
-                  </div>
+                  {context ? (
+                    <InterviewSim
+                      tips={sectorSkill.interviewTips}
+                      brief={opp.brief}
+                      contextRaw={context.raw}
+                      category={category}
+                      model={connection.models.economy || "openai/gpt-4o-mini"}
+                    />
+                  ) : (
+                    <div className="space-y-2">
+                      {sectorSkill.interviewTips.map((tip, i) => (
+                        <div key={i} className="p-3 bg-surface/60 border border-rule/20 rounded-xl">
+                          <p className="text-xs font-semibold text-stamp mb-1">{tip.topic}</p>
+                          <p className="text-sm text-ink-muted leading-relaxed">{tip.advice}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </Collapse>
 
                 {!coach && (
@@ -864,6 +875,26 @@ export default function OpportunityDetailPage({
                       >
                         <div className="p-4 bg-stamp/5 border border-stamp/15 rounded-xl text-sm leading-relaxed whitespace-pre-line">
                           {coach.idealCvOutline}
+                        </div>
+                      </Collapse>
+                    )}
+
+                    {/* LinkedIn */}
+                    {(coach.linkedinHeadline || coach.linkedinSummary) && (
+                      <Collapse title={t("LinkedIn optimizado")} icon={Globe}>
+                        <div className="space-y-3">
+                          {coach.linkedinHeadline && (
+                            <div className="p-4 bg-surface/60 border border-rule/20 rounded-xl">
+                              <p className="text-xs font-medium text-ink-muted mb-1">{t("Titular")} (120 chars)</p>
+                              <p className="text-sm font-semibold">{coach.linkedinHeadline}</p>
+                            </div>
+                          )}
+                          {coach.linkedinSummary && (
+                            <div className="p-4 bg-surface/60 border border-rule/20 rounded-xl">
+                              <p className="text-xs font-medium text-ink-muted mb-1">{t("Resumen")}</p>
+                              <p className="text-sm leading-relaxed whitespace-pre-line">{coach.linkedinSummary}</p>
+                            </div>
+                          )}
                         </div>
                       </Collapse>
                     )}

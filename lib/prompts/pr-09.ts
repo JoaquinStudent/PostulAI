@@ -70,7 +70,9 @@ JSON válido sin markdown:
   "interviewTips": ["Consejo específico"],
   "cvChanges": [{"section": "X", "action": "modify", "current": "...", "suggested": "...", "reason": "..."}],
   "idealCvOutline": "Estructura ideal...",
-  "portfolioProjects": [{"name": "Nombre", "demonstrates": "Qué demuestra", "description": "Qué construir", "stack": "Tech a usar", "hours": "~20h", "ods": "ODS 4 — Educación de calidad"}]
+  "portfolioProjects": [{"name": "Nombre", "demonstrates": "Qué demuestra", "description": "Qué construir", "stack": "Tech a usar", "hours": "~20h", "ods": "ODS 4 — Educación de calidad"}],
+  "linkedinHeadline": "Titular LinkedIn (max 120 chars). Fórmula: Rol + Especialización + Propuesta de valor. Ej: 'Data Analyst | Python & SQL | Transformo datos en decisiones de negocio'",
+  "linkedinSummary": "Resumen LinkedIn (max 2600 chars). Estructura: gancho → trayectoria → logros clave → qué busco. Primera persona, tono profesional pero humano."
 }`;
 
   const user = `<contexto_usuario>
@@ -129,5 +131,7 @@ export function parsePR09Response(json: string): import("@/lib/types").ProfileCo
         }))
       : [],
     idealCvOutline: typeof parsed.idealCvOutline === "string" ? parsed.idealCvOutline : "",
+    linkedinHeadline: typeof parsed.linkedinHeadline === "string" ? parsed.linkedinHeadline : undefined,
+    linkedinSummary: typeof parsed.linkedinSummary === "string" ? parsed.linkedinSummary : undefined,
   };
 }

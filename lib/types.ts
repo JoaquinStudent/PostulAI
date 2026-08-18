@@ -163,6 +163,8 @@ export interface ProfileCoach {
   portfolioProjects: ProjectIdea[];
   elevatorPitch: string;
   interviewTips: string[];
+  linkedinHeadline?: string;
+  linkedinSummary?: string;
 }
 
 export interface EffortEstimate {
