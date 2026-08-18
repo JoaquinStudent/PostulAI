@@ -27,6 +27,8 @@ import {
   Clock,
   Code,
   Globe,
+  Mail,
+  Copy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SessionBar } from "@/components/session-bar";
@@ -35,10 +37,12 @@ import { useBatch } from "@/stores/batch";
 import { complete } from "@/lib/ai/client";
 import { safeguardModel } from "@/lib/ai/models";
 import { buildPR09Messages, parsePR09Response } from "@/lib/prompts/pr-09";
+import { buildPR10Messages, parsePR10Response } from "@/lib/prompts/pr-10";
 import { getCompactSkill, CATEGORY_META } from "@/lib/prompts/sector-skills";
+import { windowContext } from "@/lib/ai/context-window";
 import type { ProfileCoach, OpportunityCategory, Opportunity } from "@/lib/types";
 
-type Tab = "analisis" | "preparacion" | "mejora";
+type Tab = "analisis" | "carta" | "preparacion" | "mejora";
 
 // ponytail: window.print() with print stylesheet — 0 dependencies
 function esc(s: string): string {
@@ -199,6 +203,10 @@ export default function OpportunityDetailPage({
   const [coach, setCoach] = useState<ProfileCoach | null>(null);
   const [coachLoading, setCoachLoading] = useState(false);
   const [coachError, setCoachError] = useState<string | null>(null);
+  const [letter, setLetter] = useState<string | null>(null);
+  const [letterLoading, setLetterLoading] = useState(false);
+  const [letterError, setLetterError] = useState<string | null>(null);
+  const [letterCopied, setLetterCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("analisis");
 
   const opp = opportunities.find((o) => o.id === id);
@@ -232,6 +240,39 @@ export default function OpportunityDetailPage({
     }
   };
 
+  const handleGenerateLetter = async () => {
+    if (!context) return;
+    setLetterLoading(true);
+    setLetterError(null);
+    try {
+      const model = safeguardModel(connection.models.economy || "openai/gpt-4o-mini");
+      const skill = getCompactSkill(category);
+      const windowed = windowContext(context.raw, opp.brief.seeking, opp.brief, skill.keywords);
+      const messages = buildPR10Messages({
+        context: windowed,
+        brief: opp.brief,
+        title: opp.title,
+        organizer: opp.organizer,
+        language: opp.language === "en" ? "en" : opp.language === "pt" ? "pt" : "es",
+        category,
+      });
+      const response = await complete({ model, messages, temperature: 0.3 });
+      const parsed = parsePR10Response(response);
+      setLetter(parsed.text);
+    } catch (err) {
+      setLetterError(err instanceof Error ? err.message : "Error al generar carta");
+    } finally {
+      setLetterLoading(false);
+    }
+  };
+
+  const handleCopyLetter = async () => {
+    if (!letter) return;
+    await navigator.clipboard.writeText(letter);
+    setLetterCopied(true);
+    setTimeout(() => setLetterCopied(false), 2000);
+  };
+
   const maxWeight = Math.max(...opp.brief.criteria.map((c) => c.weight ?? 0), 1);
   const scoreColor =
     opp.fit.score >= 70 ? "text-confirm" : opp.fit.score >= 40 ? "text-marker" : "text-alert";
@@ -240,6 +281,7 @@ export default function OpportunityDetailPage({
 
   const tabs: { key: Tab; label: string; icon: React.ElementType }[] = [
     { key: "analisis", label: t("Análisis"), icon: Search },
+    { key: "carta", label: t("Carta"), icon: Mail },
     { key: "preparacion", label: t("Preparación"), icon: Mic },
     { key: "mejora", label: t("Mejora tu perfil"), icon: Sparkles },
   ];
@@ -492,6 +534,56 @@ export default function OpportunityDetailPage({
                   <p className="text-xs text-marker bg-marker/10 px-4 py-2.5 rounded-xl">
                     Los datos de la convocatoria son incompletos — el análisis puede ser aproximado.
                   </p>
+                )}
+              </div>
+            )}
+
+            {/* ─── TAB: CARTA ─── */}
+            {activeTab === "carta" && (
+              <div className="space-y-4">
+                {letter ? (
+                  <div className="bg-surface border border-rule/40 rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-display text-lg font-semibold">{t("Carta de presentación")}</h3>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm" onClick={handleCopyLetter} className="gap-1.5">
+                          {letterCopied ? <CheckCircle2 className="size-3.5" /> : <Copy className="size-3.5" />}
+                          {letterCopied ? t("Copiado") : t("Copiar")}
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => setLetter(null)}>
+                          {t("Regenerar")}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="prose prose-sm max-w-none text-ink whitespace-pre-wrap leading-relaxed">
+                      {letter}
+                    </div>
+                    <p className="mt-4 text-xs text-ink-muted font-mono">
+                      {letter.split(/\s+/).length} {t("palabras")}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-surface border border-rule/40 rounded-xl p-8 text-center">
+                    <Mail className="size-8 text-ink-muted mx-auto mb-3" />
+                    <h3 className="font-display text-lg font-semibold">{t("Carta de presentación")}</h3>
+                    <p className="mt-2 text-sm text-ink-muted max-w-md mx-auto">
+                      {t("Genera una carta personalizada para esta convocatoria basada en tu contexto y el análisis de encaje.")}
+                    </p>
+                    {letterError && (
+                      <p className="mt-3 text-sm text-alert">{letterError}</p>
+                    )}
+                    <Button
+                      className="mt-4"
+                      disabled={letterLoading || !context}
+                      onClick={handleGenerateLetter}
+                    >
+                      {letterLoading ? (
+                        <><Loader2 className="size-4 animate-spin mr-2" />{t("Generando...")}</>
+                      ) : (
+                        <>{t("Generar carta")} (~$0.001)</>
+                      )}
+                    </Button>
+                  </div>
                 )}
               </div>
             )}

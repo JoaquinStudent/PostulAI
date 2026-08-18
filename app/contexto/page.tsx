@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Copy, Check, Upload, FileText, AlertTriangle, FileUp } from "lucide-react";
+import { Copy, Check, Upload, FileText, AlertTriangle, FileUp, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocaleToggle } from "@/components/locale-toggle";
 import { useT } from "@/lib/i18n";
@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { GENERATOR_PROMPT } from "@/lib/prompts/pr-01";
 import { validateContextFile } from "@/lib/extract/text";
 import { extractPdfText } from "@/lib/extract/pdf";
+import { scoreContext, type ContextScore } from "@/lib/ai/context-score";
 import { useSession } from "@/stores/session";
 import { saveContext } from "@/lib/storage";
 import type { UserContext, ContextSummary, ContextWarning } from "@/lib/types";
@@ -182,6 +183,10 @@ function UploadView({
   const [summary, setSummary] = useState<ContextSummary | null>(
     existingContext?.summary ?? null,
   );
+  const [ctxScore, setCtxScore] = useState<ContextScore | null>(
+    existingContext ? scoreContext(existingContext.raw) : null,
+  );
+  const [scoreOpen, setScoreOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [persist, setPersist] = useState(false);
@@ -196,6 +201,7 @@ function UploadView({
     }
     setFile({ name: f.name, size: f.size, text: result.text });
     setSummary(null);
+    setCtxScore(null);
     analyzeSummary(result.text);
   }, []);
 
@@ -279,6 +285,7 @@ function UploadView({
         sections,
         warnings,
       });
+      setCtxScore(scoreContext(text));
     } finally {
       setAnalyzing(false);
     }
@@ -456,6 +463,8 @@ function UploadView({
                 <p className="mt-1 text-sm text-ink-muted">{w.suggestion}</p>
               </div>
             ))}
+
+          {ctxScore && <ContextScoreCard score={ctxScore} open={scoreOpen} onToggle={() => setScoreOpen(!scoreOpen)} />}
         </div>
       )}
 
@@ -559,5 +568,83 @@ function UploadView({
         </Button>
       </div>
     </>
+  );
+}
+
+const SCORE_DIMENSIONS: { key: keyof Omit<ContextScore, "total" | "tips">; label: string; weight: string }[] = [
+  { key: "completeness", label: "Completitud", weight: "25%" },
+  { key: "metrics", label: "Métricas", weight: "25%" },
+  { key: "evidence", label: "Evidencia verificable", weight: "20%" },
+  { key: "timeline", label: "Línea temporal", weight: "15%" },
+  { key: "sectorCoverage", label: "Cobertura sectorial", weight: "15%" },
+];
+
+function scoreColor(v: number) {
+  if (v >= 70) return "bg-confirm";
+  if (v >= 40) return "bg-marker";
+  return "bg-alert";
+}
+
+function scoreLabel(v: number) {
+  if (v >= 70) return "Fuerte";
+  if (v >= 40) return "Mejorable";
+  return "Débil";
+}
+
+function ContextScoreCard({ score, open, onToggle }: { score: ContextScore; open: boolean; onToggle: () => void }) {
+  const t = useT();
+  return (
+    <div className="mt-6 bg-surface border border-rule/40 rounded-xl overflow-hidden">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between px-5 py-4 text-left"
+      >
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${scoreColor(score.total)}`}>
+            {score.total}
+          </div>
+          <div>
+            <p className="text-sm font-medium">{t("Diagnóstico de contexto")}</p>
+            <p className="text-xs text-ink-muted">{scoreLabel(score.total)} — {t("0 tokens AI")}</p>
+          </div>
+        </div>
+        <ChevronDown className={`size-4 text-ink-muted transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="px-5 pb-5 space-y-3 border-t border-rule/30 pt-4">
+          {SCORE_DIMENSIONS.map((dim) => {
+            const value = score[dim.key];
+            return (
+              <div key={dim.key}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs text-ink-muted">{t(dim.label)} ({dim.weight})</span>
+                  <span className={`text-xs font-mono font-medium ${value >= 70 ? "text-confirm" : value >= 40 ? "text-marker" : "text-alert"}`}>
+                    {value}
+                  </span>
+                </div>
+                <div className="h-1.5 bg-rule/30 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all ${scoreColor(value)}`}
+                    style={{ width: `${value}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+
+          {score.tips.length > 0 && (
+            <div className="mt-4 space-y-2">
+              {score.tips.map((tip, i) => (
+                <div key={i} className="flex gap-2 items-start">
+                  <span className="text-marker mt-0.5 text-xs">●</span>
+                  <p className="text-xs text-ink-muted">{tip}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

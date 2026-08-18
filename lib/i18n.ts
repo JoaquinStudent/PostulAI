@@ -285,6 +285,20 @@ const en: Dict = {
   "Habilidades a desarrollar": "Skills to develop",
   "Experiencias sugeridas": "Suggested experiences",
   "Cambios en tu CV": "CV changes",
+  Carta: "Cover letter",
+  "Carta de presentación": "Cover letter",
+  "Genera una carta personalizada para esta convocatoria basada en tu contexto y el análisis de encaje.": "Generate a personalized cover letter based on your context and fit analysis.",
+  "Generar carta": "Generate letter",
+  "Generando...": "Generating...",
+  Regenerar: "Regenerate",
+  palabras: "words",
+  "Diagnóstico de contexto": "Context diagnosis",
+  "0 tokens AI": "0 AI tokens",
+  Completitud: "Completeness",
+  Métricas: "Metrics",
+  "Evidencia verificable": "Verifiable evidence",
+  "Línea temporal": "Timeline",
+  "Cobertura sectorial": "Sector coverage",
 };
 
 const pt: Dict = {
@@ -508,6 +522,20 @@ const pt: Dict = {
   "Habilidades a desarrollar": "Habilidades a desenvolver",
   "Experiencias sugeridas": "Experiências sugeridas",
   "Cambios en tu CV": "Mudanças no seu CV",
+  Carta: "Carta",
+  "Carta de presentación": "Carta de apresentação",
+  "Genera una carta personalizada para esta convocatoria basada en tu contexto y el análisis de encaje.": "Gere uma carta personalizada com base no seu contexto e análise de adequação.",
+  "Generar carta": "Gerar carta",
+  "Generando...": "Gerando...",
+  Regenerar: "Regenerar",
+  palabras: "palavras",
+  "Diagnóstico de contexto": "Diagnóstico de contexto",
+  "0 tokens AI": "0 tokens IA",
+  Completitud: "Completude",
+  Métricas: "Métricas",
+  "Evidencia verificable": "Evidência verificável",
+  "Línea temporal": "Linha temporal",
+  "Cobertura sectorial": "Cobertura setorial",
 };
 
 const fr: Dict = {
@@ -731,6 +759,20 @@ const fr: Dict = {
   "Habilidades a desarrollar": "Compétences à développer",
   "Experiencias sugeridas": "Expériences suggérées",
   "Cambios en tu CV": "Modifications du CV",
+  Carta: "Lettre",
+  "Carta de presentación": "Lettre de motivation",
+  "Genera una carta personalizada para esta convocatoria basada en tu contexto y el análisis de encaje.": "Générez une lettre personnalisée basée sur votre contexte et l'analyse d'adéquation.",
+  "Generar carta": "Générer la lettre",
+  "Generando...": "Génération...",
+  Regenerar: "Régénérer",
+  palabras: "mots",
+  "Diagnóstico de contexto": "Diagnostic de contexte",
+  "0 tokens AI": "0 tokens IA",
+  Completitud: "Complétude",
+  Métricas: "Métriques",
+  "Evidencia verificable": "Preuves vérifiables",
+  "Línea temporal": "Chronologie",
+  "Cobertura sectorial": "Couverture sectorielle",
 };
 
 const dicts: Record<Locale, Dict> = { es: {}, en, pt, fr };
