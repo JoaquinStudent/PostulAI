@@ -145,13 +145,22 @@ export interface CvRecommendation {
   reason: string;
 }
 
+export interface ProjectIdea {
+  name: string;
+  demonstrates: string;
+  description: string;
+  stack: string;
+  hours: string;
+  ods: string;
+}
+
 export interface ProfileCoach {
   certifications: string[];
   skills: string[];
   experiences: string[];
   cvChanges: CvRecommendation[];
   idealCvOutline: string;
-  portfolioProjects: string[];
+  portfolioProjects: ProjectIdea[];
   elevatorPitch: string;
   interviewTips: string[];
 }

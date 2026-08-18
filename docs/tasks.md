@@ -65,39 +65,39 @@
 | S2-20 | Pantalla de detalle | — | ✅ |
 | S2-21 | Store `batch` con máquina de estados | — | ✅ |
 | S2-22 | Mesa de comparación en móvil | RNF-01 | ✅ |
-| S2-23 | Medición de tasa de éxito de extracción | Riesgo | ⬜ |
+| S2-23 | Medición de tasa de éxito de extracción | Riesgo | ✅ |
 
 ## Sprint 3 — Redacción, salida y cierre
 
 | ID | Tarea | RF | Estado |
 |---|---|---|---|
-| S3-01 | Detección de límites por regex | RF-C-03 | ⬜ |
-| S3-02 | Prompt `PR-05` como respaldo | RF-C-02, RF-C-03 | ⬜ |
-| S3-03 | Pantalla de pegar preguntas | RF-C-01, RF-C-04 | ⬜ |
-| S3-04 | Prompt `PR-06` de generación | RF-C-05 | ⬜ |
-| S3-05 | Verificación programática de longitud | RF-C-06 | ⬜ |
-| S3-06 | Reintento automático de acortado | RF-C-06 | ⬜ |
-| S3-07 | Componente `LimitRuler` | RF-C-07 | ⬜ |
-| S3-08 | Componente `EvidenceCard` | RF-C-08 | ⬜ |
-| S3-09 | Verificación de citas por subcadena | — | ⬜ |
-| S3-10 | Componente `GapCard` y prompt `PR-08` | RF-C-09 | ⬜ |
-| S3-11 | Prompt `PR-07` y refinamiento | RF-C-10 | ⬜ |
-| S3-12 | Edición manual con recálculo en vivo | RF-C-11 | ⬜ |
-| S3-13 | Aprobación y progreso | RF-C-12 | ⬜ |
-| S3-14 | Detección del idioma de respuesta | RF-C-13 | ⬜ |
-| S3-15 | Mesa de trabajo completa | — | ⬜ |
-| S3-16 | Streaming en generación y refinamiento | RNF-04 | ⬜ |
-| S3-17 | Copiado individual | RF-D-01 | ⬜ |
-| S3-18 | Exportación en cuatro formatos | RF-D-02, RF-D-04 | ⬜ |
-| S3-19 | Exportación de convocatoria o lote | RF-D-03 | ⬜ |
-| S3-20 | Modal de exportación | — | ⬜ |
-| S3-21 | Diálogo de salida | RF-D-06 | ⬜ |
-| S3-22 | Descarga del análisis del lote | RF-D-08 | ⬜ |
-| S3-23 | Mesa de trabajo en móvil | RNF-01 | ⬜ |
-| S3-24 | Pase de accesibilidad | RNF-02 | ⬜ |
-| S3-25 | Pase de rendimiento | RNF-03 | ⬜ |
-| S3-26 | Corrección manual del resumen extraído | RF-B-15 | ⬜ |
-| S3-27 | Recorrido completo de verificación | — | ⬜ |
+| S3-01 | Detección de límites por regex | RF-C-03 | ✅ |
+| S3-02 | Prompt `PR-05` como respaldo | RF-C-02, RF-C-03 | ✅ |
+| S3-03 | Pantalla de pegar preguntas | RF-C-01, RF-C-04 | ✅ |
+| S3-04 | Prompt `PR-06` de generación | RF-C-05 | ✅ |
+| S3-05 | Verificación programática de longitud | RF-C-06 | ✅ |
+| S3-06 | Reintento automático de acortado | RF-C-06 | ✅ |
+| S3-07 | Componente `LimitRuler` | RF-C-07 | ✅ |
+| S3-08 | Componente `EvidenceCard` | RF-C-08 | ✅ |
+| S3-09 | Verificación de citas por subcadena | — | ✅ |
+| S3-10 | Componente `GapCard` y prompt `PR-08` | RF-C-09 | ✅ |
+| S3-11 | Prompt `PR-07` y refinamiento | RF-C-10 | ✅ |
+| S3-12 | Edición manual con recálculo en vivo | RF-C-11 | ✅ |
+| S3-13 | Aprobación y progreso | RF-C-12 | ✅ |
+| S3-14 | Detección del idioma de respuesta | RF-C-13 | ✅ |
+| S3-15 | Mesa de trabajo completa | — | ✅ |
+| S3-16 | Streaming en generación y refinamiento | RNF-04 | ✅ |
+| S3-17 | Copiado individual | RF-D-01 | ✅ |
+| S3-18 | Exportación en cuatro formatos | RF-D-02, RF-D-04 | ✅ |
+| S3-19 | Exportación de convocatoria o lote | RF-D-03 | ✅ |
+| S3-20 | Modal de exportación | — | ✅ |
+| S3-21 | Diálogo de salida | RF-D-06 | ✅ |
+| S3-22 | Descarga del análisis del lote | RF-D-08 | ✅ |
+| S3-23 | Mesa de trabajo en móvil | RNF-01 | ✅ |
+| S3-24 | Pase de accesibilidad | RNF-02 | ✅ |
+| S3-25 | Pase de rendimiento | RNF-03 | ✅ |
+| S3-26 | Corrección manual del resumen extraído | RF-B-15 | ✅ |
+| S3-27 | Recorrido completo de verificación | — | ✅ |
 | S3-28 | Despliegue final y verificación de seguridad | — | ⬜ |
 | S3-OP1 | WebAuthn PRF para la bóveda (opcional) | — | ⬜ |
 | S3-OP2 | Virtualización de la mesa de comparación (opcional) | — | ⬜ |

@@ -31,12 +31,12 @@ Copiloto de postulaciones con IA para aplicantes en America Latina. Analiza conv
 - **Tailwind CSS v4** + shadcn/ui
 - **OpenRouter BYOK** — Todas las llamadas a IA van directo del navegador a OpenRouter. Sin backend, sin proxy.
 
-### Privacidad por diseno
+### Privacidad por diseño
 
 - Sin registro ni base de datos de usuarios
 - La API key nunca toca un servidor — va directo del navegador a OpenRouter
 - Cifrado local opcional (AES-256-GCM)
-- Sesion temporal — al cerrar la pestana, todo desaparece
+- Sesión temporal — al cerrar la pestaña, todo desaparece
 - Sin telemetria, sin tracking
 
 ## Estructura
@@ -80,7 +80,3 @@ Requiere Node 18+ y una API key de [OpenRouter](https://openrouter.ai/).
 | Economico | GPT-4o Mini | GPT-4o Mini | ~$0.01 |
 | Equilibrado | GPT-4o Mini | Claude Sonnet 4 | ~$0.08 |
 | Maxima calidad | Claude Sonnet 4 | Claude Opus 4 | ~$0.25 |
-
-## Licencia
-
-MIT

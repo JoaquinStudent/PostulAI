@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @font-face {
   font-family: "Archivo Narrow";
   font-style: normal;
@@ -119,12 +121,46 @@ body {
   background: color-mix(in srgb, var(--color-stamp) 20%, transparent);
 }
 
+/* Dark theme overrides — iOS HIG dark palette */
+[data-theme="dark"] {
+  --color-paper: #1C1C1E;
+  --color-surface: #2C2C2E;
+  --color-ink: #F5F5F7;
+  --color-ink-muted: #98989D;
+  --color-rule: #38383A;
+  --color-stamp: #0A84FF;
+  --color-alert: #FF453A;
+  --color-confirm: #30D158;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-paper: #1C1C1E;
+    --color-surface: #2C2C2E;
+    --color-ink: #F5F5F7;
+    --color-ink-muted: #98989D;
+    --color-rule: #38383A;
+    --color-stamp: #0A84FF;
+    --color-alert: #FF453A;
+    --color-confirm: #30D158;
+  }
+}
+
 /* Frosted glass material — Apple-style translucent chrome */
 .glass {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
+[data-theme="dark"] .glass {
+  background: rgba(44, 44, 46, 0.72);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .glass {
+    background: rgba(44, 44, 46, 0.72);
+  }
+}
+
 
 /* Cards — subtle lift on hover */
 .card-hover {
@@ -133,6 +169,14 @@ body {
 .card-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+[data-theme="dark"] .card-hover:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card-hover:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
 }
 
 @layer base {

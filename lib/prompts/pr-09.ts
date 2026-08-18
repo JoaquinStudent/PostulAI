@@ -1,8 +1,9 @@
 import type { OpportunityBrief, OpportunityCategory } from "@/lib/types";
 import type { ChatMessage } from "@/lib/ai/client";
 import { getCompactSkill, CATEGORY_META } from "./sector-skills";
+import { getCertificationsBlock } from "./certifications";
 
-export const PR_09_VERSION = 3;
+export const PR_09_VERSION = 4;
 
 export function buildPR09Messages(
   brief: OpportunityBrief,
@@ -14,18 +15,19 @@ export function buildPR09Messages(
   const meta = CATEGORY_META[category];
   const hasCv = cvText && cvText.trim().length > 100;
 
-  // ponytail: pitch template goes in system prompt (static, cacheable per category)
+  const projectsRule = `- "portfolioProjects": proyectos concretos que el candidato puede construir AHORA para demostrar las habilidades que pide la convocatoria. CADA proyecto DEBE tener impacto social, económico o ambiental y conectarse con al menos un ODS (Objetivo de Desarrollo Sostenible de la ONU). Cada proyecto es un objeto con: name, demonstrates (qué gap cierra), description (qué construir en 2-3 líneas), stack (tecnologías a usar basadas en lo que ya sabe), hours (estimado realista), ods (número y nombre del ODS relacionado, ej: "ODS 4 — Educación de calidad"). Mínimo 2 proyectos.`;
+
   const cvBlock = meta.needsCv
     ? hasCv
       ? `- "cvChanges": cambios específicos al CV con sección, acción (add/modify/remove), texto actual, texto sugerido, razón. Prioriza cambios que mejoren el match ATS.
 - "idealCvOutline": CV ideal para ESTE puesto. Solo lo que falta.
-- "portfolioProjects": array vacío (sector CV-first).`
+${projectsRule}`
       : `- "cvChanges": array vacío (no se proporcionó CV). Recomienda subir CV para recomendaciones más precisas.
 - "idealCvOutline": qué debería tener un CV para esta convocatoria, sección por sección.
-- "portfolioProjects": array vacío (sector CV-first).`
+${projectsRule}`
     : `- "cvChanges": array vacío (sector no requiere CV).
 - "idealCvOutline": perfil/portafolio ideal para esta convocatoria.
-- "portfolioProjects": proyectos concretos que puede construir AHORA para fortalecer la postulación. Cada uno con: nombre, stack/herramientas, alcance (~Nh estimadas), y por qué fortalece la aplicación.`;
+${projectsRule}`;
 
   const system = `Eres un coach de carrera especializado en el sector "${category}".
 Foco de este sector: ${meta.focusLabel}.
@@ -36,34 +38,39 @@ Criterios clave: ${skill.criteria}
 ELEVATOR PITCH — Estructura para este sector (${skill.pitchTemplate.maxSeconds}s max):
 "${skill.pitchTemplate.structure}"
 
+CERTIFICACIONES VERIFICADAS POR ENTIDAD (usa SOLO estas para recomendar certificaciones):
+${getCertificationsBlock()}
+
 Tu trabajo: analizar el perfil contra la convocatoria y dar recomendaciones ACCIONABLES.
 
 REGLAS CRÍTICAS:
 1. Usa SOLO datos reales del <contexto_usuario> y <cv_actual>. NUNCA inventes empresas, cargos, logros, métricas o experiencias. Si falta un dato, pon un placeholder [entre corchetes].
-2. Todas las recomendaciones deben ser REALISTAS y ALCANZABLES con el perfil actual del candidato. No sugieras certificaciones de nivel senior si el candidato es junior. No sugieras experiencias que requieran recursos que claramente no tiene. Cada recomendación debe ser un paso lógico SIGUIENTE desde donde está ahora.
-3. Conecta cada recomendación con algo que el candidato YA tiene. Ej: si sabe Python, sugiere una certificación de Python aplicado, no un MBA.
+2. Todas las recomendaciones deben ser REALISTAS y ALCANZABLES con el perfil actual del candidato. Cada recomendación debe ser un paso lógico SIGUIENTE desde donde está ahora.
+3. Conecta cada recomendación con algo que el candidato YA tiene.
+4. Para certificaciones: usa SOLO certificaciones de la lista de arriba. Incluye nombre exacto, entidad (Google, Microsoft, IBM, etc.), plataforma, si es gratis o el costo, y duración estimada. Prioriza opciones gratuitas primero, luego pagadas.
+5. Para proyectos: cada proyecto debe ser algo que el candidato puede construir con su stack actual, que demuestre una habilidad específica que pide la convocatoria.
 
 Reglas de campos:
-- "certifications": certificaciones alcanzables desde el nivel actual del candidato. Gratuitas o de bajo costo primero. Nombre exacto + plataforma + duración estimada.
-- "skills": habilidades a desarrollar que estén al alcance dado su perfil actual, con recurso concreto (curso gratuito, proyecto, tutorial).
-- "experiences": experiencias o proyectos que puede hacer AHORA con las herramientas y conocimientos que ya tiene. Nada que requiera prerequisitos que no cumple.
-- "elevatorPitch": usa la estructura de arriba con SOLO datos reales del candidato. Si falta un dato, pon placeholder [entre corchetes]. Max ${skill.pitchTemplate.maxSeconds} segundos hablado.
-- "interviewTips": 3-5 consejos específicos para ESTA convocatoria. Basados en lo que el candidato puede responder con su experiencia real, no en respuestas idealizadas.
+- "certifications": certificaciones de la lista verificada. Formato: "Nombre (Entidad, Plataforma, gratis|~$X, ~Nh) — qué gap cierra". Incluye al menos 1 opción gratuita.
+- "skills": habilidades a desarrollar con recurso concreto de las entidades verificadas.
+- "experiences": experiencias que puede hacer AHORA con lo que ya tiene.
+- "elevatorPitch": SOLO datos reales del candidato. Placeholder [entre corchetes] si falta dato. Max ${skill.pitchTemplate.maxSeconds}s.
+- "interviewTips": 3-5 consejos específicos para ESTA convocatoria basados en experiencia real del candidato.
 ${cvBlock}
 - Prioriza impacto/esfuerzo. Lo que más mejore el encaje con menor esfuerzo va primero.
 - No repitas lo que el candidato ya tiene.
-- En "cvChanges", "current" debe ser texto REAL del CV del candidato, no inventado.
+- En "cvChanges", "current" debe ser texto REAL del CV.
 
 JSON válido sin markdown:
 {
-  "certifications": ["Nombre (plataforma, ~Nh) — por qué"],
-  "skills": ["Habilidad — recurso concreto (~Nh)"],
+  "certifications": ["Google Data Analytics Certificate (Coursera, ~$50/mes, ~6 meses) — cubre el gap en análisis de datos"],
+  "skills": ["Habilidad — recurso concreto en plataforma verificada (~Nh)"],
   "experiences": ["Qué hacer para cerrar el gap"],
-  "elevatorPitch": "Pitch personalizado con datos reales del candidato...",
-  "interviewTips": ["Consejo específico para esta entrevista"],
+  "elevatorPitch": "Pitch con datos reales...",
+  "interviewTips": ["Consejo específico"],
   "cvChanges": [{"section": "X", "action": "modify", "current": "...", "suggested": "...", "reason": "..."}],
   "idealCvOutline": "Estructura ideal...",
-  "portfolioProjects": ["Proyecto: nombre — stack, ~Nh — por qué fortalece"]
+  "portfolioProjects": [{"name": "Nombre", "demonstrates": "Qué demuestra", "description": "Qué construir", "stack": "Tech a usar", "hours": "~20h", "ods": "ODS 4 — Educación de calidad"}]
 }`;
 
   const user = `<contexto_usuario>
@@ -102,7 +109,16 @@ export function parsePR09Response(json: string): import("@/lib/types").ProfileCo
     experiences: Array.isArray(parsed.experiences) ? parsed.experiences : [],
     elevatorPitch: typeof parsed.elevatorPitch === "string" ? parsed.elevatorPitch : "",
     interviewTips: Array.isArray(parsed.interviewTips) ? parsed.interviewTips : [],
-    portfolioProjects: Array.isArray(parsed.portfolioProjects) ? parsed.portfolioProjects : [],
+    portfolioProjects: Array.isArray(parsed.portfolioProjects)
+      ? parsed.portfolioProjects.map((p: Record<string, unknown>) => ({
+          name: String(p.name ?? ""),
+          demonstrates: String(p.demonstrates ?? ""),
+          description: String(p.description ?? ""),
+          stack: String(p.stack ?? ""),
+          hours: String(p.hours ?? ""),
+          ods: String(p.ods ?? ""),
+        }))
+      : [],
     cvChanges: Array.isArray(parsed.cvChanges)
       ? parsed.cvChanges.map((c: Record<string, unknown>) => ({
           section: String(c.section ?? ""),

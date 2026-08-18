@@ -4,6 +4,9 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Copy, Check, Upload, FileText, AlertTriangle, FileUp } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleToggle } from "@/components/locale-toggle";
+import { useT } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { GENERATOR_PROMPT } from "@/lib/prompts/pr-01";
@@ -46,39 +49,38 @@ export default function ContextoPage() {
 }
 
 function Header({ view, onSkip }: { view: View; onSkip: () => void }) {
+  const t = useT();
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
       <Link href="/" className="flex items-center gap-2.5">
-        <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
-          <span className="text-white text-[11px] font-bold">P</span>
-        </div>
-        <span className="font-display text-xl font-bold tracking-tight">
-          PostulAI
-        </span>
+        <img src="/logo.svg" alt="PostulAI" className="h-10" />
       </Link>
       <div className="flex items-center gap-4">
         <div className="hidden sm:flex items-center gap-1.5 text-xs tracking-wide">
           <span className="px-2.5 py-0.5 rounded-full bg-stamp text-white text-[11px] font-medium">1</span>
-          <span className="text-stamp font-medium">Contexto</span>
+          <span className="text-stamp font-medium">{t("Contexto")}</span>
           <span className="text-ink-muted/40 mx-1">—</span>
-          <span className="text-ink-muted/60">2 Conectar</span>
+          <span className="text-ink-muted/60">2 {t("Conectar")}</span>
           <span className="text-ink-muted/40 mx-1">—</span>
-          <span className="text-ink-muted/60">3 Analizar</span>
+          <span className="text-ink-muted/60">3 {t("Analizar")}</span>
         </div>
         {view === "generator" && (
           <button
             onClick={onSkip}
             className="text-sm text-ink-muted hover:text-stamp transition-colors duration-200"
           >
-            Ya tengo mi archivo
+            {t("Ya tengo mi archivo")}
           </button>
         )}
+        <LocaleToggle />
+        <ThemeToggle />
       </div>
     </header>
   );
 }
 
 function GeneratorView({ onContinue }: { onContinue: () => void }) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -90,17 +92,16 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
   return (
     <>
       <h1 className="font-display text-3xl md:text-[36px] font-bold leading-tight tracking-[-0.02em]">
-        Arma tu contexto una sola vez
+        {t("Arma tu contexto una sola vez")}
       </h1>
       <p className="mt-3 text-ink-muted leading-relaxed">
-        Es un archivo de texto con quién eres, qué has hecho y en qué eres
-        bueno; se reutiliza en todas tus postulaciones.
+        {t("Es un archivo de texto con quién eres, qué has hecho y en qué eres bueno; se reutiliza en todas tus postulaciones.")}
       </p>
 
       <div className="mt-8 bg-surface border border-rule/40 rounded-xl overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-rule/30">
           <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-            Prompt generador
+            {t("Prompt generador")}
           </span>
           <Button
             variant="outline"
@@ -109,7 +110,7 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
             className="gap-1.5"
           >
             {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-            {copied ? "Copiado" : "Copiar"}
+            {copied ? t("Copiado") : t("Copiar")}
           </Button>
         </div>
         <pre className="p-6 font-mono text-sm leading-relaxed text-ink whitespace-pre-wrap">
@@ -117,19 +118,23 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
         </pre>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           {
-            title: "Incluye números",
-            desc: 'Los datos empíricos dan credibilidad a las respuestas redactadas. Un "aumenté la eficiencia un 20%" es mejor que "mejoré procesos".',
+            title: t("Incluye números"),
+            desc: t('"Aumenté la eficiencia un 20%" es mejor que "mejoré procesos". Datos concretos dan credibilidad.'),
           },
           {
-            title: "Escribe los fracasos también",
-            desc: "Explicar qué salió mal y cómo lo solucionaste demuestra madurez profesional y verdadera capacidad de iteración.",
+            title: t("Agrega tus enlaces"),
+            desc: t("LinkedIn, GitHub, portafolio, proyectos con demo. Son evidencia verificable que fortalece tu perfil."),
           },
           {
-            title: "No lo hagas un CV",
-            desc: "El contexto debe ser narrativo y profundo. Evita hacer una lista cronológica de fechas y cargos vacíos de significado.",
+            title: t("Universidad y ciclo"),
+            desc: t("Carrera, semestre actual, año de ingreso y egreso. Muchas becas y convocatorias filtran por esto."),
+          },
+          {
+            title: t("Premios y fracasos"),
+            desc: t("Reconocimientos, becas previas, y también qué salió mal. Los evaluadores valoran ambos."),
           },
         ].map((tip) => (
           <div key={tip.title} className="bg-surface border border-rule/40 rounded-xl p-5">
@@ -144,17 +149,16 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
       <div className="mt-8 bg-stamp/5 border border-stamp/10 rounded-xl p-4 flex gap-3 items-start">
         <span className="text-stamp mt-0.5">ℹ</span>
         <p className="text-sm text-ink-muted">
-          Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe
-          guardarse como archivo .md para adjuntarlo en el siguiente paso.
+          {t("Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe guardarse como archivo .md para adjuntarlo en el siguiente paso.")}
         </p>
       </div>
 
       <div className="mt-10 flex items-center justify-between border-t border-rule pt-6">
         <Link href="/" className="text-sm underline text-ink hover:text-stamp">
-          Volver
+          {t("Volver")}
         </Link>
         <Button size="lg" onClick={onContinue}>
-          Continuar →
+          {t("Continuar")} →
         </Button>
       </div>
     </>
@@ -323,14 +327,15 @@ function UploadView({
     onContextLoaded(ctx);
   };
 
+  const t = useT();
+
   return (
     <>
       <h1 className="font-display text-3xl md:text-[36px] font-bold leading-tight tracking-[-0.02em]">
-        Adjunta tu contexto
+        {t("Adjunta tu contexto")}
       </h1>
       <p className="mt-3 text-ink-muted leading-relaxed">
-        Se lee en tu navegador y se descarta al cerrar. No se sube a ningún
-        servidor.
+        {t("Se lee en tu navegador y se descarta al cerrar. No se sube a ningún servidor.")}
       </p>
 
       {/* Drop zone / file info */}
@@ -357,7 +362,7 @@ function UploadView({
               </span>
             </div>
             <label className="inline-flex items-center justify-center px-4 py-2 rounded border border-rule text-sm cursor-pointer hover:bg-paper transition-colors">
-              Reemplazar
+              {t("Reemplazar")}
               <input
                 type="file"
                 accept=".md,.txt"
@@ -373,8 +378,7 @@ function UploadView({
           <label className="flex flex-col items-center gap-3 cursor-pointer">
             <Upload className="size-8 text-ink-muted" />
             <p className="text-sm text-ink-muted">
-              Arrastra tu archivo .md o .txt aquí o{" "}
-              <span className="underline text-stamp">selecciónalo</span>
+              {t("Arrastra tu archivo o haz clic para seleccionar")}
             </p>
             <input
               type="file"
@@ -402,13 +406,13 @@ function UploadView({
           <div className="h-0.5 bg-rule overflow-hidden rounded">
             <div className="h-full bg-stamp w-1/3 animate-pulse" />
           </div>
-          <p className="mt-2 text-sm text-ink-muted">Analizando contexto...</p>
+          <p className="mt-2 text-sm text-ink-muted">{t("Analizando contexto...")}</p>
         </div>
       )}
 
       {summary && !analyzing && (
         <div className="mt-8">
-          <h2 className="font-display text-xl font-semibold">Lo que PostulAI leyó</h2>
+          <h2 className="font-display text-xl font-semibold">{t("Lo que PostulAI leyó")}</h2>
           <div className="mt-4 bg-surface border border-rule/40 rounded-xl divide-y divide-rule/30">
             {summary.sections.map((section) => (
               <div
@@ -458,9 +462,9 @@ function UploadView({
       {/* CV upload (optional) */}
       {file && (
         <div className="mt-8">
-          <h2 className="font-display text-xl font-semibold">CV (opcional)</h2>
+          <h2 className="font-display text-xl font-semibold">{t("CV (opcional)")}</h2>
           <p className="mt-2 text-sm text-ink-muted">
-            Sube tu CV en PDF y PostulAI te dirá qué cambiar para cada convocatoria.
+            {t("Sube tu CV en PDF y PostulAI te dirá qué cambiar para cada convocatoria.")}
           </p>
           <div className="mt-4 bg-surface border border-rule/40 rounded-xl p-5">
             {cvFile ? (
@@ -470,13 +474,13 @@ function UploadView({
                   <div>
                     <p className="font-mono text-sm font-medium">{cvFile.name}</p>
                     <p className="text-xs text-ink-muted">
-                      {cvFile.text.split(/\s+/).length} palabras extraídas
+                      {cvFile.text.split(/\s+/).length} {t("palabras extraídas")}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <label className="text-sm text-stamp cursor-pointer hover:underline">
-                    Reemplazar
+                    {t("Reemplazar")}
                     <input
                       type="file"
                       accept=".pdf"
@@ -491,7 +495,7 @@ function UploadView({
                     onClick={() => setCvFile(null)}
                     className="text-sm text-ink-muted hover:text-alert"
                   >
-                    Quitar
+                    {t("Quitar")}
                   </button>
                 </div>
               </div>
@@ -502,10 +506,10 @@ function UploadView({
                 </div>
                 <div>
                   <p className="text-sm font-medium">
-                    {cvLoading ? "Leyendo PDF..." : "Subir CV en PDF"}
+                    {cvLoading ? t("Leyendo PDF...") : t("Subir CV en PDF")}
                   </p>
                   <p className="text-xs text-ink-muted">
-                    PostulAI analizará tu CV contra cada convocatoria y te recomendará qué mejorar.
+                    {t("PostulAI analizará tu CV contra cada convocatoria y te recomendará qué mejorar.")}
                   </p>
                 </div>
                 <input
@@ -534,11 +538,10 @@ function UploadView({
           />
           <div>
             <p className="text-sm font-medium">
-              Recordar mi contexto en este dispositivo
+              {t("Recordar mi contexto en este dispositivo")}
             </p>
             <p className="text-sm text-ink-muted font-mono">
-              Se guarda solo en este navegador. Puedes borrarlo cuando quieras
-              desde ajustes.
+              {t("Se guarda solo en este navegador. Puedes borrarlo cuando quieras desde ajustes.")}
             </p>
           </div>
         </div>
@@ -552,7 +555,7 @@ function UploadView({
           disabled={!file}
           onClick={handleContinue}
         >
-          Continuar
+          {t("Continuar")}
         </Button>
       </div>
     </>

@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button";
 import { SessionBar } from "@/components/session-bar";
 import { OpportunityRow } from "@/components/opportunity-row";
 import { SourceQueueItem } from "@/components/source-queue-item";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleToggle } from "@/components/locale-toggle";
+import { useT } from "@/lib/i18n";
 import { useSession } from "@/stores/session";
 import { useBatch } from "@/stores/batch";
 import { estimateBatchCost, formatCost } from "@/lib/ai/cost";
@@ -64,6 +67,8 @@ export default function LotePage() {
     if (!context) router.replace("/contexto");
     else if (connection.status !== "connected") router.replace("/conectar");
   }, [context, connection.status, router]);
+
+  const t = useT();
 
   if (!context || connection.status !== "connected") return null;
 
@@ -143,10 +148,10 @@ export default function LotePage() {
         <main className="flex-1 px-6 py-10">
           <div className="mx-auto max-w-[1100px]">
             <h1 className="font-display text-2xl font-bold">
-              ¿A qué estás postulando?
+              {t("¿A qué estás postulando?")}
             </h1>
             <p className="mt-2 text-ink-muted">
-              Elige el tipo de oportunidad y agrega tus convocatorias. Cada sector usa una estrategia de análisis distinta.
+              {t("Elige el tipo de oportunidad y agrega tus convocatorias. Cada sector usa una estrategia de análisis distinta.")}
             </p>
 
             {/* Category cards */}
@@ -166,7 +171,7 @@ export default function LotePage() {
                   >
                     <Icon className={`size-5 ${selected ? "text-stamp" : "text-ink-muted"}`} />
                     <p className={`mt-2 text-sm font-medium ${selected ? "text-stamp" : "text-ink"}`}>
-                      {c.label}
+                      {t(c.label)}
                     </p>
                     <p className="text-[11px] text-ink-muted leading-snug mt-0.5">
                       {c.desc}
@@ -188,7 +193,7 @@ export default function LotePage() {
                   <ActiveIcon className="size-4.5 text-stamp" />
                 </div>
                 <div>
-                  <h2 className="font-medium">{activeCat.label}</h2>
+                  <h2 className="font-medium">{t(activeCat.label)}</h2>
                   <p className="text-xs text-ink-muted">{activeCat.desc}</p>
                 </div>
               </div>
@@ -206,7 +211,7 @@ export default function LotePage() {
                   className="flex items-center gap-2 px-4 py-2 text-sm border border-rule/40 rounded-lg hover:border-rule transition-colors"
                 >
                   <FileText className="size-4 text-ink-muted" />
-                  {pdfLoading ? "Leyendo..." : "Subir PDF"}
+                  {pdfLoading ? t("Leyendo...") : t("Subir PDF")}
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -220,7 +225,7 @@ export default function LotePage() {
                   onClick={() => setShowPasteModal(true)}
                   className="flex items-center gap-2 px-4 py-2 text-sm border border-rule/40 rounded-lg hover:border-rule transition-colors"
                 >
-                  Pegar texto
+                  {t("Pegar texto")}
                 </button>
               </div>
 
@@ -263,7 +268,7 @@ export default function LotePage() {
                         key={c.value}
                         className="px-2.5 py-1 text-xs font-medium rounded-lg bg-stamp/8 text-stamp"
                       >
-                        {c.count} {c.label}
+                        {c.count} {t(c.label)}
                       </span>
                     ))}
                 </div>
@@ -279,7 +284,7 @@ export default function LotePage() {
                 onClick={handleAnalyze}
                 className="gap-2"
               >
-                ANALIZAR {totalSources > 0 ? `LAS ${totalSources}` : ""}{" "}
+                {t("ANALIZAR")} {totalSources > 0 ? `(${totalSources})` : ""}{" "}
                 <ArrowRight className="size-4" />
               </Button>
             </div>
@@ -349,7 +354,7 @@ export default function LotePage() {
                     Puedes entrar mientras terminan las demás
                   </p>
                   <Button onClick={() => setView("results")}>
-                    Ver resultados
+                    {t("Ver resultados")}
                   </Button>
                 </div>
               )}
@@ -367,7 +372,7 @@ export default function LotePage() {
         <div className="mx-auto max-w-[1100px]">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <h1 className="font-display text-2xl font-bold">
-              {opportunities.length} convocatorias analizadas
+              {opportunities.length} {t("convocatorias analizadas")}
             </h1>
             <div className="flex items-center gap-3 flex-wrap">
               {(["fit", "deadline", "effort"] as SortBy[]).map((key) => (
@@ -381,15 +386,15 @@ export default function LotePage() {
                   }`}
                 >
                   {key === "fit"
-                    ? "Encaje"
+                    ? t("Encaje")
                     : key === "deadline"
-                      ? "Fecha límite"
-                      : "Esfuerzo"}
+                      ? t("Fecha límite")
+                      : t("Esfuerzo")}
                 </button>
               ))}
               <Button variant="outline" onClick={handleAddMore} className="gap-1">
                 <Plus className="size-4" />
-                AGREGAR MÁS
+                {t("AGREGAR MÁS")}
               </Button>
               {opportunities.length > 0 && (
                 <Button
@@ -409,7 +414,7 @@ export default function LotePage() {
                   }}
                 >
                   <Download className="size-4" />
-                  DESCARGAR
+                  {t("DESCARGAR")}
                 </Button>
               )}
             </div>
@@ -434,7 +439,7 @@ export default function LotePage() {
                 <div key={c.value}>
                   <div className="flex items-center gap-2.5 mb-4">
                     <Icon className="size-4.5 text-stamp" />
-                    <h2 className="font-display text-lg font-bold">{c.label}</h2>
+                    <h2 className="font-display text-lg font-bold">{t(c.label)}</h2>
                     <span className="text-xs text-ink-muted">
                       {catOpps.length} resultado{catOpps.length !== 1 ? "s" : ""}
                     </span>
@@ -467,23 +472,21 @@ function Shell({
   connection: import("@/lib/types").AiConnection;
   children: React.ReactNode;
 }) {
+  const t = useT();
   return (
     <div className="flex flex-col min-h-full">
       <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
-            <span className="text-white text-[11px] font-bold">P</span>
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight">
-            PostulAI
-          </span>
+          <img src="/logo.svg" alt="PostulAI" className="h-10" />
         </Link>
         <div className="flex items-center gap-4">
           {connection.credit && (
             <span className="font-mono text-xs text-ink-muted">
-              Creditos: {connection.credit.remaining.toFixed(2)}
+              {t("Créditos restantes")}: {connection.credit.remaining.toFixed(2)}
             </span>
           )}
+          <LocaleToggle />
+          <ThemeToggle />
           <Link href="/ajustes" className="text-ink-muted hover:text-ink transition-colors duration-200">
             <Settings className="size-5" />
           </Link>

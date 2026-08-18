@@ -3,6 +3,9 @@
 import { use, useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleToggle } from "@/components/locale-toggle";
+import { useT } from "@/lib/i18n";
 import {
   Settings,
   ArrowLeft,
@@ -37,6 +40,7 @@ export default function PrepararPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
+  const t = useT();
   const { connection, context } = useSession();
   const opportunities = useBatch((s) => s.opportunities);
   const phase = useDraft((s) => s.phase);
@@ -101,6 +105,7 @@ function QuestionLoadingView({
   opportunityId: string;
   oppTitle: string;
 }) {
+  const t = useT();
   const [rawText, setRawText] = useState("");
   const [detected, setDetected] = useState<
     { text: string; raw: string; limit: { value: number; unit: LimitUnit } | null }[]
@@ -190,7 +195,7 @@ function QuestionLoadingView({
         </div>
 
         <h1 className="mt-6 font-display text-2xl md:text-3xl font-bold">
-          Pega las preguntas del formulario
+          {t("Pega las preguntas del formulario")}
         </h1>
         <p className="mt-2 text-ink-muted">
           PostulAI detecta solo los límites de cada una. Corrígelos si se
@@ -634,19 +639,23 @@ function AnswerEditor({
           <div className="text-center py-12">
             <Button onClick={onGenerate}>Generar respuesta</Button>
           </div>
+        ) : answer.status === "generating" ? (
+          <div className="w-full min-h-[200px] p-4 border border-rule rounded bg-paper flex flex-col items-center justify-center gap-4">
+            <Loader2 className="size-8 text-stamp animate-spin" />
+            <p className="text-sm text-ink-muted animate-pulse">Generando respuesta...</p>
+          </div>
         ) : (
           <>
             <textarea
               value={answer.text}
               onChange={(e) => onEdit(e.target.value)}
-              disabled={answer.status === "generating"}
               className={`w-full min-h-[200px] p-4 text-sm border rounded bg-paper resize-y leading-relaxed font-body ${
                 answer.status === "over_limit"
                   ? "border-alert"
                   : answer.status === "approved"
                     ? "border-confirm"
                     : "border-rule"
-              } ${answer.status === "generating" ? "opacity-70" : ""}`}
+              }`}
               style={{ fieldSizing: "content" } as React.CSSProperties}
             />
 
@@ -663,7 +672,7 @@ function AnswerEditor({
             )}
 
             {/* Answer quality scores */}
-            {score && answer.status !== "generating" && (
+            {score && (
               <div className="mt-3 flex gap-4">
                 {(
                   [
@@ -769,10 +778,7 @@ function AnswerEditor({
 
               <Button
                 onClick={onApprove}
-                disabled={
-                  !answer.withinLimit ||
-                  answer.status === "generating"
-                }
+                disabled={!answer.withinLimit}
                 className={`gap-2 ${
                   answer.status === "approved"
                     ? "bg-confirm hover:bg-confirm/90"
@@ -1205,23 +1211,21 @@ function Shell({
   connection: import("@/lib/types").AiConnection;
   children: React.ReactNode;
 }) {
+  const t = useT();
   return (
     <div className="flex flex-col min-h-full">
       <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
-            <span className="text-white text-[11px] font-bold">P</span>
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight">
-            PostulAI
-          </span>
+          <img src="/logo.svg" alt="PostulAI" className="h-10" />
         </Link>
         <div className="flex items-center gap-4">
           {connection.credit && (
             <span className="font-mono text-xs text-ink-muted">
-              Creditos: {connection.credit.remaining.toFixed(2)}
+              {t("Créditos restantes")}: {connection.credit.remaining.toFixed(2)}
             </span>
           )}
+          <LocaleToggle />
+          <ThemeToggle />
           <Link href="/ajustes" className="text-ink-muted hover:text-ink transition-colors duration-200">
             <Settings className="size-5" />
           </Link>

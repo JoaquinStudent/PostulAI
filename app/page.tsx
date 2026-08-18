@@ -23,6 +23,9 @@ import {
   MessageCircle,
   FolderGit2,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleToggle } from "@/components/locale-toggle";
+import { useT } from "@/lib/i18n";
 
 function FadeIn({
   children,
@@ -57,7 +60,7 @@ function GlassCard({
 }) {
   return (
     <div
-      className={`relative rounded-2xl border border-white/30 bg-white/50 backdrop-blur-xl shadow-[0_2px_24px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.6)] ${className}`}
+      className={`relative rounded-2xl border border-rule/20 bg-surface/50 backdrop-blur-xl shadow-[0_2px_24px_rgba(0,0,0,0.04)] ${className}`}
     >
       {children}
     </div>
@@ -65,23 +68,19 @@ function GlassCard({
 }
 
 export default function Home() {
+  const t = useT();
   return (
     <div className="flex flex-col min-h-full overflow-x-hidden">
       {/* ─── NAV ─── */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 xl:px-16 h-14 xl:h-16 glass border-b border-white/20">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-stamp rounded-[10px] flex items-center justify-center shadow-sm">
-            <span className="text-white text-xs font-bold">P</span>
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight">
-            PostulAI
-          </span>
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 xl:px-16 py-2 glass border-b border-rule/20">
+        <div className="flex items-center">
+          <img src="/logo.svg" alt="PostulAI" className="h-10" />
         </div>
         <nav className="hidden md:flex items-center gap-6 xl:gap-8">
           {[
-            ["#como-funciona", "Como funciona"],
-            ["#features", "Funciones"],
-            ["#seguridad", "Seguridad"],
+            ["#como-funciona", t("Cómo funciona")],
+            ["#features", t("Funciones")],
+            ["#seguridad", t("Seguridad")],
           ].map(([href, label]) => (
             <a
               key={href}
@@ -91,19 +90,25 @@ export default function Home() {
               {label}
             </a>
           ))}
+          <LocaleToggle />
+          <ThemeToggle />
           <Link
             href="/contexto"
             className="inline-flex items-center justify-center h-9 px-5 rounded-full bg-stamp text-white text-sm font-medium hover:bg-stamp/90 active:scale-[0.97] transition-all duration-200"
           >
-            Empezar gratis
+            {t("Empezar gratis")}
           </Link>
         </nav>
-        <Link
-          href="/contexto"
-          className="md:hidden inline-flex items-center justify-center h-9 px-5 rounded-full bg-stamp text-white text-sm font-medium active:scale-[0.97]"
-        >
-          Empezar
-        </Link>
+        <div className="md:hidden flex items-center gap-2">
+          <LocaleToggle />
+          <ThemeToggle />
+          <Link
+            href="/contexto"
+            className="inline-flex items-center justify-center h-9 px-5 rounded-full bg-stamp text-white text-sm font-medium active:scale-[0.97]"
+          >
+            {t("Empezar")}
+          </Link>
+        </div>
       </header>
 
       {/* ─── HERO ─── */}
@@ -120,11 +125,11 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, ease: [0.2, 0, 0, 1] }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-stamp/15 bg-white/60 backdrop-blur-sm mb-8"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-stamp/15 bg-surface/60 backdrop-blur-sm mb-8"
             >
               <Sparkles className="size-3.5 text-stamp" />
               <span className="text-xs font-medium tracking-wide text-stamp">
-                IA que trabaja para ti
+                {t("IA que trabaja para ti")}
               </span>
             </motion.div>
 
@@ -134,9 +139,9 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1, ease: [0.2, 0, 0, 1] }}
               className="font-display text-[44px] md:text-[56px] lg:text-[64px] xl:text-[76px] 2xl:text-[88px] font-bold leading-[1.02] tracking-[-0.04em] text-ink"
             >
-              Tu copiloto
+              {t("Tu copiloto")}
               <br />
-              <span className="text-stamp">para postulaciones.</span>
+              <span className="text-stamp">{t("para postulaciones.")}</span>
             </motion.h1>
 
             <motion.p
@@ -145,8 +150,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2, ease: [0.2, 0, 0, 1] }}
               className="mt-6 text-lg md:text-xl xl:text-[22px] leading-relaxed text-ink-muted max-w-xl lg:max-w-none"
             >
-              Analiza convocatorias, evalua tu encaje, mejora tu CV o portafolio,
-              prepara tu pitch y redacta respuestas con evidencia real.
+              {t("Analiza convocatorias, evalúa tu encaje, mejora tu CV o portafolio, prepara tu pitch y redacta respuestas con evidencia real.")}
             </motion.p>
 
             <motion.div
@@ -159,14 +163,14 @@ export default function Home() {
                 href="/contexto"
                 className="inline-flex items-center justify-center gap-2 h-14 px-10 rounded-full bg-stamp text-white font-medium text-base hover:bg-stamp/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,113,227,0.3)]"
               >
-                Empezar ahora
+                {t("Empezar ahora")}
                 <ArrowRight className="size-4" />
               </Link>
               <a
                 href="#como-funciona"
-                className="inline-flex items-center justify-center h-14 px-10 rounded-full border border-rule/40 bg-white/60 backdrop-blur-sm text-ink font-medium text-base hover:bg-white/80 active:scale-[0.97] transition-all duration-200"
+                className="inline-flex items-center justify-center h-14 px-10 rounded-full border border-rule/40 bg-surface/60 backdrop-blur-sm text-ink font-medium text-base hover:bg-surface/80 active:scale-[0.97] transition-all duration-200"
               >
-                Ver como funciona
+                {t("Ver cómo funciona")}
               </a>
             </motion.div>
 
@@ -176,7 +180,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="mt-5 text-xs text-ink-muted/60 tracking-wide"
             >
-              Sin registro · Sin servidor · Tu clave API, tu control
+              {t("Sin registro · Sin servidor · Tu clave API, tu control")}
             </motion.p>
           </div>
 
@@ -195,9 +199,9 @@ export default function Home() {
 
             <div className="grid grid-cols-3 gap-3">
               {[
-                { value: "85%", label: "Menos tiempo", sub: "6 min vs 40 min" },
-                { value: "STAR", label: "Metodo estandar", sub: "Situacion + Resultado" },
-                { value: "100%", label: "Privacidad", sub: "Todo en tu navegador" },
+                { value: "85%", label: t("Menos tiempo"), sub: "6 min vs 40 min" },
+                { value: "STAR", label: t("Método estándar"), sub: t("Situación + Resultado") },
+                { value: "100%", label: t("Privacidad"), sub: t("Todo en tu navegador") },
               ].map((stat) => (
                 <GlassCard key={stat.label} className="p-4 xl:p-5 text-center">
                   <p className="font-display text-xl xl:text-2xl font-bold text-stamp">
@@ -227,7 +231,7 @@ export default function Home() {
               ].map((type) => (
                 <div key={type} className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-confirm" />
-                  <span className="text-sm font-medium text-ink/80">{type}</span>
+                  <span className="text-sm font-medium text-ink/80">{t(type)}</span>
                 </div>
               ))}
             </div>
@@ -240,14 +244,13 @@ export default function Home() {
         <div className="w-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto">
           <FadeIn className="text-center mb-16 xl:mb-20">
             <p className="text-sm font-medium text-stamp tracking-wide mb-3">
-              COMO FUNCIONA
+              {t("CÓMO FUNCIONA")}
             </p>
             <h2 className="font-display text-[36px] md:text-[52px] lg:text-[60px] font-bold tracking-[-0.03em] leading-[1.05]">
-              Tres pasos. Cero friccion.
+              {t("Tres pasos. Cero fricción.")}
             </h2>
             <p className="mt-4 text-ink-muted max-w-lg mx-auto leading-relaxed lg:text-lg">
-              De tener 10 convocatorias abiertas a saber tu encaje, mejorar tu
-              perfil y tener las respuestas listas.
+              {t("De tener 10 convocatorias abiertas a saber tu encaje, mejorar tu perfil y tener las respuestas listas.")}
             </p>
           </FadeIn>
 
@@ -256,20 +259,20 @@ export default function Home() {
               {
                 step: "01",
                 icon: FileText,
-                title: "Sube tu perfil",
-                desc: "Tu contexto profesional y CV o portafolio. PostulAI lo usa como unica fuente de verdad — nunca inventa datos.",
+                title: t("Sube tu perfil"),
+                desc: t("Tu contexto profesional y CV o portafolio. PostulAI lo usa como única fuente de verdad — nunca inventa datos."),
               },
               {
                 step: "02",
                 icon: Link2,
-                title: "Agrega convocatorias",
-                desc: "URLs, PDFs o texto pegado. Extrae requisitos, evalua tu encaje y te dice que mejorar en tu perfil.",
+                title: t("Agrega convocatorias"),
+                desc: t("URLs, PDFs o texto pegado. Extrae requisitos, evalúa tu encaje y te dice qué mejorar en tu perfil."),
               },
               {
                 step: "03",
                 icon: PenTool,
-                title: "Prepara y postula",
-                desc: "Pitch personalizado, tips de entrevista, mejoras de CV o portafolio, y respuestas listas para copiar.",
+                title: t("Prepara y postula"),
+                desc: t("Pitch personalizado, tips de entrevista, mejoras de CV o portafolio, y respuestas listas para copiar."),
               },
             ].map((item, i) => (
               <FadeIn key={item.step} delay={i * 0.1}>
@@ -302,14 +305,13 @@ export default function Home() {
         <div className="relative w-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto">
           <FadeIn className="text-center mb-16 xl:mb-20">
             <p className="text-sm font-medium text-stamp tracking-wide mb-3">
-              FUNCIONES
+              {t("FUNCIONES")}
             </p>
             <h2 className="font-display text-[36px] md:text-[52px] lg:text-[60px] font-bold tracking-[-0.03em] leading-[1.05]">
-              Mas que rellenar campos
+              {t("Más que rellenar campos")}
             </h2>
             <p className="mt-4 text-ink-muted max-w-lg mx-auto leading-relaxed lg:text-lg">
-              Analisis por sector, coaching de perfil y respuestas que venden
-              tu experiencia real con precision.
+              {t("Análisis por sector, coaching de perfil y respuestas que venden tu experiencia real con precisión.")}
             </p>
           </FadeIn>
 
@@ -317,33 +319,33 @@ export default function Home() {
             {[
               {
                 icon: Target,
-                title: "Analisis de encaje",
-                desc: "Cruza tu perfil con los criterios de cada convocatoria y te dice tu porcentaje de coincidencia.",
+                title: t("Análisis de encaje"),
+                desc: t("Cruza tu perfil con los criterios de cada convocatoria y te dice tu porcentaje de coincidencia."),
               },
               {
                 icon: FolderGit2,
-                title: "CV o portafolio",
-                desc: "Para empleos y becas mejora tu CV. Para hackathons y aceleradoras te recomienda proyectos concretos.",
+                title: t("CV o portafolio"),
+                desc: t("Para empleos y becas mejora tu CV. Para hackathons y aceleradoras te recomienda proyectos concretos."),
               },
               {
                 icon: Mic,
-                title: "Elevator pitch",
-                desc: "Pitch personalizado con tus datos reales, adaptado al sector. Estructura lista para practicar.",
+                title: t("Elevator pitch"),
+                desc: t("Pitch personalizado con tus datos reales, adaptado al sector. Estructura lista para practicar."),
               },
               {
                 icon: MessageCircle,
-                title: "Tips de entrevista",
-                desc: "Consejos especificos para cada convocatoria basados en tus fortalezas y gaps reales.",
+                title: t("Tips de entrevista"),
+                desc: t("Consejos específicos para cada convocatoria basados en tus fortalezas y gaps reales."),
               },
               {
                 icon: Sparkles,
-                title: "Coaching de perfil",
-                desc: "Certificaciones, habilidades y experiencias alcanzables que mejoran tu encaje con cada oportunidad.",
+                title: t("Coaching de perfil"),
+                desc: t("Certificaciones, habilidades y experiencias alcanzables que mejoran tu encaje con cada oportunidad."),
               },
               {
                 icon: Ruler,
-                title: "Respuestas calibradas",
-                desc: "Metodo STAR con evidencia real, ajustadas al limite exacto de cada campo. Listas para copiar.",
+                title: t("Respuestas calibradas"),
+                desc: t("Método STAR con evidencia real, ajustadas al límite exacto de cada campo. Listas para copiar."),
               },
             ].map((item, i) => (
               <FadeIn key={i} delay={(i % 3) * 0.1}>
@@ -375,17 +377,16 @@ export default function Home() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-confirm/15 bg-confirm/5 mb-5">
               <Shield className="size-3.5 text-confirm" />
               <span className="text-xs font-medium tracking-wide text-confirm">
-                Privacidad por diseno
+                {t("Privacidad por diseño")}
               </span>
             </div>
             <h2 className="font-display text-[36px] md:text-[52px] lg:text-[60px] font-bold tracking-[-0.03em] leading-[1.05]">
-              Tu clave API
+              {t("Tu clave API")}
               <br />
-              nunca toca un servidor
+              {t("nunca toca un servidor")}
             </h2>
             <p className="mt-5 text-ink-muted max-w-lg mx-auto leading-relaxed lg:text-lg">
-              PostulAI es 100% cliente. Tu clave va directo de tu navegador a
-              OpenRouter. No hay backend, no hay proxy.
+              {t("PostulAI es 100% cliente. Tu clave va directo de tu navegador a OpenRouter. No hay backend, no hay proxy.")}
             </p>
           </FadeIn>
 
@@ -393,23 +394,23 @@ export default function Home() {
             {[
               {
                 icon: Eye,
-                title: "Sin cuenta ni registro",
-                desc: "No hay base de datos de usuarios. Empiezas directamente.",
+                title: t("Sin cuenta ni registro"),
+                desc: t("No hay base de datos de usuarios. Empiezas directamente."),
               },
               {
                 icon: Lock,
-                title: "Cifrado local opcional",
-                desc: "AES-256-GCM en tu navegador. La clave nunca sale en texto plano.",
+                title: t("Cifrado local opcional"),
+                desc: t("AES-256-GCM en tu navegador. La clave nunca sale en texto plano."),
               },
               {
                 icon: Trash2,
-                title: "Sesion temporal",
-                desc: "Al cerrar la pestana, contexto, clave y respuestas desaparecen.",
+                title: t("Sesión temporal"),
+                desc: t("Al cerrar la pestaña, contexto, clave y respuestas desaparecen."),
               },
               {
                 icon: Shield,
-                title: "Codigo abierto",
-                desc: "Todo el codigo es auditable. Sin telemetria, sin tracking.",
+                title: t("Código abierto"),
+                desc: t("Todo el código es auditable. Sin telemetría, sin tracking."),
               },
             ].map((item, i) => (
               <FadeIn key={item.title} delay={i * 0.08}>
@@ -440,22 +441,22 @@ export default function Home() {
             </div>
             <div className="relative">
               <h2 className="font-display text-[32px] md:text-[46px] lg:text-[54px] font-bold tracking-[-0.03em] leading-[1.05]">
-                Mejora tu perfil.
+                {t("Mejora tu perfil.")}
                 <br />
-                Postula con confianza.
+                {t("Postula con confianza.")}
               </h2>
               <p className="mt-5 text-white/60 max-w-md mx-auto leading-relaxed lg:text-lg">
-                PostulAI analiza, te prepara y redacta. Tu revisas y envias.
+                {t("PostulAI analiza, te prepara y redacta. Tú revisas y envías.")}
               </p>
               <Link
                 href="/contexto"
-                className="inline-flex items-center justify-center gap-2 h-14 px-10 mt-10 rounded-full bg-white text-stamp font-medium text-base hover:bg-white/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
+                className="inline-flex items-center justify-center gap-2 h-14 px-10 mt-10 rounded-full bg-surface text-stamp font-medium text-base hover:bg-surface/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
               >
-                Empezar ahora
+                {t("Empezar ahora")}
                 <ArrowRight className="size-4" />
               </Link>
               <p className="mt-4 text-xs text-white/40 tracking-wide">
-                Solo necesitas una clave de OpenRouter
+                {t("Solo necesitas una clave de OpenRouter")}
               </p>
             </div>
           </div>
@@ -465,19 +466,14 @@ export default function Home() {
       {/* ─── FOOTER ─── */}
       <footer className="px-6 md:px-10 xl:px-16 2xl:px-24 py-10 xl:py-12 border-t border-rule/20">
         <div className="max-w-[1400px] 2xl:max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 bg-stamp rounded-[8px] flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold">P</span>
-            </div>
-            <span className="font-display text-sm font-bold tracking-tight">
-              PostulAI
-            </span>
+          <div className="flex items-center gap-3">
+            <img src="/logo.svg" alt="PostulAI" className="h-10" />
             <span className="text-ink-muted text-xs">
-              — Tu copiloto de postulaciones con IA
+              {t("— Tu copiloto de postulaciones con IA")}
             </span>
           </div>
           <p className="text-xs text-ink-muted/60 tracking-wide">
-            Todo ocurre en tu navegador · Nada se guarda al cerrar
+            {t("Todo ocurre en tu navegador · Nada se guarda al cerrar")}
           </p>
         </div>
       </footer>

@@ -3,7 +3,10 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, AlertTriangle, Zap, PenTool, Check, ChevronDown } from "lucide-react";
+import { Eye, EyeOff, AlertTriangle, Zap, PenTool, Check, ChevronDown, Settings } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleToggle } from "@/components/locale-toggle";
+import { useT } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -93,38 +96,39 @@ export default function ConectarPage() {
     else if (connection.status === "connected") router.replace("/lote");
   }, [context, connection.status, router]);
 
+  const t = useT();
+
   if (!context || connection.status === "connected") return null;
 
   return (
     <div className="flex flex-col min-h-full">
       <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
-            <span className="text-white text-[11px] font-bold">P</span>
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight">
-            PostulAI
-          </span>
+          <img src="/logo.svg" alt="PostulAI" className="h-10" />
         </Link>
         <div className="hidden sm:flex items-center gap-1.5 text-xs tracking-wide">
-          <span className="text-confirm font-medium">✓ Contexto</span>
+          <span className="text-confirm font-medium">✓ {t("Contexto")}</span>
           <span className="text-ink-muted/40 mx-1">—</span>
           <span className="px-2.5 py-0.5 rounded-full bg-stamp text-white text-[11px] font-medium">2</span>
-          <span className="text-stamp font-medium">Conectar</span>
+          <span className="text-stamp font-medium">{t("Conectar")}</span>
           <span className="text-ink-muted/40 mx-1">—</span>
-          <span className="text-ink-muted/60">3 Analizar</span>
+          <span className="text-ink-muted/60">3 {t("Analizar")}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <LocaleToggle />
+          <ThemeToggle />
         </div>
       </header>
 
       <main className="flex-1 flex justify-center px-6 py-12">
         <div className="w-full max-w-[800px]">
           <h1 className="font-display text-3xl md:text-[36px] font-bold leading-tight tracking-[-0.02em]">
-            {step === "key" ? "Conecta tu proveedor de IA" : "Elige tu plan de consumo"}
+            {step === "key" ? t("Conecta tu proveedor de IA") : t("Elige tu plan de consumo")}
           </h1>
           <p className="mt-3 text-ink-muted leading-relaxed">
             {step === "key"
-              ? "Tú pones la clave y tú pagas el consumo. PostulAI no cobra ni intermedia."
-              : "Elige qué modelos usar. Análisis = extracción y evaluación. Redacción = generar respuestas."}
+              ? t("Tú pones la clave y tú pagas el consumo. PostulAI no cobra ni intermedia.")
+              : t("Elige qué modelos usar. Análisis = extracción y evaluación. Redacción = generar respuestas.")}
           </p>
 
           {step === "key" ? (
@@ -193,10 +197,11 @@ function KeyStep({
   error: string | null;
   onSubmit: () => void;
 }) {
+  const t = useT();
   return (
     <>
       <div className="mt-8 bg-surface border border-rule/40 rounded-xl p-6">
-        <h2 className="font-medium text-lg">Conectar con OpenRouter</h2>
+        <h2 className="font-medium text-lg">{t("Conectar con OpenRouter")}</h2>
         <p className="mt-2 text-sm text-ink-muted">
           Es el método recomendado. El acceso se revoca cuando quieras y no
           necesitas manipular claves sensibles.
@@ -216,7 +221,7 @@ function KeyStep({
       </div>
 
       <div className="bg-surface border border-rule/40 rounded-xl p-6">
-        <h2 className="font-medium text-lg">Pegar una clave manualmente</h2>
+        <h2 className="font-medium text-lg">{t("Pegar una clave manualmente")}</h2>
 
         <div className="mt-4 relative">
           <Input
@@ -236,15 +241,15 @@ function KeyStep({
         </div>
 
         <div className="mt-3 p-3 bg-marker/10 border border-marker/20 rounded-lg flex gap-2 items-start">
-          <AlertTriangle className="size-4 text-marker mt-0.5 shrink-0" style={{ color: "#8B7500" }} />
-          <p className="font-mono text-[11px] uppercase tracking-[0.08em] leading-relaxed" style={{ color: "#8B7500" }}>
+          <AlertTriangle className="size-4 text-marker mt-0.5 shrink-0" />
+          <p className="font-mono text-[11px] uppercase tracking-[0.08em] leading-relaxed text-marker">
             Crea una clave nueva con límite de 5 dólares. Si algo sale mal
             pierdes 5 dólares, no tu cuenta.
           </p>
         </div>
 
         <div className="mt-6 pt-6 border-t border-rule">
-          <p className="text-sm font-medium">Dónde guardar la clave</p>
+          <p className="text-sm font-medium">{t("Dónde guardar la clave")}</p>
           <RadioGroup
             value={storageMode}
             onValueChange={(v) => setLocalStorageMode(v as StorageMode)}
@@ -254,8 +259,8 @@ function KeyStep({
               <RadioGroupItem value="memory" className="mt-0.5" />
               <div>
                 <p className="text-sm font-medium">
-                  Solo durante esta sesión{" "}
-                  <span className="text-ink-muted font-normal">(recomendado)</span>
+                  {t("Solo durante esta sesión")}{" "}
+                  <span className="text-ink-muted font-normal">{t("(recomendado)")}</span>
                 </p>
                 <p className="text-sm text-ink-muted">
                   Se elimina inmediatamente al salir de la aplicación.
@@ -265,7 +270,7 @@ function KeyStep({
             <label className="flex items-start gap-3 cursor-pointer">
               <RadioGroupItem value="session" className="mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Hasta cerrar la pestaña</p>
+                <p className="text-sm font-medium">{t("Hasta cerrar la pestaña")}</p>
                 <p className="text-sm text-ink-muted">
                   Se mantiene activa mientras navegues en esta ventana.
                 </p>
@@ -275,7 +280,7 @@ function KeyStep({
               <RadioGroupItem value="vault" className="mt-0.5" />
               <div>
                 <p className="text-sm font-medium">
-                  Guardar cifrada con una contraseña
+                  {t("Guardar cifrada con una contraseña")}
                 </p>
                 <p className="text-sm text-ink-muted">
                   Se guarda en este navegador protegida por una clave maestra
@@ -312,7 +317,7 @@ function KeyStep({
           disabled={!key_.trim() || loading}
           onClick={onSubmit}
         >
-          {loading ? "Validando..." : "Siguiente"}
+          {loading ? t("Validando...") : t("Siguiente")}
         </Button>
       </div>
     </>
@@ -344,6 +349,7 @@ function ModelStep({
   onBack: () => void;
   onConfirm: () => void;
 }) {
+  const t = useT();
   const combo = RECOMMENDED_COMBOS[selectedCombo];
   const postulationsWithCredit = credit
     ? Math.floor(credit.remaining / parseCost(combo.costEstimate))
@@ -370,7 +376,7 @@ function ModelStep({
             >
               {i === 1 && (
                 <span className="absolute -top-2.5 right-4 px-2 py-0.5 text-[10px] font-bold uppercase bg-stamp text-white rounded-full">
-                  Recomendado
+                  {t("Recomendado")}
                 </span>
               )}
               <p className={`font-display text-lg font-bold ${selected ? "text-stamp" : ""}`}>
@@ -413,8 +419,8 @@ function ModelStep({
           className="flex items-center justify-between w-full text-left"
         >
           <div>
-            <p className="text-sm font-medium">Personalizar modelos</p>
-            <p className="text-xs text-ink-muted">Elige combinaciones específicas</p>
+            <p className="text-sm font-medium">{t("Personalizar modelos")}</p>
+            <p className="text-xs text-ink-muted">{t("Elige combinaciones específicas")}</p>
           </div>
           <ChevronDown className={`size-4 text-ink-muted transition-transform ${customMode ? "rotate-180" : ""}`} />
         </button>
@@ -424,7 +430,7 @@ function ModelStep({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Zap className="size-4 text-confirm" />
-                <p className="text-sm font-medium">Modelo de análisis</p>
+                <p className="text-sm font-medium">{t("Modelo de análisis")}</p>
               </div>
               <CuratedSelect
                 models={getAnalysisModels()}
@@ -435,7 +441,7 @@ function ModelStep({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <PenTool className="size-4 text-stamp" />
-                <p className="text-sm font-medium">Modelo de redacción</p>
+                <p className="text-sm font-medium">{t("Modelo de redacción")}</p>
               </div>
               <CuratedSelect
                 models={getGenerationModels()}
@@ -470,10 +476,10 @@ function ModelStep({
 
       <div className="flex gap-3">
         <Button variant="outline" onClick={onBack} className="flex-1">
-          Volver
+          {t("Volver")}
         </Button>
         <Button onClick={onConfirm} className="flex-1">
-          Empezar a postular
+          {t("Empezar a postular")}
         </Button>
       </div>
     </div>

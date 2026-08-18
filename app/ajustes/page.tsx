@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleToggle } from "@/components/locale-toggle";
+import { useT } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -39,21 +42,22 @@ export default function AjustesPage() {
     router.push("/");
   };
 
+  const t = useT();
+
   return (
     <div className="flex flex-col min-h-full">
       <header className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-10 h-14 glass border-b border-rule/30">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-6 h-6 bg-stamp rounded-md flex items-center justify-center">
-            <span className="text-white text-[11px] font-bold">P</span>
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight">PostulAI</span>
+          <img src="/logo.svg" alt="PostulAI" className="h-10" />
         </Link>
         <div className="flex items-center gap-4">
           {connection.credit && (
             <span className="font-mono text-xs text-ink-muted">
-              Créditos: {connection.credit.remaining.toFixed(2)}
+              {t("Créditos restantes")}: {connection.credit.remaining.toFixed(2)}
             </span>
           )}
+          <LocaleToggle />
+          <ThemeToggle />
         </div>
       </header>
       <SessionBar />
@@ -62,13 +66,13 @@ export default function AjustesPage() {
         <div className="w-full max-w-[1100px] flex flex-col md:flex-row gap-8">
           {/* Sidebar */}
           <nav className="md:w-56 shrink-0">
-            <h1 className="font-display text-2xl font-bold mb-6">Ajustes</h1>
+            <h1 className="font-display text-2xl font-bold mb-6">{t("Ajustes")}</h1>
             {(
               [
-                ["provider", "Proveedor de IA"],
-                ["context", "Tu contexto"],
-                ["privacy", "Privacidad"],
-              ] as const
+                ["provider", t("Proveedor de IA")],
+                ["context", t("Tu contexto")],
+                ["privacy", t("Privacidad")],
+              ] as ["provider" | "context" | "privacy", string][]
             ).map(([key, label]) => (
               <button
                 key={key}
@@ -137,9 +141,11 @@ function ProviderSection({
   const analysisModels = getAnalysisModels().filter((m, i, arr) => arr.findIndex((x) => x.id === m.id) === i);
   const generationModels = getGenerationModels().filter((m, i, arr) => arr.findIndex((x) => x.id === m.id) === i);
 
+  const t = useT();
+
   return (
     <>
-      <h2 className="font-display text-xl font-semibold">Proveedor de IA</h2>
+      <h2 className="font-display text-xl font-semibold">{t("Proveedor de IA")}</h2>
 
       <div className="mt-6 flex items-center gap-3 flex-wrap">
         <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
@@ -148,7 +154,7 @@ function ProviderSection({
         <span className="font-mono text-sm">{connection.keyMasked || "—"}</span>
         {connection.status === "connected" && (
           <Badge className="bg-confirm/10 text-confirm border-0">
-            Conectada
+            {t("Conectada")}
           </Badge>
         )}
         {connection.status === "connected" && (
@@ -157,13 +163,13 @@ function ProviderSection({
               href="/conectar"
               className="text-sm underline text-ink hover:text-stamp"
             >
-              Reemplazar
+              {t("Reemplazar")}
             </Link>
             <button
               onClick={onDisconnect}
               className="text-sm underline text-alert hover:text-alert/80"
             >
-              Desconectar
+              {t("Desconectar")}
             </button>
           </div>
         )}
@@ -172,7 +178,7 @@ function ProviderSection({
       {connection.credit && (
         <div className="mt-6 pt-6 border-t border-rule">
           <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-            Créditos restantes
+            {t("Créditos restantes")}
           </span>
           <p className="font-display text-4xl font-bold mt-1">
             {connection.credit.remaining.toFixed(0)}
@@ -195,7 +201,7 @@ function ProviderSection({
 
       <div className="mt-6 pt-6 border-t border-rule space-y-5">
         <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
-          Combinaciones recomendadas
+          {t("Combinaciones recomendadas")}
         </span>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -219,15 +225,15 @@ function ProviderSection({
         </div>
 
         <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted block pt-2">
-          O elige por separado
+          {t("O elige por separado")}
         </span>
 
         <div className="bg-surface border border-rule/40 rounded-xl p-5">
           <div className="flex items-center gap-2.5 mb-3">
             <Zap className="size-4 text-confirm" />
             <div>
-              <p className="text-sm font-medium">Modelo de análisis</p>
-              <p className="text-[11px] text-ink-muted">Extracción, encaje, gaps</p>
+              <p className="text-sm font-medium">{t("Modelo de análisis")}</p>
+              <p className="text-[11px] text-ink-muted">{t("Extracción, encaje, gaps")}</p>
             </div>
           </div>
           <select
@@ -247,8 +253,8 @@ function ProviderSection({
           <div className="flex items-center gap-2.5 mb-3">
             <PenTool className="size-4 text-stamp" />
             <div>
-              <p className="text-sm font-medium">Modelo de redacción</p>
-              <p className="text-[11px] text-ink-muted">Generación y refinamiento</p>
+              <p className="text-sm font-medium">{t("Modelo de redacción")}</p>
+              <p className="text-[11px] text-ink-muted">{t("Generación y refinamiento")}</p>
             </div>
           </div>
           <select
@@ -273,9 +279,10 @@ function ContextSection({
 }: {
   context: import("@/lib/types").UserContext | null;
 }) {
+  const t = useT();
   return (
     <>
-      <h2 className="font-display text-xl font-semibold">Tu contexto</h2>
+      <h2 className="font-display text-xl font-semibold">{t("Tu contexto")}</h2>
       {context ? (
         <div className="mt-6 bg-surface border border-rule rounded p-5">
           <div className="flex items-center gap-3">
@@ -318,11 +325,12 @@ function PrivacySection({
   onStorageModeChange: (m: StorageMode) => void;
   onClearAll: () => void;
 }) {
+  const t = useT();
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
     <>
-      <h2 className="font-display text-xl font-semibold">Privacidad</h2>
+      <h2 className="font-display text-xl font-semibold">{t("Privacidad")}</h2>
 
       <div className="mt-6 flex items-start gap-4">
         <Switch disabled />
@@ -369,7 +377,7 @@ function PrivacySection({
 
       {/* Danger zone */}
       <div className="mt-8 border border-alert/30 rounded p-6 bg-alert/5">
-        <h3 className="font-medium text-alert">Borrar todo</h3>
+        <h3 className="font-medium text-alert">{t("Borrar todo")}</h3>
         <p className="mt-2 text-sm text-ink-muted">
           Esto eliminará permanentemente la API Key, tu contexto guardado y
           cerrará la sesión actual de forma inmediata. No se puede deshacer.
@@ -377,10 +385,10 @@ function PrivacySection({
         {confirmDelete ? (
           <div className="mt-4 flex gap-3">
             <Button variant="destructive" onClick={onClearAll}>
-              Confirmar borrado
+              {t("Confirmar borrado")}
             </Button>
             <Button variant="ghost" onClick={() => setConfirmDelete(false)}>
-              Cancelar
+              {t("Cancelar")}
             </Button>
           </div>
         ) : (
@@ -389,7 +397,7 @@ function PrivacySection({
             className="mt-4"
             onClick={() => setConfirmDelete(true)}
           >
-            Borrar todos mis datos
+            {t("Borrar todos mis datos")}
           </Button>
         )}
       </div>

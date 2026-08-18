@@ -41,7 +41,7 @@ export function LimitRulerDemo() {
         Describa un proyecto reciente donde aplicó metodologías ágiles y su
         impacto en la eficiencia del equipo.
       </p>
-      <div className="rounded-xl bg-white/60 border border-rule/20 p-4 min-h-[130px] font-mono text-sm leading-relaxed text-ink">
+      <div className="rounded-xl bg-surface/60 border border-rule/20 p-4 min-h-[130px] font-mono text-sm leading-relaxed text-ink">
         {displayed}
         <span className="inline-block w-[2px] h-4 bg-stamp animate-pulse ml-0.5 align-text-bottom rounded-full" />
       </div>
