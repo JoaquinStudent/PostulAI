@@ -1,4 +1,5 @@
-import type { Opportunity, Question, Answer } from "@/lib/types";
+import type { Opportunity, Question, Answer, ProfileCoach } from "@/lib/types";
+import type { AtsBreakdown } from "@/lib/ai/ats-score";
 
 export function formatMarkdown(
   opp: Opportunity,
@@ -103,6 +104,138 @@ export function downloadFile(
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+export interface BundleData {
+  opp: Opportunity;
+  questions?: Question[];
+  answers?: Record<string, Answer>;
+  coach?: ProfileCoach | null;
+  letter?: string | null;
+  ats?: AtsBreakdown | null;
+}
+
+function formatCoachMd(coach: ProfileCoach): string {
+  const lines: string[] = ["# Mejora tu perfil\n"];
+
+  if (coach.elevatorPitch) {
+    lines.push("## Elevator Pitch\n", coach.elevatorPitch, "");
+  }
+  if (coach.linkedinHeadline) {
+    lines.push("## LinkedIn Headline\n", coach.linkedinHeadline, "");
+  }
+  if (coach.linkedinSummary) {
+    lines.push("## LinkedIn Summary\n", coach.linkedinSummary, "");
+  }
+  if (coach.certifications.length) {
+    lines.push("## Certificaciones\n", ...coach.certifications.map((c) => `- ${c}`), "");
+  }
+  if (coach.skills.length) {
+    lines.push("## Habilidades\n", ...coach.skills.map((s) => `- ${s}`), "");
+  }
+  if (coach.experiences.length) {
+    lines.push("## Experiencias\n", ...coach.experiences.map((e) => `- ${e}`), "");
+  }
+  if (coach.interviewTips.length) {
+    lines.push("## Tips de entrevista\n", ...coach.interviewTips.map((t) => `- ${t}`), "");
+  }
+  if (coach.portfolioProjects.length) {
+    lines.push("## Proyectos recomendados\n");
+    for (const p of coach.portfolioProjects) {
+      lines.push(`### ${p.name}`, `- Demuestra: ${p.demonstrates}`, `- ${p.description}`, `- Stack: ${p.stack} · ${p.hours}`, p.ods ? `- ${p.ods}` : "", "");
+    }
+  }
+  if (coach.cvChanges.length) {
+    lines.push("## Cambios en CV\n");
+    for (const c of coach.cvChanges) {
+      lines.push(`- [${c.action.toUpperCase()}] ${c.section}: ${c.suggested} — ${c.reason}`);
+    }
+    lines.push("");
+  }
+  if (coach.idealCvOutline) {
+    lines.push("## CV ideal\n", coach.idealCvOutline, "");
+  }
+
+  return lines.join("\n");
+}
+
+export async function exportBundle(data: BundleData): Promise<void> {
+  const JSZip = (await import("jszip")).default;
+  const zip = new JSZip();
+  const slug = data.opp.title.replace(/[^a-zA-Z0-9áéíóúñü]+/gi, "-").slice(0, 40);
+
+  // Analysis
+  const analysis = [
+    `# ${data.opp.title}\n`,
+    `Organizador: ${data.opp.organizer ?? "—"}`,
+    `Tipo: ${data.opp.type ?? "—"}`,
+    `Deadline: ${data.opp.deadline ?? "—"}`,
+    `Encaje: ${data.opp.fit.score}%\n`,
+    "## Fortalezas\n",
+    ...data.opp.fit.strengths.map((s) => `- ${s.claim}${s.evidence ? ` (${s.evidence})` : ""}`),
+    "\n## Gaps\n",
+    ...data.opp.fit.gaps.map((g) => `- ${g.claim}${g.improvement ? ` → ${g.improvement}` : ""}`),
+  ].join("\n");
+  zip.file("analisis.md", analysis);
+
+  // Answers
+  if (data.questions?.length && data.answers) {
+    zip.file("respuestas.md", formatMarkdown(data.opp, data.questions, data.answers, { includeAnalysis: false }));
+  }
+
+  // Cover letter
+  if (data.letter) {
+    zip.file("carta.md", `# Carta de presentación — ${data.opp.title}\n\n${data.letter}`);
+  }
+
+  // Coach / profile improvements
+  if (data.coach) {
+    zip.file("mejoras-perfil.md", formatCoachMd(data.coach));
+
+    if (data.coach.linkedinHeadline || data.coach.linkedinSummary) {
+      zip.file("linkedin.md", [
+        "# LinkedIn optimizado\n",
+        data.coach.linkedinHeadline ? `## Headline\n${data.coach.linkedinHeadline}\n` : "",
+        data.coach.linkedinSummary ? `## Summary\n${data.coach.linkedinSummary}\n` : "",
+      ].join("\n"));
+    }
+  }
+
+  // ATS
+  if (data.ats) {
+    const atsLines = [
+      `# ATS Score — ${data.ats.total}%\n`,
+      `- Keywords exactos: ${data.ats.exactMatch}% (40%)`,
+      `- Match semántico: ${data.ats.semanticMatch}% (20%)`,
+      `- Verbos de acción: ${data.ats.actionVerbs}% (15%)`,
+      `- Estructura: ${data.ats.structure}% (10%)`,
+      `- Datos cuantificables: ${data.ats.quantifiable}% (15%)\n`,
+      data.ats.missingKeywords.length
+        ? `## Keywords faltantes\n${data.ats.missingKeywords.join(", ")}\n`
+        : "",
+      data.ats.suggestions.length
+        ? `## Sugerencias\n${data.ats.suggestions.map((s) => `- ${s}`).join("\n")}\n`
+        : "",
+    ];
+    zip.file("ats-score.md", atsLines.join("\n"));
+  }
+
+  // Full JSON
+  zip.file("analisis.json", JSON.stringify({
+    opportunity: { title: data.opp.title, organizer: data.opp.organizer, type: data.opp.type, deadline: data.opp.deadline },
+    fit: data.opp.fit,
+    effort: data.opp.effort,
+    brief: data.opp.brief,
+    ats: data.ats ?? null,
+  }, null, 2));
+
+  const blob = await zip.generateAsync({ type: "blob" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `postulai-${slug}.zip`;
   a.click();
   URL.revokeObjectURL(url);
 }

@@ -41,6 +41,8 @@ import { buildPR10Messages, parsePR10Response } from "@/lib/prompts/pr-10";
 import { getCompactSkill, CATEGORY_META } from "@/lib/prompts/sector-skills";
 import { windowContext } from "@/lib/ai/context-window";
 import { InterviewSim } from "@/components/interview-sim";
+import { scoreAts, extractCriteriaKeywords, type AtsBreakdown } from "@/lib/ai/ats-score";
+import { exportBundle } from "@/lib/export";
 import type { ProfileCoach, OpportunityCategory, Opportunity } from "@/lib/types";
 
 type Tab = "analisis" | "carta" | "preparacion" | "mejora";
@@ -209,6 +211,7 @@ export default function OpportunityDetailPage({
   const [letterError, setLetterError] = useState<string | null>(null);
   const [letterCopied, setLetterCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("analisis");
+  const [atsOpen, setAtsOpen] = useState(false);
 
   const opp = opportunities.find((o) => o.id === id);
 
@@ -224,6 +227,10 @@ export default function OpportunityDetailPage({
   const category: OpportunityCategory = oppSource?.category ?? "otro";
   const sectorSkill = getCompactSkill(category);
   const isCvSector = CATEGORY_META[category].needsCv;
+
+  const atsBreakdown: AtsBreakdown | null = context
+    ? scoreAts(context.raw, extractCriteriaKeywords(opp.brief.seeking, opp.brief.criteria.map((c) => c.name)))
+    : null;
 
   const handleGenerateCoach = async () => {
     if (!context) return;
@@ -340,11 +347,15 @@ export default function OpportunityDetailPage({
                   <span className={`inline-block w-2 h-2 rounded-full ${scoreBg}`} />
                   {opp.fit.score}% encaje
                 </span>
-                {opp.fit.keywordMatch != null && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface border border-rule/30 text-xs font-medium">
+                {atsBreakdown && (
+                  <button
+                    onClick={() => setAtsOpen(!atsOpen)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface border border-rule/30 text-xs font-medium hover:border-stamp/40 transition-colors"
+                  >
                     <Search className="size-3 text-ink-muted" />
-                    {opp.fit.keywordMatch}% ATS
-                  </span>
+                    {atsBreakdown.total}% ATS
+                    <ChevronDown className={`size-3 transition-transform ${atsOpen ? "rotate-180" : ""}`} />
+                  </button>
                 )}
                 {opp.effort.questionCount && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface border border-rule/30 text-xs font-medium">
@@ -356,6 +367,65 @@ export default function OpportunityDetailPage({
                   {category}
                 </span>
               </div>
+
+              {/* ATS Breakdown */}
+              {atsOpen && atsBreakdown && (
+                <div className="mt-3 p-4 bg-surface border border-rule/30 rounded-xl space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-ink-muted">{t("Desglose ATS")} · 0 tokens AI</h4>
+                    <span className={`font-display text-lg font-bold ${atsBreakdown.total >= 70 ? "text-confirm" : atsBreakdown.total >= 40 ? "text-stamp" : "text-alert"}`}>
+                      {atsBreakdown.total}%
+                    </span>
+                  </div>
+
+                  {[
+                    { label: t("Keywords exactos"), value: atsBreakdown.exactMatch, weight: "40%" },
+                    { label: t("Match semántico"), value: atsBreakdown.semanticMatch, weight: "20%" },
+                    { label: t("Verbos de acción"), value: atsBreakdown.actionVerbs, weight: "15%" },
+                    { label: t("Estructura"), value: atsBreakdown.structure, weight: "10%" },
+                    { label: t("Datos cuantificables"), value: atsBreakdown.quantifiable, weight: "15%" },
+                  ].map((dim) => (
+                    <div key={dim.label}>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs text-ink-muted">{dim.label} <span className="text-ink-muted/50">({dim.weight})</span></span>
+                        <span className="text-xs font-mono font-bold">{dim.value}</span>
+                      </div>
+                      <div className="h-1.5 bg-rule/20 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all ${dim.value >= 70 ? "bg-confirm" : dim.value >= 40 ? "bg-stamp" : "bg-alert"}`}
+                          style={{ width: `${dim.value}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+
+                  {atsBreakdown.missingKeywords.length > 0 && (
+                    <div className="pt-2 border-t border-rule/20">
+                      <p className="text-xs font-medium text-alert mb-1.5">{t("Keywords faltantes")}:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {atsBreakdown.missingKeywords.slice(0, 12).map((kw) => (
+                          <span key={kw} className="px-2 py-0.5 text-[10px] bg-alert/8 text-alert rounded-full border border-alert/20">
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {atsBreakdown.suggestions.length > 0 && (
+                    <div className="pt-2 border-t border-rule/20">
+                      <ul className="space-y-1">
+                        {atsBreakdown.suggestions.map((s, i) => (
+                          <li key={i} className="text-xs text-ink-muted flex items-start gap-1.5">
+                            <Zap className="size-3 text-stamp shrink-0 mt-0.5" />
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Score ring */}
@@ -914,7 +984,14 @@ export default function OpportunityDetailPage({
               className="h-12 px-6 text-sm font-medium text-stamp border border-stamp/30 rounded-lg hover:bg-stamp/5 transition-colors flex items-center justify-center gap-2"
             >
               <Download className="size-4" />
-              Descargar PDF
+              PDF
+            </button>
+            <button
+              onClick={() => exportBundle({ opp, coach, letter, ats: atsBreakdown })}
+              className="h-12 px-6 text-sm font-medium text-ink-muted border border-rule/30 rounded-lg hover:bg-surface transition-colors flex items-center justify-center gap-2"
+            >
+              <Download className="size-4" />
+              ZIP
             </button>
             <button
               onClick={() => (opp.discarded ? undiscard(opp.id) : discard(opp.id))}

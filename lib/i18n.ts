@@ -321,6 +321,13 @@ const en: Dict = {
   Enviada: "Sent",
   Entrevista: "Interview",
   Resultado: "Result",
+  "Desglose ATS": "ATS Breakdown",
+  "Keywords exactos": "Exact keywords",
+  "Match semántico": "Semantic match",
+  "Verbos de acción": "Action verbs",
+  Estructura: "Structure",
+  "Datos cuantificables": "Quantifiable data",
+  "Keywords faltantes": "Missing keywords",
 };
 
 const pt: Dict = {
@@ -580,6 +587,13 @@ const pt: Dict = {
   Enviada: "Enviada",
   Entrevista: "Entrevista",
   Resultado: "Resultado",
+  "Desglose ATS": "Detalhamento ATS",
+  "Keywords exactos": "Keywords exatos",
+  "Match semántico": "Match semântico",
+  "Verbos de acción": "Verbos de ação",
+  Estructura: "Estrutura",
+  "Datos cuantificables": "Dados quantificáveis",
+  "Keywords faltantes": "Keywords ausentes",
 };
 
 const fr: Dict = {
@@ -839,6 +853,13 @@ const fr: Dict = {
   Enviada: "Envoyée",
   Entrevista: "Entretien",
   Resultado: "Résultat",
+  "Desglose ATS": "Détail ATS",
+  "Keywords exactos": "Mots-clés exacts",
+  "Match semántico": "Correspondance sémantique",
+  "Verbos de acción": "Verbes d'action",
+  Estructura: "Structure",
+  "Datos cuantificables": "Données quantifiables",
+  "Keywords faltantes": "Mots-clés manquants",
 };
 
 const dicts: Record<Locale, Dict> = { es: {}, en, pt, fr };
