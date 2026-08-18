@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Convocatorias</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c4c6d4",
+                        "outline": "#747683",
+                        "background": "#f8f9ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffdad8",
+                        "on-background": "#151c24",
+                        "on-surface": "#151c24",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "primary-container": "#22439b",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#dce3ee",
+                        "inverse-surface": "#2a313a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e2e9f4",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#00164d",
+                        "secondary-container": "#ffde50",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#ff9f9d",
+                        "tertiary-container": "#97051e",
+                        "surface-container": "#e8eefa",
+                        "inverse-primary": "#b5c4ff",
+                        "on-surface-variant": "#444652",
+                        "surface-container-low": "#eef4ff",
+                        "error": "#ba1a1a",
+                        "primary": "#002b80",
+                        "on-secondary-container": "#746100",
+                        "on-secondary-fixed": "#221b00",
+                        "inverse-on-surface": "#eaf1fd",
+                        "secondary-fixed": "#ffe166",
+                        "on-primary-container": "#a2b6ff",
+                        "surface-container-highest": "#dce3ee",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d4dae6",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed-dim": "#e4c538",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "on-tertiary-fixed": "#410007",
+                        "surface-tint": "#3b59b1",
+                        "secondary": "#6f5d00",
+                        "on-secondary-fixed-variant": "#544600",
+                        "tertiary": "#6d0012"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "base": "8px",
+                        "gutter": "16px",
+                        "xs": "4px",
+                        "xl": "64px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "sm": "12px",
+                        "container-max": "1100px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Archivo Narrow"],
+                        "display-lg": ["Archivo Narrow"],
+                        "technical-data": ["JetBrains Mono"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "body-lg": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "technical-label": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "technical-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-md-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "technical-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for bureaucratic feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f8f9ff; border-left: 1px solid #c4c6d4; }
+        ::-webkit-scrollbar-thumb { background: #c4c6d4; }
+        ::-webkit-scrollbar-thumb:hover { background: #747683; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#F2F4F7] text-on-surface font-body-md min-h-screen flex flex-col relative selection:bg-primary-container selection:text-white">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant h-[52px] flex justify-between items-center px-gutter max-w-container-max mx-auto shadow-sm shadow-outline-variant/10">
+<div class="font-display-lg text-[20px] uppercase tracking-tighter text-primary font-bold leading-none mt-1">Calco</div>
+<button class="text-on-surface-variant hover:bg-surface-container-high p-1 rounded-sm transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Session Bar -->
+<div class="fixed top-[52px] w-full z-40 bg-secondary-container/25 border-b border-secondary/20 h-[24px] flex justify-center items-center px-gutter">
+<span class="font-technical-label text-[10px] text-on-secondary-container font-bold uppercase tracking-widest opacity-90 underline cursor-pointer hover:opacity-100">
+            SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR
+        </span>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-4 pb-24 pt-[96px]">
+<!-- Header Section -->
+<div class="mb-6 border-b-2 border-outline-variant pb-3 flex flex-col gap-2">
+<h1 class="font-headline-sm text-headline-sm text-on-surface">6 convocatorias analizadas</h1>
+<div class="font-technical-label text-[11px] text-outline uppercase tracking-widest flex items-center gap-2 cursor-pointer hover:text-primary transition-colors w-fit">
+<span class="material-symbols-outlined text-[14px]">sort</span>
+                Encaje · Fecha · Esfuerzo
+            </div>
+</div>
+<!-- Cards List -->
+<div class="flex flex-col gap-[10px]">
+<!-- Card 1 -->
+<article class="bg-white border border-outline-variant p-4 flex flex-col gap-3 hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-sm text-[18px] leading-tight text-on-surface">Licitación IA Salud 2024</h2>
+<span class="font-technical-data text-technical-data font-bold text-[#1E7A5F]">98%</span>
+</div>
+<div class="h-1 w-full bg-surface-dim">
+<div class="h-full bg-[#1E7A5F]" style="width: 98%;"></div>
+</div>
+<div class="font-technical-label text-[10px] text-outline uppercase tracking-widest">
+                    MINISTERIO DE SALUD · PÚBLICA
+                </div>
+<div class="flex justify-between items-end mt-1">
+<div class="font-technical-label text-[10px] text-on-surface-variant flex flex-col gap-1">
+<span>LIM 15 OCT</span>
+<span>ESFUERZO BAJO</span>
+</div>
+<button class="bg-primary-container text-white font-technical-data text-[12px] px-4 py-1.5 rounded-[4px] hover:bg-primary transition-colors uppercase tracking-wide">
+                        Preparar
+                    </button>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-white border border-outline-variant p-4 flex flex-col gap-3 hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-sm text-[18px] leading-tight text-on-surface">Hackathon Regional Innova</h2>
+<span class="font-technical-data text-technical-data font-bold text-[#1E7A5F]">85%</span>
+</div>
+<div class="h-1 w-full bg-surface-dim">
+<div class="h-full bg-[#1E7A5F]" style="width: 85%;"></div>
+</div>
+<div class="font-technical-label text-[10px] text-outline uppercase tracking-widest">
+                    FUNDACIÓN TECH · PRIVADA
+                </div>
+<div class="flex justify-between items-end mt-1">
+<div class="font-technical-label text-[10px] text-on-surface-variant flex flex-col gap-1">
+<span>LIM 20 OCT</span>
+<span>ESFUERZO MEDIO</span>
+</div>
+<button class="bg-primary-container text-white font-technical-data text-[12px] px-4 py-1.5 rounded-[4px] hover:bg-primary transition-colors uppercase tracking-wide">
+                        Preparar
+                    </button>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-white border border-outline-variant p-4 flex flex-col gap-3 hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-sm text-[18px] leading-tight text-on-surface">Beca Doctorado IA Aplicada</h2>
+<span class="font-technical-data text-technical-data font-bold text-[#22439B]">72%</span>
+</div>
+<div class="h-1 w-full bg-surface-dim">
+<div class="h-full bg-[#22439B]" style="width: 72%;"></div>
+</div>
+<div class="font-technical-label text-[10px] text-outline uppercase tracking-widest">
+                    UNIVERSIDAD NACIONAL · ACADÉMICA
+                </div>
+<div class="flex justify-between items-end mt-1">
+<div class="font-technical-label text-[10px] text-on-surface-variant flex flex-col gap-1">
+<span>LIM 02 NOV</span>
+<span>ESFUERZO ALTO</span>
+</div>
+<button class="bg-primary-container text-white font-technical-data text-[12px] px-4 py-1.5 rounded-[4px] hover:bg-primary transition-colors uppercase tracking-wide">
+                        Preparar
+                    </button>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="bg-white border border-outline-variant p-4 flex flex-col gap-3 hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-sm text-[18px] leading-tight text-on-surface">Fondo Semilla Innovación</h2>
+<span class="font-technical-data text-technical-data font-bold text-outline">54%</span>
+</div>
+<div class="h-1 w-full bg-surface-dim">
+<div class="h-full bg-[#d4dae6]" style="width: 54%;"></div>
+</div>
+<div class="font-technical-label text-[10px] text-outline uppercase tracking-widest">
+                    BANCO LATAM · FINANCIERO
+                </div>
+<div class="flex justify-between items-end mt-1">
+<div class="font-technical-label text-[10px] text-on-surface-variant flex flex-col gap-1">
+<span>LIM 10 NOV</span>
+<span>ESFUERZO MEDIO</span>
+</div>
+<button class="bg-primary-container text-white font-technical-data text-[12px] px-4 py-1.5 rounded-[4px] hover:bg-primary transition-colors uppercase tracking-wide">
+                        Preparar
+                    </button>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="bg-[#F8F9FF] border border-outline-variant p-4 flex flex-col gap-3 hover:border-outline transition-colors text-[#5A6672]">
+<div class="flex justify-between items-start gap-4">
+<h2 class="font-headline-sm text-[18px] leading-tight text-[#5A6672]">Concurso App Cívica</h2>
+<span class="font-technical-data text-technical-data font-bold text-[#5A6672]">28%</span>
+</div>
+<div class="h-1 w-full bg-surface-dim">
+<div class="h-full bg-[#d4dae6]" style="width: 28%;"></div>
+</div>
+<div class="font-technical-label text-[10px] text-[#5A6672] uppercase tracking-widest opacity-80">
+                    MUNICIPALIDAD · PÚBLICA
+                </div>
+<div class="flex justify-between items-end mt-1">
+<div class="font-technical-label text-[10px] text-[#5A6672] flex flex-col gap-1 opacity-80">
+<span>LIM 15 NOV</span>
+<span>ESFUERZO BAJO</span>
+</div>
+<button class="bg-transparent text-[#22439B] border border-[#22439B] font-technical-data text-[12px] px-4 py-1.5 rounded-[4px] hover:bg-surface-container-high transition-colors uppercase tracking-wide">
+                        Preparar
+                    </button>
+</div>
+</article>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-6 right-4 z-50 bg-primary-container text-white rounded-[4px] shadow-sm border border-transparent hover:bg-primary transition-all flex items-center justify-center gap-2 px-4 py-3 active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span class="font-technical-label text-[12px] uppercase tracking-wider font-bold">Agregar</span>
+</button>
+</body></html>

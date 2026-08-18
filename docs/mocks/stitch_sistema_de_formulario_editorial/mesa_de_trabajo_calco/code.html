@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CALCO - Mesa de Trabajo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-primary": "#b5c4ff",
+                        "primary-fixed": "#dbe1ff",
+                        "secondary-fixed": "#ffe166",
+                        "on-surface": "#151c24",
+                        "secondary-container": "#ffde50",
+                        "on-background": "#151c24",
+                        "surface-dim": "#d4dae6",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#410007",
+                        "on-error": "#ffffff",
+                        "primary-container": "#22439b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "surface-container-low": "#eef4ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#746100",
+                        "on-tertiary-container": "#ff9f9d",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c4c6d4",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#e4c538",
+                        "surface-container-highest": "#dce3ee",
+                        "background": "#F2F4F7",
+                        "on-primary-container": "#a2b6ff",
+                        "inverse-on-surface": "#eaf1fd",
+                        "on-secondary-fixed-variant": "#544600",
+                        "tertiary-container": "#97051e",
+                        "inverse-surface": "#2a313a",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e8eefa",
+                        "surface-variant": "#dce3ee",
+                        "surface-tint": "#3b59b1",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "surface-container-high": "#e2e9f4",
+                        "on-secondary-fixed": "#221b00",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "tertiary-fixed": "#ffdad8",
+                        "secondary": "#6f5d00",
+                        "outline": "#C9D2DB",
+                        "surface-bright": "#f8f9ff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "on-primary-fixed": "#00164d",
+                        "on-surface-variant": "#444652",
+                        "tertiary": "#6d0012",
+                        "surface": "#f8f9ff",
+                        "primary": "#002b80",
+                        "calco-green": "#1E7A5F",
+                        "calco-red": "#C6303A",
+                        "calco-yellow": "#F5D547"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "container-max": "1100px",
+                        "md": "24px",
+                        "xl": "64px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "lg": "40px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Archivo Narrow"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "body-lg": ["Public Sans"],
+                        "technical-data": ["JetBrains Mono"],
+                        "technical-label": ["JetBrains Mono"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"],
+                        "body-md": ["Public Sans"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-sm": ["24px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "technical-data": ["14px", { lineHeight: "1.4", fontWeight: "400" }],
+                        "technical-label": ["12px", { lineHeight: "1", letterSpacing: "0.08em", fontWeight: "400" }],
+                        "headline-md-mobile": ["28px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F2F4F7; color: #151c24; }
+        .border-hairline { border: 1px solid #C9D2DB; }
+        .border-hairline-t { border-top: 1px solid #C9D2DB; }
+        .border-hairline-b { border-bottom: 1px solid #C9D2DB; }
+        .border-hairline-r { border-right: 1px solid #C9D2DB; }
+        .border-hairline-l { border-left: 1px solid #C9D2DB; }
+        .shadow-hairline { box-shadow: 1px 1px 0px 0px #151c24; }
+        
+        /* Custom scrollbar for text areas */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #C9D2DB; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #747683; }
+        
+        .ruler-tick {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: rgba(255,255,255,0.5);
+        }
+        .text-underline-yellow {
+            text-decoration: underline;
+            text-decoration-color: #F5D547;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+            position: relative;
+        }
+        .text-strike-red {
+            text-decoration: line-through;
+            text-decoration-color: #C6303A;
+            text-decoration-thickness: 2px;
+            color: #747683;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-body-md overflow-hidden">
+<!-- Session Bar -->
+<div class="h-[28px] w-full flex items-center justify-center font-technical-label text-[10px] tracking-widest text-[#151c24] border-hairline-b" style="background-color: rgba(245, 213, 71, 0.25);">
+        SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR <span class="mx-2">|</span> <a class="underline" href="#">INICIAR SESIÓN</a>
+</div>
+<!-- TopNavBar (Derived from JSON with Context Bar integrated) -->
+<header class="bg-surface-container-lowest w-full border-hairline-b flex flex-col shrink-0">
+<!-- Main Nav Area -->
+<div class="max-w-[1440px] w-full mx-auto px-gutter flex justify-between items-center h-16">
+<div class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface flex items-center gap-xs">
+                CALCO <span class="text-on-surface-variant text-body-md font-normal font-technical-data tracking-normal ml-2">MESA DE TRABAJO</span>
+</div>
+<div class="hidden md:flex gap-md items-center">
+<nav class="flex gap-md">
+<a class="text-on-surface-variant font-technical-data text-[14px]" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-technical-data text-[14px]" href="#">Postulaciones</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-technical-data text-[14px]" href="#">Revisión Activa</a>
+</nav>
+</div>
+<div class="flex items-center gap-sm">
+<button class="bg-primary-container text-white px-md py-sm rounded font-technical-data text-[12px] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">save</span>
+                    Guardar Progreso
+                </button>
+<div class="flex gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">account_circle</span>
+</div>
+</div>
+</div>
+<!-- Context Bar -->
+<div class="w-full bg-[#F2F4F7] border-hairline-t py-1 px-gutter text-[11px] font-technical-label text-on-surface-variant flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">description</span>
+                Hackathon Latam de IA Aplicada
+            </div>
+<div class="flex items-center gap-4">
+<span>4 DE 8 APROBADAS</span>
+<div class="flex gap-[2px]">
+<!-- Segments -->
+<div class="w-[20px] h-[6px] bg-calco-green"></div>
+<div class="w-[20px] h-[6px] bg-calco-green"></div>
+<div class="w-[20px] h-[6px] bg-calco-green"></div>
+<div class="w-[20px] h-[6px] bg-calco-green"></div>
+<div class="w-[20px] h-[6px] bg-outline"></div>
+<div class="w-[20px] h-[6px] bg-outline"></div>
+<div class="w-[20px] h-[6px] bg-outline"></div>
+<div class="w-[20px] h-[6px] bg-outline"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Workspace Area -->
+<main class="flex-1 flex overflow-hidden w-full max-w-[1440px] mx-auto bg-surface-container-lowest border-hairline-l border-hairline-r">
+<!-- Left Sidebar: Questions List -->
+<aside class="w-[260px] shrink-0 border-hairline-r bg-[#F2F4F7] flex flex-col h-full overflow-y-auto">
+<div class="p-3 border-hairline-b bg-surface-container-lowest font-technical-label text-[11px] text-on-surface-variant">
+                ÍNDICE DE RESPUESTAS
+            </div>
+<div class="flex flex-col">
+<!-- Item 1 (Approved) -->
+<div class="flex items-start gap-3 p-3 border-hairline-b cursor-pointer hover:bg-surface-container-lowest">
+<span class="font-technical-data text-[13px] text-outline mt-[2px]">01</span>
+<div class="flex-1">
+<div class="text-[13px] text-on-surface truncate w-[180px]">Describe brevemente el pr...</div>
+<div class="flex items-center gap-1 mt-1 text-calco-green font-technical-label text-[10px]">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Aprobada
+                        </div>
+</div>
+</div>
+<!-- Item 2 (Approved) -->
+<div class="flex items-start gap-3 p-3 border-hairline-b cursor-pointer hover:bg-surface-container-lowest">
+<span class="font-technical-data text-[13px] text-outline mt-[2px]">02</span>
+<div class="flex-1">
+<div class="text-[13px] text-on-surface truncate w-[180px]">¿Cuál es el problema pri...</div>
+<div class="flex items-center gap-1 mt-1 text-calco-green font-technical-label text-[10px]">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Aprobada
+                        </div>
+</div>
+</div>
+<!-- Item 3 (Active) -->
+<div class="flex items-start gap-3 p-3 border-hairline-b bg-surface-container-lowest border-l-[3px] border-l-primary relative">
+<div class="absolute left-[-1.5px] top-1/2 -translate-y-1/2 w-[5px] h-[5px] rounded-full bg-primary"></div>
+<span class="font-technical-data text-[13px] text-primary font-bold mt-[2px]">03</span>
+<div class="flex-1">
+<div class="text-[13px] text-on-surface font-semibold truncate w-[180px]">Detalla la arquitectura...</div>
+<div class="flex items-center gap-1 mt-1 text-on-surface-variant font-technical-label text-[10px]">
+<span class="material-symbols-outlined text-[12px]">edit</span> En revisión
+                        </div>
+</div>
+</div>
+<!-- Item 4 (Pending) -->
+<div class="flex items-start gap-3 p-3 border-hairline-b cursor-pointer hover:bg-surface-container-lowest">
+<span class="font-technical-data text-[13px] text-outline mt-[2px]">04</span>
+<div class="flex-1">
+<div class="text-[13px] text-on-surface truncate w-[180px]">Menciona los competidor...</div>
+<div class="flex items-center gap-1 mt-1 text-outline font-technical-label text-[10px]">
+<span class="material-symbols-outlined text-[12px]">schedule</span> Pendiente
+                        </div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center Area: Editor -->
+<section class="flex-1 flex flex-col h-full bg-surface-container-lowest overflow-y-auto p-lg relative">
+<div class="max-w-[700px] w-full mx-auto">
+<!-- Question Header -->
+<div class="mb-xl">
+<div class="font-technical-label text-[11px] text-on-surface-variant tracking-widest mb-sm flex items-center gap-2">
+                        PREGUNTA 3 DE 8 <span class="w-[4px] h-[4px] bg-outline rounded-full"></span> LÍMITE 300 CARACTERES
+                    </div>
+<h2 class="font-headline-sm text-[22px] leading-tight text-on-surface max-w-[600px]">
+                        Detalla la arquitectura técnica propuesta. Incluye servicios cloud, frameworks y bases de datos a utilizar.
+                    </h2>
+</div>
+<!-- Text Area Editor -->
+<div class="bg-white border-hairline p-md relative shadow-hairline group focus-within:border-b-2 focus-within:border-b-primary focus-within:border-primary transition-all">
+<!-- Format Toolbar Overlay (visible on focus/hover conceptual) -->
+<div class="absolute -top-[28px] right-0 flex bg-white border-hairline border-b-0 shadow-hairline text-on-surface-variant">
+<button class="p-1 px-2 hover:bg-[#F2F4F7] border-hairline-r"><span class="material-symbols-outlined text-[14px]">format_bold</span></button>
+<button class="p-1 px-2 hover:bg-[#F2F4F7] border-hairline-r"><span class="material-symbols-outlined text-[14px]">format_italic</span></button>
+<button class="p-1 px-2 hover:bg-[#F2F4F7]"><span class="material-symbols-outlined text-[14px]">link</span></button>
+</div>
+<div class="w-full min-h-[200px] text-[16px] leading-relaxed text-on-surface outline-none font-body-md" contenteditable="true" style="font-family: 'Public Sans', sans-serif;">
+                        Para abordar el problema planteado, <span class="text-underline-yellow">utilizamos una arquitectura de microservicios sobre AWS</span><sup class="text-primary font-technical-data text-[10px] ml-[2px] font-bold">1</sup>. El core de la aplicación está desarrollado utilizando Node.js y Python para los modelos de inferencia de IA. 
+                        <br/><br/>
+                        Como base de datos principal implementamos PostgreSQL a través de Amazon RDS para datos relacionales, complementado con DynamoDB para el almacenamiento ágil de logs y sesiones de usuario, <span class="text-strike-red">asegurando escalabilidad total en cualquier escenario posible sin importar la carga.</span>
+</div>
+</div>
+<!-- Limits Ruler -->
+<div class="mt-4 w-full">
+<div class="flex justify-between items-end mb-1">
+<div class="text-[11px] font-technical-label text-calco-red flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Exceso de caracteres
+                        </div>
+<div class="font-technical-data text-[13px] text-calco-red font-bold">
+                            312 / 300
+                        </div>
+</div>
+<!-- Ruler Bar -->
+<div class="w-full h-[12px] bg-[#F2F4F7] border-hairline relative flex overflow-hidden">
+<!-- Ticks -->
+<div class="absolute inset-0 flex justify-between px-[10%]">
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+<div class="w-[1px] h-full bg-[#C9D2DB] opacity-50 z-10"></div>
+</div>
+<!-- Fill representing usage -->
+<div class="h-full bg-primary z-0" style="width: 95%;"></div>
+<div class="h-full bg-calco-red z-0 flex-1"></div>
+<!-- The 300 limit marker -->
+<div class="absolute top-0 bottom-0 left-[95%] w-[2px] bg-black z-20 flex flex-col justify-end"></div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="mt-xl flex justify-between items-center border-hairline-t pt-md">
+<div class="flex gap-2">
+<button class="bg-transparent border-hairline text-primary px-3 py-1.5 rounded-[4px] font-technical-data text-[12px] hover:bg-[#F2F4F7] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">compress</span> Acortar
+                        </button>
+<button class="bg-transparent border-hairline text-primary px-3 py-1.5 rounded-[4px] font-technical-data text-[12px] hover:bg-[#F2F4F7] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">expand</span> Alargar
+                        </button>
+<button class="bg-transparent border-hairline text-primary px-3 py-1.5 rounded-[4px] font-technical-data text-[12px] hover:bg-[#F2F4F7] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">target</span> Más concreto
+                        </button>
+<button class="bg-transparent border-hairline text-on-surface px-3 py-1.5 rounded-[4px] font-technical-data text-[12px] hover:bg-[#F2F4F7] flex items-center gap-1 ml-2">
+<span class="material-symbols-outlined text-[14px]">refresh</span> Regenerar
+                        </button>
+</div>
+<div class="flex gap-3 items-center">
+<button class="text-on-surface-variant hover:text-on-surface p-1">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+<button class="bg-calco-green text-white px-md py-sm rounded-[4px] font-technical-data text-[13px] flex items-center gap-2 opacity-50 cursor-not-allowed" title="Corrige el límite de caracteres antes de aprobar">
+                            Aprobar
+                            <span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Context & Sources -->
+<aside class="w-[300px] shrink-0 border-hairline-l bg-[#F2F4F7] flex flex-col h-full overflow-y-auto">
+<div class="p-3 border-hairline-b bg-surface-container-lowest font-technical-label text-[11px] text-on-surface-variant flex items-center justify-between">
+<span>DE DÓNDE SALE ESTO</span>
+<span class="material-symbols-outlined text-[14px]">info</span>
+</div>
+<div class="p-md flex flex-col gap-md">
+<!-- Source Card 1 -->
+<div class="bg-white border-hairline p-3 shadow-hairline relative">
+<div class="absolute -left-[1px] top-[10px] w-[3px] h-[16px] bg-[#F5D547]"></div>
+<div class="font-technical-label text-[9px] text-on-surface-variant tracking-wider mb-2 flex justify-between items-center">
+                        CONTEXTO PERSONAL · PROYECTOS
+                        <span class="font-technical-data text-primary font-bold text-[10px]">#1</span>
+</div>
+<div class="text-[13px] italic text-on-surface border-l-2 border-[#C9D2DB] pl-2 mb-2 font-body-md">
+                        "Desarrollo de pipeline de datos en AWS Lambda y DynamoDB"
+                    </div>
+<div class="flex items-center gap-1 font-technical-data text-[10px] text-on-surface-variant bg-[#F2F4F7] w-fit px-1.5 py-0.5 rounded-sm">
+                        Criterio: Viabilidad Técnica
+                    </div>
+</div>
+<!-- Source Card 2 -->
+<div class="bg-white border-hairline p-3 shadow-hairline">
+<div class="font-technical-label text-[9px] text-on-surface-variant tracking-wider mb-2">
+                        CONTEXTO PERSONAL · PERFIL
+                    </div>
+<div class="text-[13px] italic text-on-surface border-l-2 border-[#C9D2DB] pl-2 mb-2 font-body-md">
+                        "Especialista en arquitecturas serverless"
+                    </div>
+<div class="flex items-center gap-1 font-technical-data text-[10px] text-on-surface-variant bg-[#F2F4F7] w-fit px-1.5 py-0.5 rounded-sm">
+                        Criterio: Escalabilidad
+                    </div>
+</div>
+<!-- Missing Data Alert Card -->
+<div class="bg-[#C6303A]/[0.08] border border-calco-red p-3 shadow-hairline relative mt-sm">
+<div class="absolute -left-[1px] top-0 bottom-0 w-[3px] bg-calco-red"></div>
+<div class="font-technical-label text-[10px] text-calco-red font-bold tracking-wider mb-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">error</span> FALTA UN DATO
+                    </div>
+<p class="text-[12px] text-on-surface mb-3 font-body-md">
+                        No encuentro una métrica de usuarios para este proyecto. Escríbela y la incorporo.
+                    </p>
+<div class="flex gap-2">
+<!-- Ruled Input Style -->
+<input class="flex-1 bg-transparent border-t border-l border-r border-hairline border-b-2 border-b-outline text-[12px] font-technical-data px-2 py-1 outline-none focus:border-b-primary placeholder:text-on-surface-variant/50" placeholder="Ej: 10,000 usuarios activos" type="text"/>
+<button class="bg-transparent border border-calco-red text-calco-red px-2 py-1 rounded-[2px] font-technical-data text-[11px] hover:bg-calco-red hover:text-white transition-colors">
+                            Agregar
+                        </button>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</body></html>

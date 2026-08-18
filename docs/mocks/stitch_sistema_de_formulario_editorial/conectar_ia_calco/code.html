@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CALCO - Conexión de Proveedor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400..700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#a2b6ff",
+                    "outline-variant": "#c4c6d4",
+                    "inverse-primary": "#b5c4ff",
+                    "secondary-fixed-dim": "#e4c538",
+                    "on-surface": "#151c24",
+                    "on-background": "#151c24",
+                    "primary-fixed-dim": "#b5c4ff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#92001b",
+                    "secondary-fixed": "#ffe166",
+                    "primary": "#002b80",
+                    "on-primary-fixed": "#00164d",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#e8eefa",
+                    "tertiary": "#6d0012",
+                    "on-secondary-fixed": "#221b00",
+                    "on-tertiary-container": "#ff9f9d",
+                    "on-secondary-container": "#746100",
+                    "primary-container": "#22439b",
+                    "tertiary-container": "#97051e",
+                    "inverse-surface": "#2a313a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed-variant": "#544600",
+                    "surface-tint": "#3b59b1",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#ffde50",
+                    "on-primary-fixed-variant": "#1e4098",
+                    "surface-dim": "#d4dae6",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container-low": "#eef4ff",
+                    "surface-container-high": "#e2e9f4",
+                    "outline": "#747683",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#444652",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#ffb3b0",
+                    "surface-container-highest": "#dce3ee",
+                    "surface": "#f8f9ff",
+                    "surface-bright": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "surface-variant": "#dce3ee",
+                    "inverse-on-surface": "#eaf1fd",
+                    "tertiary-fixed": "#ffdad8",
+                    "on-tertiary-fixed": "#410007",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#6f5d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1100px",
+                    "sm": "12px",
+                    "md": "24px",
+                    "lg": "40px",
+                    "xl": "64px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-md-mobile": ["Archivo Narrow"],
+                    "display-lg": ["Archivo Narrow"],
+                    "technical-label": ["JetBrains Mono"],
+                    "headline-sm": ["Archivo Narrow"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "technical-data": ["JetBrains Mono"],
+                    "headline-md": ["Archivo Narrow"]
+            },
+            "fontSize": {
+                    "headline-md-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "technical-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "technical-data": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md">
+<!-- Minimal Header (Transactional Intent) -->
+<header class="w-full border-b border-outline-variant bg-surface">
+<div class="max-w-container-max mx-auto px-gutter h-16 flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary-container flex items-center justify-center rounded-DEFAULT">
+<span class="font-headline-sm text-headline-sm text-on-primary">C</span>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold tracking-tighter text-on-surface">CALCO</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center py-xl px-gutter">
+<div class="w-full max-w-[680px] flex flex-col gap-md">
+<!-- Header Section -->
+<div class="flex flex-col gap-xs mb-sm">
+<h1 class="font-headline-md text-headline-md text-on-surface">Conecta tu proveedor de IA</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Tú pones la clave y tú pagas el consumo. Calco no cobra ni intermedia.</p>
+</div>
+<!-- Primary Highlighted Card -->
+<div class="bg-surface-container-lowest border-2 border-primary-container p-lg flex flex-col items-start gap-md">
+<div class="flex flex-col gap-xs w-full">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Conectar con OpenRouter</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Es el método recomendado. El acceso se revoca cuando quieras y no necesitas manipular claves sensibles.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-body-md text-body-md font-semibold px-lg py-sm rounded-lg hover:bg-primary transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary-container" type="button">
+                    Conectar cuenta
+                </button>
+</div>
+<!-- Divider -->
+<div class="flex items-center gap-md my-sm">
+<div class="h-px bg-outline-variant flex-grow"></div>
+<span class="font-body-md text-body-md text-outline font-semibold lowercase">o</span>
+<div class="h-px bg-outline-variant flex-grow"></div>
+</div>
+<!-- Secondary Card -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg flex flex-col gap-lg">
+<!-- Manual Key Entry -->
+<div class="flex flex-col gap-sm">
+<h2 class="font-body-lg text-body-lg font-semibold text-on-surface">Pegar una clave manualmente</h2>
+<!-- Ruled Input -->
+<div class="relative w-full">
+<input aria-label="Clave de API" class="w-full bg-transparent border-x border-t border-outline-variant border-b-2 border-b-outline-variant focus:border-x-outline-variant focus:border-t-outline-variant focus:border-b-primary-container focus:ring-0 px-sm py-sm font-technical-data text-technical-data text-on-surface transition-colors pr-xl" placeholder="sk-or-v1-..." type="password" value="sk-or-v1-••••••••••••••••4f2a"/>
+<button aria-label="Mostrar clave" class="absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+<!-- Compact Warning -->
+<div class="bg-secondary-container/20 border-l-[3px] border-secondary-container px-sm py-xs mt-xs flex items-start gap-sm">
+<span class="material-symbols-outlined text-on-secondary-container text-[16px] mt-px" data-icon="warning">warning</span>
+<p class="font-technical-label text-technical-label text-on-secondary-container uppercase">
+                            Crea una clave nueva con límite de 5 dólares. Si algo sale mal pierdes 5 dólares, no tu cuenta.
+                        </p>
+</div>
+</div>
+<!-- Storage Section -->
+<div class="flex flex-col gap-sm border-t border-outline-variant pt-lg mt-xs">
+<h3 class="font-body-md text-body-md font-semibold text-on-surface mb-xs">Dónde guardar la clave</h3>
+<div class="flex flex-col gap-sm">
+<label class="flex items-start gap-sm cursor-pointer group">
+<input checked="" class="mt-1 text-primary-container border-outline-variant focus:ring-primary-container focus:ring-2" name="storage" type="radio" value="session"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface group-hover:text-primary-container transition-colors">Solo durante esta sesión (recomendado)</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Se elimina inmediatamente al salir de la aplicación.</span>
+</div>
+</label>
+<label class="flex items-start gap-sm cursor-pointer group">
+<input class="mt-1 text-primary-container border-outline-variant focus:ring-primary-container focus:ring-2" name="storage" type="radio" value="tab"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface group-hover:text-primary-container transition-colors">Hasta cerrar la pestaña</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Se mantiene activa mientras navegues en esta ventana.</span>
+</div>
+</label>
+<label class="flex items-start gap-sm cursor-pointer group">
+<input class="mt-1 text-primary-container border-outline-variant focus:ring-primary-container focus:ring-2" name="storage" type="radio" value="encrypted"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface group-hover:text-primary-container transition-colors">Guardar cifrada con una contraseña</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Se guarda en este navegador protegida por una clave maestra local.</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Final Action -->
+<button class="w-full bg-primary-container text-on-primary font-body-md text-body-md font-semibold py-sm rounded-lg hover:bg-primary transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary-container mt-sm" type="button">
+                    Entrar
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer JSON Anchor -->
+<footer class="w-full border-t border-outline-variant mt-xl bg-surface-container-low">
+<div class="max-w-[1100px] mx-auto px-gutter py-lg flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="font-headline-md text-headline-md font-bold text-primary">CALCO</div>
+<div class="flex gap-md font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="hover:text-primary transition-colors" href="#">Terminos de Uso</a>
+<a class="hover:text-primary transition-colors" href="#">Soporte</a>
+<a class="hover:text-primary transition-colors" href="#">Documentación</a>
+</div>
+<div class="font-label-caps text-label-caps uppercase tracking-widest text-secondary">
+                © 2024 CALCO SISTEMAS - REGISTRO TÉCNICO
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Carga de Preguntas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Public+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#6d0012",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#e8eefa",
+                        "inverse-on-surface": "#eaf1fd",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#dbe1ff",
+                        "secondary-fixed": "#ffe166",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "outline-variant": "#c4c6d4",
+                        "on-secondary-container": "#746100",
+                        "on-primary-container": "#a2b6ff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#6f5d00",
+                        "surface-container-high": "#e2e9f4",
+                        "outline": "#747683",
+                        "background": "#f8f9ff",
+                        "on-tertiary-container": "#ff9f9d",
+                        "surface-container-low": "#eef4ff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-tertiary-fixed": "#410007",
+                        "on-surface-variant": "#444652",
+                        "surface-dim": "#d4dae6",
+                        "inverse-surface": "#2a313a",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#dce3ee",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "primary-container": "#22439b",
+                        "on-primary-fixed": "#00164d",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "on-background": "#151c24",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "surface-tint": "#3b59b1",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#97051e",
+                        "primary": "#002b80",
+                        "on-secondary-fixed": "#221b00",
+                        "secondary-fixed-dim": "#e4c538",
+                        "on-surface": "#151c24",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#ffde50",
+                        "tertiary-fixed": "#ffdad8",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "surface-variant": "#dce3ee",
+                        "inverse-primary": "#b5c4ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "container-max": "1100px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "technical-label": ["JetBrains Mono"],
+                        "display-lg": ["Archivo Narrow"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "technical-data": ["JetBrains Mono"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"]
+                    },
+                    "fontSize": {
+                        "technical-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "technical-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-md-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F2F4F7; }
+        .session-bar { background-color: rgba(245, 213, 71, 0.25); height: 28px; }
+        .workspace-card { background-color: #FFFFFF; border: 1px solid #C9D2DB; }
+        .input-ruled { border: 1px solid #C9D2DB; border-bottom: 2px solid #C9D2DB; }
+        .input-ruled:focus { border-bottom: 2px solid #22439B; outline: none; }
+        .badge-primary { background-color: rgba(34, 67, 155, 0.1); color: #22439B; }
+        .badge-gray { background-color: rgba(90, 102, 114, 0.1); color: #5A6672; }
+        .btn-primary { background-color: #22439B; color: #FFFFFF; border-radius: 4px; }
+        .text-support { color: #5A6672; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- Session Bar -->
+<div class="session-bar w-full flex items-center justify-center px-lg border-b border-outline-variant">
+<span class="font-technical-label text-technical-label text-on-surface uppercase">SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR · <a class="underline ml-2" href="#">INICIAR SESIÓN</a></span>
+</div>
+<!-- TopAppBar (from JSON but modified for Calco tool context) -->
+<header class="bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center w-full px-md h-16 w-full mx-auto">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">CALCO</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="font-technical-label text-technical-label text-on-surface-variant">CRÉDITOS: 4,500</span>
+<span class="material-symbols-outlined cursor-pointer text-on-surface-variant hover:text-primary transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Main Workspace Container -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-lg py-lg flex flex-col">
+<!-- Breadcrumb -->
+<nav class="mb-md">
+<span class="font-technical-label text-technical-label text-on-surface-variant">Convocatorias / Hackathon Latam de IA Aplicada / <span class="font-bold text-primary">Carga de Preguntas</span></span>
+</nav>
+<!-- Main Card Workspace -->
+<div class="workspace-card flex-grow flex flex-col w-full h-[600px]">
+<!-- Header Section -->
+<div class="p-lg border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-xs">Pega las preguntas del formulario</h1>
+<p class="font-body-md text-body-md text-support">Calco detecta solo los límites de cada una. Corrígelos si se equivoca.</p>
+</div>
+<!-- Two Column Layout -->
+<div class="flex flex-row flex-grow overflow-hidden">
+<!-- Left Column: Textarea -->
+<div class="w-1/2 p-lg border-r border-outline-variant flex flex-col">
+<textarea class="input-ruled font-technical-data text-technical-data p-sm w-full flex-grow resize-none" placeholder="Pega el texto aquí...">1. Describe tu proyecto en una frase. (máx. 100 caracteres)
+
+2. ¿Cuál es el principal problema que resuelve tu solución y por qué es innovadora? 
+(200 words max)
+
+3. Detalla la arquitectura técnica propuesta. Incluye servicios cloud, frameworks y bases de datos a utilizar.
+* (No limit)
+
+4. ¿Quiénes son los miembros de tu equipo y cuál es la experiencia relevante de cada uno? 
+(máx. 500 caracteres)
+
+5. Enlace al repositorio de código (GitHub/GitLab) con el prototipo funcional inicial.
+Obligatorio. </textarea>
+</div>
+<!-- Right Column: Detected Questions -->
+<div class="w-1/2 p-lg flex flex-col bg-surface-bright overflow-y-auto">
+<h2 class="font-headline-sm text-headline-sm mb-md text-on-surface">5 preguntas detectadas</h2>
+<div class="flex flex-col gap-sm">
+<!-- Card 1 -->
+<div class="workspace-card p-sm flex items-start gap-sm">
+<div class="w-6 h-6 flex-shrink-0 border border-outline-variant flex items-center justify-center font-technical-label text-technical-label text-on-surface-variant">1</div>
+<div class="flex-grow min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate mb-xs">Describe tu proyecto en una frase.</p>
+<span class="badge-primary px-2 py-1 rounded-full font-technical-label text-technical-label uppercase inline-block">100 CARACTERES</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="workspace-card p-sm flex items-start gap-sm">
+<div class="w-6 h-6 flex-shrink-0 border border-outline-variant flex items-center justify-center font-technical-label text-technical-label text-on-surface-variant">2</div>
+<div class="flex-grow min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate mb-xs">¿Cuál es el principal problema que resuelve tu solución y por qué es innovadora?</p>
+<span class="badge-primary px-2 py-1 rounded-full font-technical-label text-technical-label uppercase inline-block">200 PALABRAS</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="workspace-card p-sm flex items-start gap-sm relative group">
+<div class="w-6 h-6 flex-shrink-0 border border-outline-variant flex items-center justify-center font-technical-label text-technical-label text-on-surface-variant">3</div>
+<div class="flex-grow min-w-0 pr-6">
+<p class="font-body-md text-body-md text-on-surface line-clamp-2 mb-xs">Detalla la arquitectura técnica propuesta. Incluye servicios cloud, frameworks y bases de datos a utilizar.</p>
+<span class="badge-gray px-2 py-1 rounded-full font-technical-label text-technical-label uppercase inline-block">SIN LÍMITE</span>
+</div>
+<span class="material-symbols-outlined absolute top-sm right-sm text-outline-variant hover:text-error cursor-pointer hidden group-hover:block transition-colors" data-icon="delete">delete</span>
+</div>
+<!-- Card 4 -->
+<div class="workspace-card p-sm flex items-start gap-sm">
+<div class="w-6 h-6 flex-shrink-0 border border-outline-variant flex items-center justify-center font-technical-label text-technical-label text-on-surface-variant">4</div>
+<div class="flex-grow min-w-0">
+<p class="font-body-md text-body-md text-on-surface line-clamp-2 mb-xs">¿Quiénes son los miembros de tu equipo y cuál es la experiencia relevante de cada uno?</p>
+<span class="badge-primary px-2 py-1 rounded-full font-technical-label text-technical-label uppercase inline-block">500 CARACTERES</span>
+</div>
+</div>
+<!-- Card 5 (Editable) -->
+<div class="workspace-card p-sm flex items-start gap-sm bg-surface-container-low">
+<div class="w-6 h-6 flex-shrink-0 border border-outline-variant flex items-center justify-center font-technical-label text-technical-label text-on-surface-variant">5</div>
+<div class="flex-grow min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate mb-xs">Enlace al repositorio de código (GitHub/GitLab) con el prototipo funcional inicial.</p>
+<div class="flex items-center gap-2">
+<span class="badge-gray px-2 py-1 rounded-full font-technical-label text-technical-label uppercase inline-block">SIN LÍMITE</span>
+<input class="input-ruled font-technical-data text-technical-data text-xs px-1 py-0.5 w-24 bg-transparent" placeholder="Definir límite" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="p-md border-t border-outline-variant bg-surface-container-lowest flex justify-between items-center mt-auto">
+<div class="flex flex-col">
+<span class="font-technical-label text-technical-label text-on-surface-variant mb-1">COSTO ESTIMADO</span>
+<span class="font-technical-data text-technical-data text-on-surface font-bold">$0.002</span>
+</div>
+<button class="btn-primary font-technical-label text-technical-label px-md py-sm uppercase tracking-widest hover:bg-primary transition-colors">Generar respuestas</button>
+</div>
+</div>
+</main>
+</body></html>

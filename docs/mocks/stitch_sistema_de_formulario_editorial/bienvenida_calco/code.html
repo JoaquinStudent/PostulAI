@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Bienvenida</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS & Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#410007",
+                        "surface-container-highest": "#dce3ee",
+                        "outline-variant": "#c4c6d4",
+                        "tertiary-fixed": "#ffdad8",
+                        "secondary-container": "#ffde50",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "on-surface": "#151c24",
+                        "surface-dim": "#d4dae6",
+                        "inverse-primary": "#b5c4ff",
+                        "secondary": "#6f5d00",
+                        "error-container": "#ffdad6",
+                        "on-background": "#151c24",
+                        "surface-container": "#e8eefa",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "inverse-surface": "#2a313a",
+                        "on-primary-container": "#a2b6ff",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "tertiary-container": "#97051e",
+                        "surface-variant": "#dce3ee",
+                        "inverse-on-surface": "#eaf1fd",
+                        "surface-container-low": "#eef4ff",
+                        "on-secondary-container": "#746100",
+                        "surface-tint": "#3b59b1",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#ff9f9d",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#544600",
+                        "primary": "#002b80",
+                        "on-primary-fixed": "#00164d",
+                        "tertiary": "#6d0012",
+                        "surface": "#f8f9ff",
+                        "surface-container-high": "#e2e9f4",
+                        "outline": "#747683",
+                        "on-secondary-fixed": "#221b00",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#444652",
+                        "primary-container": "#22439b",
+                        "secondary-fixed-dim": "#e4c538",
+                        "secondary-fixed": "#ffe166",
+                        "background": "#f8f9ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "base": "8px",
+                        "gutter": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "container-max": "1100px",
+                        "md": "24px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Archivo Narrow", "sans-serif"],
+                        "headline-md-mobile": ["Archivo Narrow", "sans-serif"],
+                        "technical-label": ["JetBrains Mono", "monospace"],
+                        "technical-data": ["JetBrains Mono", "monospace"],
+                        "body-md": ["Public Sans", "sans-serif"],
+                        "headline-sm": ["Archivo Narrow", "sans-serif"],
+                        "headline-md": ["Archivo Narrow", "sans-serif"],
+                        "body-lg": ["Public Sans", "sans-serif"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md-mobile": ["28px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "technical-label": ["12px", { lineHeight: "1", letterSpacing: "0.08em", fontWeight: "400" }],
+                        "technical-data": ["14px", { lineHeight: "1.4", fontWeight: "400" }],
+                        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Form aesthetic utilities */
+        .ruled-bg {
+            background-image: repeating-linear-gradient(to right, transparent, transparent 19px, theme('colors.primary-container') 19px, theme('colors.primary-container') 20px);
+        }
+    </style>
+</head>
+<body class="bg-surface-container-highest min-h-screen text-on-surface flex flex-col font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Bar -->
+<header class="w-full bg-surface-container-lowest border-b border-outline-variant">
+<div class="max-w-[1100px] mx-auto px-gutter h-[56px] flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<div class="w-5 h-5 bg-primary-container rounded-[2px]"></div>
+<span class="font-headline-md text-headline-md font-bold tracking-tight">Calco</span>
+</div>
+<nav>
+<a class="font-body-md text-on-surface hover:text-primary-container underline decoration-outline-variant underline-offset-4 transition-colors" href="#">Cómo funciona</a>
+</nav>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow max-w-[1100px] w-full mx-auto px-gutter py-xl flex flex-col gap-xl">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row gap-lg md:gap-xl items-start">
+<!-- Left: Copy & Actions (55%) -->
+<div class="w-full md:w-[55%] flex flex-col gap-md pt-lg">
+<h1 class="font-display-lg text-display-lg text-on-surface max-w-xl">
+                    Pega todas tus convocatorias.<br/>
+                    Sal con las respuestas escritas.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-sm">
+                    Calco lee las bases de cualquier postulación, filtra los requisitos cruzándolos con tu perfil profesional y redacta respuestas con la longitud y formato exactos requeridos. Sin desviaciones.
+                </p>
+<div class="flex flex-wrap gap-sm mt-sm">
+<button class="bg-primary-container text-on-primary px-lg py-[10px] rounded-lg font-body-md font-semibold hover:bg-primary transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary-container">
+                        Empezar
+                    </button>
+<button class="bg-transparent border border-primary-container text-primary-container px-lg py-[10px] rounded-lg font-body-md font-semibold hover:bg-surface-container-low transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary-container">
+                        Ver ejemplo
+                    </button>
+</div>
+</div>
+<!-- Right: Visual Signature (45%) -->
+<div class="w-full md:w-[45%] bg-surface-container-lowest border border-outline-variant rounded-lg p-lg flex flex-col gap-md shadow-sm relative overflow-hidden group">
+<!-- Decorative form alignment marks -->
+<div class="absolute top-0 left-0 w-4 h-4 border-t border-l border-outline-variant m-xs"></div>
+<div class="absolute top-0 right-0 w-4 h-4 border-t border-r border-outline-variant m-xs"></div>
+<div class="flex flex-col gap-xs mt-sm">
+<span class="font-technical-label text-technical-label text-outline uppercase">Campo 4B. Experiencia Relevante</span>
+<h3 class="font-body-md font-bold text-on-surface leading-tight">Describa un proyecto reciente donde aplicó metodologías ágiles y su impacto en la eficiencia del equipo.</h3>
+</div>
+<div class="bg-surface-bright border border-outline-variant rounded p-sm relative min-h-[120px]">
+<p class="font-technical-data text-technical-data text-on-surface-variant leading-relaxed">
+                        Lideré la transición a Scrum en el proyecto 'Atlas', reduciendo el tiempo de entrega en un 22%. Implementé sprints de dos semanas y retrospectivas estructuradas, mejorando la previsibilidad del equipo y reduciendo los cuellos de botella en la fase de QA de manera documentada.
+                    </p>
+<!-- Blinking cursor effect -->
+<span class="inline-block w-[8px] h-[14px] bg-primary-container align-middle animate-pulse ml-xs"></span>
+</div>
+<div class="flex flex-col gap-xs mt-auto">
+<!-- Graduated Ruler -->
+<div class="w-full h-1 bg-surface-container-highest relative rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary-container w-[94%] transition-all duration-1000 ease-out"></div>
+</div>
+<div class="w-full h-[6px] ruled-bg opacity-30"></div>
+<div class="flex justify-between items-center mt-xs">
+<span class="font-technical-label text-[10px] text-outline">LÍMITE ESTRICTO</span>
+<span class="font-technical-label text-technical-label text-primary-container font-bold">284 / 300 CARACTERES</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Process Section (3 Columns) -->
+<section class="grid grid-cols-1 md:grid-cols-3 border border-outline-variant bg-surface-container-lowest rounded-lg overflow-hidden mt-md">
+<div class="p-lg border-b md:border-b-0 md:border-r border-outline-variant flex flex-col gap-sm hover:bg-surface-bright transition-colors">
+<span class="font-technical-label text-technical-label text-primary-container uppercase tracking-widest">01 Adjunta tu contexto</span>
+<p class="font-body-md text-on-surface-variant">
+                    Sube tu CV, portafolio o un documento base definiendo tu perfil. Calco lo usará como la única fuente de verdad para extraer datos empíricos.
+                </p>
+</div>
+<div class="p-lg border-b md:border-b-0 md:border-r border-outline-variant flex flex-col gap-sm hover:bg-surface-bright transition-colors">
+<span class="font-technical-label text-technical-label text-primary-container uppercase tracking-widest">02 Pega los enlaces</span>
+<p class="font-body-md text-on-surface-variant">
+                    Introduce las URLs de las convocatorias o copia el texto de las bases. El sistema analizará los requisitos obligatorios y deseables automáticamente.
+                </p>
+</div>
+<div class="p-lg flex flex-col gap-sm hover:bg-surface-bright transition-colors">
+<span class="font-technical-label text-technical-label text-primary-container uppercase tracking-widest">03 Exporta las respuestas</span>
+<p class="font-body-md text-on-surface-variant">
+                    Obtén formularios completados con redacción precisa, calibrados para cumplir con límites de caracteres y tonos formales. Listos para enviar.
+                </p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-outline-variant bg-surface-container-highest mt-auto">
+<div class="max-w-[1100px] mx-auto px-gutter py-md flex justify-center items-center">
+<span class="font-technical-label text-technical-label text-on-surface-variant uppercase tracking-widest">
+                Todo ocurre en tu navegador. Calco no guarda nada.
+            </span>
+</div>
+</footer>
+</body></html>

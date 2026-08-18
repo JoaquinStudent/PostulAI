@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Entrada de Convocatorias</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#6d0012",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#410007",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-background": "#151c24",
+                        "on-surface-variant": "#444652",
+                        "inverse-on-surface": "#eaf1fd",
+                        "secondary-container": "#ffde50",
+                        "secondary": "#6f5d00",
+                        "secondary-fixed-dim": "#e4c538",
+                        "surface-variant": "#dce3ee",
+                        "surface-container-highest": "#dce3ee",
+                        "surface": "#f8f9ff",
+                        "primary": "#002b80",
+                        "outline": "#747683",
+                        "outline-variant": "#c4c6d4",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary-container": "#a2b6ff",
+                        "on-surface": "#151c24",
+                        "surface-tint": "#3b59b1",
+                        "secondary-fixed": "#ffe166",
+                        "tertiary-fixed": "#ffdad8",
+                        "on-primary-fixed": "#00164d",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-container-low": "#eef4ff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#b5c4ff",
+                        "inverse-surface": "#2a313a",
+                        "on-tertiary-container": "#ff9f9d",
+                        "surface-container": "#e8eefa",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#97051e",
+                        "background": "#f8f9ff",
+                        "surface-container-high": "#e2e9f4",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-dim": "#d4dae6",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#746100",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "primary-container": "#22439b",
+                        "app-bg": "#F2F4F7",
+                        "app-border": "#C9D2DB",
+                        "app-text-muted": "#5A6672",
+                        "app-success": "#1E7A5F",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "sm": "12px",
+                        "container-max": "1100px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"],
+                        "technical-label": ["JetBrains Mono"],
+                        "body-lg": ["Public Sans"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "body-md": ["Public Sans"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "technical-data": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "technical-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "technical-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F2F4F7;
+        }
+        .bureaucratic-input {
+            border: 1px solid #C9D2DB;
+            border-bottom: 2px solid #22439B;
+            resize: none;
+        }
+        .bureaucratic-input:focus {
+            outline: none;
+            border-bottom-color: #22439B;
+            box-shadow: none;
+        }
+        .btn-primary {
+            background-color: #22439b;
+            color: #ffffff;
+            border-radius: 4px;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #22439b;
+            color: #22439b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #C9D2DB; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a8b4c0; 
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline docked full-width top-0 transition-colors duration-150 ease-in-out">
+<div class="flex justify-between items-center h-[56px] px-gutter w-full max-w-container-max mx-auto">
+<div class="font-display-lg text-display-lg uppercase tracking-tighter text-primary dark:text-primary-fixed-dim">
+                Calco
+            </div>
+<div class="flex items-center space-x-md">
+<div class="flex items-center border border-app-border bg-white px-3 py-1 rounded-[4px]">
+<div class="w-2 h-2 rounded-full bg-app-success mr-2"></div>
+<span class="font-technical-label text-technical-label text-on-surface">OPENROUTER · $4.82</span>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-container-high p-1 rounded transition-colors duration-150 ease-in-out flex items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Session Bar -->
+<div class="bg-[#F5D547]/25 border-b border-[#6f5d00]/20 docked full-width top-[56px]">
+<div class="flex justify-center items-center h-[28px] w-full px-gutter">
+<span class="font-technical-label text-technical-label font-bold text-[#746100] opacity-90">
+                SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR
+            </span>
+<button class="ml-4 font-technical-label text-technical-label text-[#746100] underline hover:underline opacity-90 transition-opacity">
+                Finalizar
+            </button>
+</div>
+</div>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter md:px-lg py-lg md:py-xl flex flex-col">
+<div class="mb-lg">
+<h1 class="font-headline-md md:font-headline-md text-on-surface mb-xs">¿A qué estás mirando postular?</h1>
+<p class="font-body-md text-app-text-muted">Pega los enlaces de todas las convocatorias que estés considerando. Uno por línea.</p>
+</div>
+<!-- Textarea Section -->
+<div class="relative w-full mb-md">
+<textarea class="bureaucratic-input w-full h-[320px] p-md bg-white font-technical-data text-technical-data custom-scrollbar rounded-none text-on-surface" spellcheck="false">https://www.corfo.cl/sites/cpp/convocatorias/semilla_inicia
+https://www.conacyt.gob.mx/convocatorias/becas_extranjero_2024
+https://www.agenciaini.org.uy/llamados/innovacion_abierta_v
+https://www.innpulsa.com/oportunidades/fondo_escalamiento_tech</textarea>
+<div class="absolute bottom-3 right-3 bg-white px-2 py-1">
+<span class="font-technical-label text-technical-label text-outline">4 ENLACES</span>
+</div>
+</div>
+<!-- Two Columns Action Area -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm mb-lg">
+<!-- Left: Drop Zone -->
+<div class="border border-dashed border-app-border bg-white h-[90px] flex flex-col justify-center items-center rounded-[4px] hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-outline mb-1">upload_file</span>
+<span class="font-body-md text-on-surface font-semibold text-sm">Arrastra bases en PDF</span>
+<span class="font-technical-label text-technical-label text-outline mt-1">Se leen en tu navegador</span>
+</div>
+<!-- Right: Manual Entry -->
+<div class="border border-app-border bg-white h-[90px] flex flex-col justify-center items-center rounded-[4px] px-md">
+<span class="font-body-md text-on-surface mb-2 text-sm">¿La convocatoria no tiene link?</span>
+<button class="btn-secondary px-4 py-1.5 font-technical-label text-technical-label uppercase w-full">
+                    Pegar texto a mano
+                </button>
+</div>
+</div>
+<!-- Section Footer -->
+<div class="mt-auto border-t border-app-border pt-md flex flex-col md:flex-row justify-between items-center gap-md">
+<a class="font-body-md text-primary underline hover:text-primary-container transition-colors" href="#">
+                ¿Qué revisa Calco en cada una?
+            </a>
+<div class="flex items-center gap-md">
+<span class="font-technical-label text-technical-label text-outline">COSTO ESTIMADO DEL ANÁLISIS $0.006</span>
+<button class="btn-primary px-6 py-3 font-technical-label text-technical-label font-bold uppercase tracking-widest hover:bg-primary transition-colors flex items-center">
+                    Analizar las 4
+                    <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant dark:border-outline full-width mt-auto transition-all duration-200">
+<div class="flex flex-col md:flex-row justify-between items-center py-md px-gutter w-full max-w-container-max mx-auto">
+<div class="font-technical-label text-technical-label text-on-surface mb-md md:mb-0">
+                © 2024 CALCO SISTEMAS · REGISTRO OFICIAL
+            </div>
+<div class="flex space-x-md">
+<a class="font-technical-data text-technical-data text-outline hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Privacidad</a>
+<a class="font-technical-data text-technical-data text-outline hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Términos</a>
+<a class="font-technical-data text-technical-data text-outline hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Soporte</a>
+</div>
+</div>
+</footer>
+</body></html>

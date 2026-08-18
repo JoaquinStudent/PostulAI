@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Panel de Exportación</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "secondary-fixed-dim": "#e4c538",
+                        "secondary": "#6f5d00",
+                        "inverse-on-surface": "#eaf1fd",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#ffde50",
+                        "on-primary-fixed": "#00164d",
+                        "tertiary": "#6d0012",
+                        "inverse-surface": "#2a313a",
+                        "surface-container-high": "#e2e9f4",
+                        "surface-variant": "#dce3ee",
+                        "surface-tint": "#3b59b1",
+                        "surface-container": "#e8eefa",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#ff9f9d",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-dim": "#d4dae6",
+                        "on-surface": "#151c24",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#746100",
+                        "primary": "#002b80",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c4c6d4",
+                        "surface-container-low": "#eef4ff",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "outline": "#747683",
+                        "surface": "#f8f9ff",
+                        "on-background": "#151c24",
+                        "tertiary-container": "#97051e",
+                        "secondary-fixed": "#ffe166",
+                        "tertiary-fixed": "#ffdad8",
+                        "on-secondary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "on-surface-variant": "#444652",
+                        "primary-container": "#22439b",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "inverse-primary": "#b5c4ff",
+                        "on-primary-container": "#a2b6ff",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "surface-container-highest": "#dce3ee",
+                        "on-tertiary-fixed": "#410007",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#221b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "40px",
+                        "container-max": "1100px",
+                        "sm": "12px",
+                        "gutter": "16px",
+                        "xl": "64px",
+                        "md": "24px",
+                        "base": "8px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "technical-data": ["JetBrains Mono"],
+                        "display-lg": ["Archivo Narrow"],
+                        "technical-label": ["JetBrains Mono"],
+                        "body-md": ["Public Sans"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "body-lg": ["Public Sans"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"]
+                    },
+                    "fontSize": {
+                        "technical-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "technical-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for utilitarian look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f9ff; 
+            border-left: 1px solid #c4c6d4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c4c6d4; 
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen w-screen overflow-hidden flex flex-col relative">
+<!-- JSON Component: Session Bar -->
+<div class="bg-secondary-container/25 text-on-secondary-container font-technical-label text-technical-label font-bold flex justify-center items-center h-7 w-full px-gutter z-10 relative">
+<span>SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR</span>
+<button class="ml-md underline hover:underline opacity-90 transition-opacity">Finalizar</button>
+</div>
+<!-- JSON Component: TopAppBar -->
+<header class="bg-surface text-primary border-b border-outline-variant h-16 px-gutter w-full flex justify-between items-center z-10 relative">
+<div class="font-display-lg text-display-lg uppercase tracking-tighter text-primary">
+            Calco
+        </div>
+<div class="flex items-center gap-md">
+<span class="font-technical-data text-technical-data text-on-surface-variant">Créditos API: 1.250</span>
+<button class="flex items-center justify-center p-sm hover:bg-surface-container-high transition-colors duration-150 rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Background Context (Mesa de trabajo simulada) -->
+<main class="flex-1 w-full max-w-container-max mx-auto p-lg opacity-40">
+<!-- Abstract grid/forms behind the modal to simulate the workspace -->
+<div class="w-full h-full border border-outline-variant flex flex-col">
+<div class="h-12 border-b border-outline-variant flex items-center px-md gap-md">
+<div class="w-32 h-4 bg-outline-variant/30"></div>
+<div class="w-64 h-4 bg-outline-variant/20"></div>
+</div>
+<div class="flex-1 flex">
+<div class="w-64 border-r border-outline-variant p-md flex flex-col gap-sm">
+<div class="w-full h-8 bg-outline-variant/20"></div>
+<div class="w-full h-8 bg-outline-variant/20"></div>
+<div class="w-full h-8 bg-outline-variant/20"></div>
+</div>
+<div class="flex-1 p-lg flex flex-col gap-md">
+<div class="w-1/2 h-10 bg-outline-variant/30"></div>
+<div class="w-full h-32 bg-outline-variant/10 border border-outline-variant"></div>
+<div class="w-full h-32 bg-outline-variant/10 border border-outline-variant"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 bg-on-surface/50 z-50 flex items-center justify-center p-gutter backdrop-blur-sm">
+<!-- Modal Container (660px) -->
+<div class="w-full max-w-[660px] bg-surface-container-lowest border border-outline-variant flex flex-col max-h-[921px] overflow-y-auto">
+<!-- Header -->
+<div class="p-md pb-sm flex justify-between items-start">
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface m-0">Llévate tu trabajo</h2>
+<p class="font-technical-data text-technical-data text-error mt-xs">Al cerrar la pestaña se borra todo. Descarga antes de salir.</p>
+</div>
+<button aria-label="Cerrar" class="text-on-surface-variant hover:text-on-surface p-xs transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Summary Block -->
+<div class="grid grid-cols-3 border-y border-outline-variant bg-surface-bright">
+<div class="flex flex-col items-center justify-center p-md border-r border-outline-variant">
+<span class="font-headline-md text-headline-md text-on-surface">8</span>
+<span class="font-technical-label text-technical-label text-on-surface-variant uppercase mt-xs tracking-widest">RESPUESTAS</span>
+</div>
+<div class="flex flex-col items-center justify-center p-md border-r border-outline-variant">
+<span class="font-headline-md text-headline-md text-on-surface">6</span>
+<span class="font-technical-label text-technical-label text-on-surface-variant uppercase mt-xs tracking-widest">APROBADAS</span>
+</div>
+<div class="flex flex-col items-center justify-center p-md">
+<span class="font-headline-md text-headline-md text-error">2</span>
+<span class="font-technical-label text-technical-label text-on-surface-variant uppercase mt-xs tracking-widest">CON DATOS FALTANTES</span>
+</div>
+</div>
+<!-- Modal Content Padding Wrapper -->
+<div class="p-md flex flex-col gap-lg">
+<!-- Error Notice -->
+<div class="border-l-[3px] border-error bg-error/10 p-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-error text-[20px]">warning</span>
+<span class="font-body-md text-on-surface">Dos respuestas tienen datos pendientes. Revísalas antes de enviar.</span>
+</div>
+<!-- Qué exportar -->
+<div class="flex flex-col gap-sm">
+<span class="font-technical-label text-technical-label text-outline uppercase tracking-widest">QUÉ EXPORTAR</span>
+<div class="grid grid-cols-2 gap-md">
+<!-- Selected Radio Card -->
+<div class="border-[2px] border-primary-container p-sm flex items-start gap-sm cursor-pointer bg-surface-container-low relative">
+<div class="w-4 h-4 mt-xs rounded-full border-2 border-primary-container flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+</div>
+<span class="font-body-md text-on-surface font-semibold">Solo esta convocatoria</span>
+</div>
+<!-- Unselected Radio Card -->
+<div class="border border-outline-variant p-sm flex items-start gap-sm cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="w-4 h-4 mt-xs rounded-full border border-outline-variant flex items-center justify-center"></div>
+<span class="font-body-md text-on-surface">Todo el lote · 3 convocatorias preparadas</span>
+</div>
+</div>
+</div>
+<!-- Formato -->
+<div class="flex flex-col gap-sm">
+<span class="font-technical-label text-technical-label text-outline uppercase tracking-widest">FORMATO</span>
+<div class="flex flex-col border border-outline-variant bg-surface-container-lowest">
+<!-- Option 1 -->
+<label class="flex items-center gap-md p-sm border-b border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">content_copy</span>
+<div class="flex flex-col flex-1">
+<span class="font-body-md font-semibold text-on-surface">Copiar todo al portapapeles</span>
+<span class="font-technical-data text-technical-data text-outline mt-[2px]">Ideal para pegar directo en formularios</span>
+</div>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-primary"></div>
+</label>
+<!-- Option 2 -->
+<label class="flex items-center gap-md p-sm border-b border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors group bg-surface-container-low/50">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">markdown</span>
+<div class="flex flex-col flex-1">
+<span class="font-body-md font-semibold text-on-surface">Descargar como Markdown (.md)</span>
+<span class="font-technical-data text-technical-data text-outline mt-[2px]">Preserva formato y estructura técnica</span>
+</div>
+<!-- Selected visually for variety, though prompt didn't mandate which is default. Let's make it look active -->
+<div class="w-4 h-4 rounded-full border-2 border-primary-container flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="flex items-center gap-md p-sm border-b border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">text_snippet</span>
+<div class="flex flex-col flex-1">
+<span class="font-body-md font-semibold text-on-surface">Descargar como texto plano (.txt)</span>
+<span class="font-technical-data text-technical-data text-outline mt-[2px]">Sin formato, máxima compatibilidad</span>
+</div>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-primary"></div>
+</label>
+<!-- Option 4 -->
+<label class="flex items-center gap-md p-sm cursor-pointer hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">data_object</span>
+<div class="flex flex-col flex-1">
+<span class="font-body-md font-semibold text-on-surface">Descargar como JSON (.json)</span>
+<span class="font-technical-data text-technical-data text-outline mt-[2px]">Para integración con otras herramientas</span>
+</div>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-primary"></div>
+</label>
+</div>
+</div>
+<!-- Configuration Toggle -->
+<div class="flex items-center justify-between p-sm bg-surface border border-outline-variant">
+<span class="font-body-md text-on-surface">Incluir preguntas, límites y análisis de la convocatoria</span>
+<!-- Active Toggle UI -->
+<div class="w-10 h-6 bg-primary-container rounded-full relative cursor-pointer flex-shrink-0">
+<div class="w-4 h-4 bg-on-primary rounded-full absolute right-1 top-1 shadow-sm"></div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-sm pt-sm">
+<button class="w-full bg-primary-container text-on-primary font-headline-sm text-headline-sm py-sm rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                        Descargar
+                    </button>
+<button class="w-full text-primary font-technical-data text-technical-data py-sm hover:underline transition-all">
+                        Seguir editando
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

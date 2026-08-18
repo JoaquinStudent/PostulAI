@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CALCO - Hackathon Latam de IA Aplicada</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Archivo, Public Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed-variant": "#1e4098",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d4dae6",
+                        "inverse-on-surface": "#eaf1fd",
+                        "surface-container": "#e8eefa",
+                        "on-tertiary-fixed": "#410007",
+                        "primary-container": "#22439b",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "primary": "#002b80",
+                        "on-primary-container": "#a2b6ff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#ffe166",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "inverse-surface": "#2a313a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#dce3ee",
+                        "surface-container-low": "#eef4ff",
+                        "secondary-fixed-dim": "#e4c538",
+                        "background": "#F2F4F7", /* Modified to match the base sheet requirement */
+                        "inverse-primary": "#b5c4ff",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-surface-variant": "#444652",
+                        "surface-container-highest": "#dce3ee",
+                        "secondary-container": "#ffde50",
+                        "on-background": "#151c24",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#746100",
+                        "tertiary-container": "#97051e",
+                        "outline-variant": "#c4c6d4",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-fixed": "#221b00",
+                        "tertiary-fixed": "#ffdad8",
+                        "tertiary": "#6d0012",
+                        "surface": "#ffffff", /* Modified to white card workspace */
+                        "surface-tint": "#3b59b1",
+                        "on-primary-fixed": "#00164d",
+                        "surface-container-high": "#e2e9f4",
+                        "secondary": "#6f5d00",
+                        "on-surface": "#151c24",
+                        "on-tertiary-container": "#ff9f9d",
+                        "primary-fixed": "#dbe1ff",
+                        "outline": "#C9D2DB", /* Hairline border */
+                        "on-error-container": "#93000a",
+                        
+                        /* Custom Brand Colors added to extend config for easier use while keeping system intact */
+                        "brand-primary": "#22439b",
+                        "brand-alert-bg": "rgba(198, 48, 58, 0.1)",
+                        "brand-alert-text": "#C6303A",
+                        "brand-success-bg": "rgba(30, 122, 95, 0.1)",
+                        "brand-success-text": "#1E7A5F",
+                        "brand-session-bg": "rgba(245, 213, 71, 0.25)",
+                        "brand-border": "#C9D2DB"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem",
+                        "button": "4px" /* Specific button radius rule */
+                    },
+                    spacing: {
+                        "sm": "12px",
+                        "lg": "40px",
+                        "container-max": "1100px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "base": "8px",
+                        "xl": "64px",
+                        "md": "24px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Public Sans", "sans-serif"],
+                        "display-lg": ["Archivo Narrow", "sans-serif"],
+                        "headline-md-mobile": ["Archivo Narrow", "sans-serif"],
+                        "technical-data": ["JetBrains Mono", "monospace"],
+                        "technical-label": ["JetBrains Mono", "monospace"],
+                        "body-md": ["Public Sans", "sans-serif"],
+                        "headline-md": ["Archivo Narrow", "sans-serif"],
+                        "headline-sm": ["Archivo Narrow", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "technical-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "technical-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Base rules applied globally */
+        body {
+            background-color: #F2F4F7; /* Base sheet */
+            color: #151c24; /* on-surface */
+        }
+        
+        /* Typography utilities based on tailwind config structure */
+        .font-body-md { font-family: 'Public Sans', sans-serif; font-size: 16px; line-height: 1.5; font-weight: 400; }
+        .text-body-md { font-size: 16px; line-height: 1.5; font-weight: 400; }
+        
+        .font-body-lg { font-family: 'Public Sans', sans-serif; font-size: 18px; line-height: 1.6; font-weight: 400; }
+        .text-body-lg { font-size: 18px; line-height: 1.6; font-weight: 400; }
+        
+        .font-headline-md { font-family: 'Archivo Narrow', sans-serif; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 600; }
+        .text-headline-md { font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 600; }
+        
+        .font-headline-sm { font-family: 'Archivo Narrow', sans-serif; font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; font-weight: 600; }
+        .text-headline-sm { font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; font-weight: 600; }
+        
+        .font-display-lg { font-family: 'Archivo Narrow', sans-serif; font-size: 48px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+        .text-display-lg { font-size: 48px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+        
+        .font-technical-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1; letter-spacing: 0.08em; font-weight: 400; }
+        .text-technical-label { font-size: 12px; line-height: 1; letter-spacing: 0.08em; font-weight: 400; }
+        
+        .font-technical-data { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.4; font-weight: 400; }
+        .text-technical-data { font-size: 14px; line-height: 1.4; font-weight: 400; }
+
+        /* Specific Component Rules from Style Guidelines */
+        .btn-primary {
+            background-color: #22439B;
+            color: #FFFFFF;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #22439B;
+            color: #22439B;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover { background-color: rgba(34, 67, 155, 0.05); }
+
+        .ruled-input {
+            border-top: 1px solid #C9D2DB;
+            border-left: 1px solid #C9D2DB;
+            border-right: 1px solid #C9D2DB;
+            border-bottom: 2px solid #C9D2DB;
+            background-color: transparent;
+            transition: border-bottom-color 0.2s;
+        }
+        .ruled-input:focus {
+            outline: none;
+            border-bottom: 2px solid #22439B;
+        }
+
+        .card-flat {
+            background-color: #FFFFFF;
+            border: 1px solid #C9D2DB;
+            box-shadow: none;
+        }
+        
+        .modal-lift {
+            border: 1px solid #C9D2DB;
+            box-shadow: 1px 1px 0px 0px #000000; /* single-pixel black hairline offset */
+        }
+
+        /* Utilities */
+        .border-hairline { border-color: #C9D2DB; border-width: 1px; }
+        .border-b-hairline { border-bottom: 1px solid #C9D2DB; }
+        .border-r-hairline { border-right: 1px solid #C9D2DB; }
+        .border-t-hairline { border-top: 1px solid #C9D2DB; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center">
+<!-- TopAppBar Container (from JSON) -->
+<header class="w-full bg-surface border-b border-outline flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto flat no shadows">
+<div class="flex items-center gap-md">
+<!-- Brand Logo -->
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tighter cursor-pointer">
+                CALCO
+            </div>
+</div>
+<div class="flex items-center gap-md">
+<!-- Trailing Secondary Action -->
+<button class="font-technical-label text-technical-label text-primary hover:bg-surface-container-low px-sm py-base transition-colors uppercase">
+                Nueva Consulta
+            </button>
+<!-- Trailing Primary Action -->
+<div class="font-technical-label text-technical-label text-on-surface-variant bg-surface-variant px-sm py-base rounded-DEFAULT">
+                Créditos: 450
+            </div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-base">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-base rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-base rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Session Bar -->
+<div class="w-full bg-brand-session-bg h-[28px] flex justify-center items-center">
+<span class="font-technical-label text-technical-label text-on-secondary-fixed-variant uppercase">
+            SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR
+        </span>
+</div>
+<!-- Main Workspace Container -->
+<main class="w-full max-w-container-max mx-auto px-gutter md:px-lg py-lg flex-grow flex flex-col gap-lg">
+<!-- Breadcrumbs -->
+<nav class="font-technical-label text-technical-label text-on-surface-variant flex items-center gap-base uppercase">
+<a class="hover:text-primary underline decoration-1 underline-offset-4" href="#">Convocatorias</a>
+<span>/</span>
+<span class="text-primary">Hackathon Latam de IA Aplicada</span>
+</nav>
+<!-- Header Section -->
+<div class="flex flex-col gap-sm border-b-hairline pb-md">
+<h1 class="font-headline-md text-headline-md text-on-surface">Hackathon Latam de IA Aplicada</h1>
+<div class="font-technical-label text-technical-label text-on-surface-variant uppercase flex gap-sm items-center">
+<span>TECHCORP</span>
+<span>·</span>
+<span>REMOTO</span>
+<span>·</span>
+<span>15 OCT</span>
+<span>·</span>
+<span>$10K USD</span>
+</div>
+</div>
+<!-- Two Column Layout -->
+<div class="flex flex-col md:flex-row gap-lg md:gap-0 w-full relative">
+<!-- Left Column: 65% -->
+<div class="w-full md:w-[65%] md:pr-lg flex flex-col gap-lg">
+<!-- Section 1: QUÉ BUSCAN -->
+<section class="flex flex-col gap-md border-b-hairline pb-lg">
+<h2 class="font-technical-label text-technical-label text-on-surface-variant uppercase">QUÉ BUSCAN</h2>
+<p class="font-body-md text-body-md text-on-surface">
+                        Buscamos soluciones innovadoras basadas en inteligencia artificial generativa que aborden problemas críticos de infraestructura en la región de Latinoamérica. Los proyectos deben demostrar viabilidad técnica, capacidad de escalar regionalmente y un impacto medible en la eficiencia de servicios públicos o privados.
+                    </p>
+</section>
+<!-- Section 2: CRITERIOS DE EVALUACIÓN -->
+<section class="flex flex-col gap-md border-b-hairline pb-lg">
+<h2 class="font-technical-label text-technical-label text-on-surface-variant uppercase">CRITERIOS DE EVALUACIÓN</h2>
+<div class="flex flex-col gap-sm">
+<!-- Criterion 1 -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-baseline font-technical-data text-technical-data">
+<span>Viabilidad Técnica</span>
+<span class="font-technical-label">40%</span>
+</div>
+<div class="w-full bg-surface-variant h-[3px]">
+<div class="bg-primary-container h-[3px]" style="width: 40%"></div>
+</div>
+</div>
+<!-- Criterion 2 -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-baseline font-technical-data text-technical-data">
+<span>Innovación</span>
+<span class="font-technical-label">30%</span>
+</div>
+<div class="w-full bg-surface-variant h-[3px]">
+<div class="bg-primary-container h-[3px]" style="width: 30%"></div>
+</div>
+</div>
+<!-- Criterion 3 -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-baseline font-technical-data text-technical-data">
+<span>Escalabilidad</span>
+<span class="font-technical-label">20%</span>
+</div>
+<div class="w-full bg-surface-variant h-[3px]">
+<div class="bg-primary-container h-[3px]" style="width: 20%"></div>
+</div>
+</div>
+<!-- Criterion 4 -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-baseline font-technical-data text-technical-data">
+<span>Impacto Social</span>
+<span class="font-technical-label">10%</span>
+</div>
+<div class="w-full bg-surface-variant h-[3px]">
+<div class="bg-primary-container h-[3px]" style="width: 10%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: TONO ESPERADO -->
+<section class="flex flex-col gap-md border-b-hairline pb-lg">
+<h2 class="font-technical-label text-technical-label text-on-surface-variant uppercase">TONO ESPERADO</h2>
+<div class="flex flex-wrap gap-base">
+<span class="px-sm py-xs border-hairline font-technical-label text-technical-label text-on-surface uppercase rounded-none">Técnico</span>
+<span class="px-sm py-xs border-hairline font-technical-label text-technical-label text-on-surface uppercase rounded-none">Orientado a impacto</span>
+<span class="px-sm py-xs border-hairline font-technical-label text-technical-label text-on-surface uppercase rounded-none">Concreto</span>
+</div>
+</section>
+<!-- Section 4: SEÑALES DE ALERTA -->
+<section class="flex flex-col gap-md pb-base">
+<h2 class="font-technical-label text-technical-label text-brand-alert-text uppercase">SEÑALES DE ALERTA</h2>
+<ul class="flex flex-col gap-sm font-body-md text-body-md text-on-surface list-none m-0 p-0">
+<li class="flex gap-sm items-start">
+<span class="text-brand-alert-text mt-[4px]">■</span>
+<span>Penalización por falta de stack técnico detallado en la propuesta inicial.</span>
+</li>
+<li class="flex gap-sm items-start">
+<span class="text-brand-alert-text mt-[4px]">■</span>
+<span>Descalificación automática si falta un video demo funcional (máx 3 min).</span>
+</li>
+</ul>
+</section>
+<!-- Correct Calco Link -->
+<div class="pt-base">
+<a class="font-technical-label text-technical-label text-primary underline underline-offset-4 hover:text-on-primary-fixed-variant transition-colors uppercase" href="#">
+                        Corregir lo que Calco entendió
+                    </a>
+</div>
+</div>
+<!-- Vertical Separator (Hidden on mobile) -->
+<div class="hidden md:block w-[1px] bg-outline absolute left-[65%] top-0 bottom-0"></div>
+<!-- Right Column: 35% -->
+<div class="w-full md:w-[35%] md:pl-lg">
+<!-- Sticky Fixed Card -->
+<div class="card-flat p-md flex flex-col gap-md sticky top-[calc(64px+28px+40px)]">
+<h3 class="font-technical-label text-technical-label text-on-surface-variant uppercase">Tu encaje</h3>
+<div class="flex flex-col gap-xs">
+<div class="font-display-lg text-display-lg text-on-surface">84%</div>
+<div class="font-technical-label text-technical-label text-on-surface-variant uppercase">COINCIDENCIA CON TU PERFIL</div>
+</div>
+<div class="w-full h-[1px] bg-outline my-sm"></div>
+<!-- Puntos Fuertes -->
+<div class="flex flex-col gap-sm">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-brand-success-text text-[16px] mt-[2px]">check</span>
+<span class="font-body-md text-body-md text-on-surface">Experiencia en AWS/Kubernetes</span>
+</div>
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-brand-success-text text-[16px] mt-[2px]">check</span>
+<span class="font-body-md text-body-md text-on-surface">Proyectos previos en IA</span>
+</div>
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-brand-success-text text-[16px] mt-[2px]">check</span>
+<span class="font-body-md text-body-md text-on-surface">Perfil Senior</span>
+</div>
+</div>
+<!-- Puntos Débiles -->
+<div class="flex flex-col gap-sm pt-sm">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-brand-alert-text text-[16px] mt-[2px]">remove</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Sin experiencia en Fintech</span>
+</div>
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-brand-alert-text text-[16px] mt-[2px]">remove</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Falta portafolio visual</span>
+</div>
+</div>
+<div class="w-full h-[1px] bg-outline my-sm"></div>
+<!-- Esfuerzo -->
+<div class="flex flex-col gap-xs pb-sm">
+<span class="font-technical-label text-technical-label text-on-surface-variant uppercase">Esfuerzo estimado</span>
+<span class="font-technical-data text-technical-data text-on-surface">8 PREGUNTAS · ~1.400 PALABRAS</span>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-sm">
+<button class="btn-primary w-full py-sm font-technical-label text-technical-label uppercase tracking-widest">
+                            Preparar postulación
+                        </button>
+<button class="text-center font-technical-label text-technical-label text-on-surface-variant underline underline-offset-4 hover:text-on-surface transition-colors uppercase pt-sm pb-xs">
+                            Descartar esta
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Container (from JSON) -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline flex flex-col md:flex-row justify-between items-center py-base px-gutter max-w-container-max mx-auto flat no shadows mt-xl">
+<div class="font-technical-label text-technical-label text-on-surface-variant uppercase">
+            © 2024 CALCO SISTEMAS · DOCUMENTACIÓN OFICIAL
+        </div>
+<nav class="flex gap-md mt-sm md:mt-0">
+<a class="font-technical-label text-technical-label text-on-surface-variant hover:text-primary transition-opacity duration-200 uppercase" href="#">Privacidad</a>
+<a class="font-technical-label text-technical-label text-on-surface-variant hover:text-primary transition-opacity duration-200 uppercase" href="#">Términos de Uso</a>
+<a class="font-technical-label text-technical-label text-on-surface-variant hover:text-primary transition-opacity duration-200 uppercase" href="#">API Docs</a>
+</nav>
+</footer>
+</body></html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Progreso de Análisis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-container": "#746100",
+                      "inverse-primary": "#b5c4ff",
+                      "surface-variant": "#dce3ee",
+                      "primary-container": "#22439b",
+                      "on-primary-container": "#a2b6ff",
+                      "on-tertiary-fixed": "#410007",
+                      "on-error-container": "#93000a",
+                      "surface-tint": "#3b59b1",
+                      "outline": "#747683",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#b5c4ff",
+                      "surface-container": "#e8eefa",
+                      "secondary-container": "#ffde50",
+                      "on-tertiary-container": "#ff9f9d",
+                      "secondary-fixed": "#ffe166",
+                      "inverse-surface": "#2a313a",
+                      "tertiary": "#6d0012",
+                      "tertiary-fixed": "#ffdad8",
+                      "secondary": "#6f5d00",
+                      "surface-container-highest": "#dce3ee",
+                      "on-tertiary-fixed-variant": "#92001b",
+                      "error-container": "#ffdad6",
+                      "background": "#f8f9ff",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-surface": "#151c24",
+                      "on-primary": "#ffffff",
+                      "surface-container-high": "#e2e9f4",
+                      "tertiary-container": "#97051e",
+                      "surface": "#f8f9ff",
+                      "surface-bright": "#f8f9ff",
+                      "tertiary-fixed-dim": "#ffb3b0",
+                      "on-surface-variant": "#444652",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#c4c6d4",
+                      "surface-dim": "#d4dae6",
+                      "on-secondary-fixed-variant": "#544600",
+                      "primary-fixed": "#dbe1ff",
+                      "on-primary-fixed-variant": "#1e4098",
+                      "primary": "#002b80",
+                      "on-primary-fixed": "#00164d",
+                      "surface-container-low": "#eef4ff",
+                      "inverse-on-surface": "#eaf1fd",
+                      "on-secondary-fixed": "#221b00",
+                      "secondary-fixed-dim": "#e4c538",
+                      "on-background": "#151c24",
+                      "surface-container-lowest": "#ffffff",
+                      
+                      // Custom semantic colors requested in prompt
+                      "status-success": "#1E7A5F",
+                      "status-success-bg": "rgba(30, 122, 95, 0.1)",
+                      "status-error": "#C6303A",
+                      "status-error-bg": "rgba(198, 48, 58, 0.1)",
+                      "status-processing": "#22439b",
+                      "status-processing-bg": "rgba(34, 67, 155, 0.1)",
+                      "text-muted": "#5A6672",
+                      "border-light": "#C9D2DB",
+                      "bg-base": "#F2F4F7"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem",
+                      "card": "0px",
+                      "button": "4px",
+                      "badge": "9999px"
+              },
+              "spacing": {
+                      "xl": "64px",
+                      "lg": "40px",
+                      "gutter": "16px",
+                      "xs": "4px",
+                      "container-max": "1100px",
+                      "base": "8px",
+                      "sm": "12px",
+                      "md": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "display-lg": [
+                              "Archivo Narrow"
+                      ],
+                      "headline-md-mobile": [
+                              "Archivo Narrow"
+                      ],
+                      "technical-label": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Public Sans"
+                      ],
+                      "headline-sm": [
+                              "Archivo Narrow"
+                      ],
+                      "headline-md": [
+                              "Archivo Narrow"
+                      ],
+                      "technical-data": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "technical-label": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.08em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "technical-data": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F2F4F7;
+        }
+        .anim-progress {
+            animation: indeterminate 2s infinite linear;
+            transform-origin: 0% 50%;
+        }
+        @keyframes indeterminate {
+            0% {
+                transform:  translateX(0) scaleX(0);
+            }
+            40% {
+                transform:  translateX(0) scaleX(0.4);
+            }
+            100% {
+                transform:  translateX(100%) scaleX(0.5);
+            }
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline docked full-width top-0 z-50">
+<div class="flex justify-between items-center h-16 px-gutter w-full max-w-container-max mx-auto">
+<div class="font-display-lg text-display-lg uppercase tracking-tighter text-primary dark:text-primary-fixed-dim">
+                Calco
+            </div>
+<div class="flex items-center gap-md">
+<span class="font-technical-label text-technical-label text-on-surface-variant">Créditos API: 1.250</span>
+<button class="text-primary hover:bg-surface-container-high transition-colors duration-150 ease-in-out p-base rounded">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-gutter py-lg md:py-lg flex flex-col gap-lg">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-outline-variant pb-md">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Revisando 6 convocatorias</h1>
+</div>
+<div class="font-technical-label text-technical-label text-on-surface-variant flex gap-sm">
+<span>3 LISTAS</span>
+<span>·</span>
+<span>2 EN PROCESO</span>
+<span>·</span>
+<span>1 FALLÓ</span>
+</div>
+</div>
+<!-- Segmented Progress Bar -->
+<div class="w-full flex gap-[2px] h-2">
+<div class="flex-1 bg-status-success h-full"></div>
+<div class="flex-1 bg-status-success h-full"></div>
+<div class="flex-1 bg-status-success h-full"></div>
+<div class="flex-1 bg-status-processing h-full relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 anim-progress"></div>
+</div>
+<div class="flex-1 bg-status-processing h-full relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 anim-progress" style="animation-delay: 0.5s;"></div>
+</div>
+<div class="flex-1 bg-status-error h-full"></div>
+</div>
+<!-- List Section -->
+<div class="flex flex-col gap-xs">
+<!-- Row 1: LISTA -->
+<div class="h-[72px] bg-surface-container-lowest border border-border-light flex items-stretch">
+<div class="w-[3px] bg-status-success flex-shrink-0"></div>
+<div class="flex-1 px-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-[60px] text-right font-technical-data text-technical-data text-on-surface">
+                            78%
+                        </div>
+<div class="w-[1px] h-[32px] bg-border-light"></div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-[18px] text-on-surface font-semibold leading-tight">Semilla Inicia - Corfo</span>
+<span class="font-technical-label text-[10px] text-outline truncate w-[200px] md:w-[300px]">corfo.cl/semilla-inicia-2024-convocatoria-nacional</span>
+</div>
+</div>
+<div>
+<span class="inline-flex items-center px-sm py-[2px] rounded-badge bg-status-success-bg text-status-success font-technical-label text-technical-label">LISTA</span>
+</div>
+</div>
+</div>
+<!-- Row 2: LISTA -->
+<div class="h-[72px] bg-surface-container-lowest border border-border-light flex items-stretch">
+<div class="w-[3px] bg-status-success flex-shrink-0"></div>
+<div class="flex-1 px-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-[60px] text-right font-technical-data text-technical-data text-on-surface">
+                            85%
+                        </div>
+<div class="w-[1px] h-[32px] bg-border-light"></div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-[18px] text-on-surface font-semibold leading-tight">Becas de Posgrado al Extranjero</span>
+<span class="font-technical-label text-[10px] text-outline truncate w-[200px] md:w-[300px]">conacyt.mx/convocatorias/posgrado/extranjero</span>
+</div>
+</div>
+<div>
+<span class="inline-flex items-center px-sm py-[2px] rounded-badge bg-status-success-bg text-status-success font-technical-label text-technical-label">LISTA</span>
+</div>
+</div>
+</div>
+<!-- Row 3: LISTA (Bajo encaje) -->
+<div class="h-[72px] bg-surface-container-lowest border border-border-light flex items-stretch">
+<div class="w-[3px] bg-status-success flex-shrink-0"></div>
+<div class="flex-1 px-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-[60px] text-right font-technical-data text-technical-data text-text-muted">
+                            24%
+                        </div>
+<div class="w-[1px] h-[32px] bg-border-light"></div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-[18px] text-on-surface font-semibold leading-tight">Innovación Abierta V</span>
+<span class="font-technical-label text-[10px] text-outline truncate w-[200px] md:w-[300px]">agenciaini.org.uy/innovacion-abierta-v-llamado</span>
+</div>
+</div>
+<div>
+<span class="inline-flex items-center px-sm py-[2px] rounded-badge bg-status-success-bg text-status-success font-technical-label text-technical-label">LISTA</span>
+</div>
+</div>
+</div>
+<!-- Row 4: LEYENDO -->
+<div class="h-[72px] bg-surface-container-lowest border border-border-light flex items-stretch">
+<div class="w-[3px] bg-status-processing flex-shrink-0"></div>
+<div class="flex-1 px-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-[60px] text-center flex justify-center">
+<span class="material-symbols-outlined text-status-processing animate-spin" style="font-size: 20px;">autorenew</span>
+</div>
+<div class="w-[1px] h-[32px] bg-border-light"></div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-[18px] text-on-surface font-semibold leading-tight">Fondo Escalamiento Tech</span>
+<span class="font-technical-label text-[10px] text-outline truncate w-[200px] md:w-[300px]">innpulsa.com/convocatorias/escalamiento-tech-2024</span>
+</div>
+</div>
+<div>
+<div class="flex flex-col items-end gap-xs">
+<span class="inline-flex items-center px-sm py-[2px] rounded-badge bg-status-processing-bg text-status-processing font-technical-label text-technical-label">LEYENDO EL SITIO</span>
+<div class="w-24 h-[2px] bg-status-processing-bg rounded-full overflow-hidden">
+<div class="h-full bg-status-processing w-full anim-progress"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 5: ANALIZANDO -->
+<div class="h-[72px] bg-surface-container-lowest border border-border-light flex items-stretch">
+<div class="w-[3px] bg-status-processing flex-shrink-0"></div>
+<div class="flex-1 px-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-[60px] text-center flex justify-center">
+<span class="material-symbols-outlined text-status-processing animate-spin" style="font-size: 20px;">autorenew</span>
+</div>
+<div class="w-[1px] h-[32px] bg-border-light"></div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-[18px] text-on-surface font-semibold leading-tight">Digitaliza Tu Pyme</span>
+<span class="font-technical-label text-[10px] text-outline truncate w-[200px] md:w-[300px]">sercotec.cl/digitaliza-tu-pyme-2024</span>
+</div>
+</div>
+<div>
+<span class="inline-flex items-center px-sm py-[2px] rounded-badge bg-status-processing-bg text-status-processing font-technical-label text-technical-label">COMPARANDO CON TU PERFIL</span>
+</div>
+</div>
+</div>
+<!-- Row 6: FALLIDA -->
+<div class="h-[72px] bg-surface-container-lowest border border-border-light flex items-stretch">
+<div class="w-[3px] bg-status-error flex-shrink-0"></div>
+<div class="flex-1 px-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-[60px] text-center flex justify-center">
+<span class="material-symbols-outlined text-status-error" style="font-size: 20px;">error</span>
+</div>
+<div class="w-[1px] h-[32px] bg-border-light"></div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-[18px] text-on-surface font-semibold leading-tight">Portal de Becas Privadas</span>
+<span class="font-technical-label text-[10px] text-outline truncate w-[200px] md:w-[300px]">becas.com/login?redirect=/convocatorias/2024</span>
+<span class="font-technical-data text-[12px] text-status-error mt-xs">El sitio pide inicio de sesión</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="inline-flex items-center px-sm py-[2px] rounded-badge bg-status-error-bg text-status-error font-technical-label text-technical-label">NO SE PUDO LEER</span>
+<div class="flex gap-base mt-xs">
+<button class="bg-transparent border border-status-processing text-status-processing px-sm py-[2px] rounded-button font-technical-label text-[10px] hover:bg-status-processing-bg transition-colors">Pegar texto</button>
+<button class="bg-transparent border border-status-error text-status-error px-sm py-[2px] rounded-button font-technical-label text-[10px] hover:bg-status-error-bg transition-colors">Quitar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col md:flex-row items-end md:items-center justify-end gap-md mt-lg border-t border-border-light pt-md">
+<span class="font-technical-data text-technical-data text-text-muted">Puedes entrar mientras terminan las demás</span>
+<button class="bg-primary-container text-on-primary rounded-button px-md py-sm font-technical-data text-technical-data hover:bg-surface-tint transition-colors">
+                Ver resultados
+            </button>
+</div>
+</main>
+<!-- Footer from JSON -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant dark:border-outline full-width mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center py-md px-gutter w-full max-w-container-max mx-auto">
+<div class="font-technical-label text-technical-label text-on-surface">
+                © 2024 CALCO SISTEMAS · REGISTRO OFICIAL
+            </div>
+<nav class="flex gap-md mt-sm md:mt-0">
+<a class="font-technical-data text-technical-data text-outline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Privacidad</a>
+<a class="font-technical-data text-technical-data text-outline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Términos</a>
+<a class="font-technical-data text-technical-data text-outline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Soporte</a>
+</nav>
+</div>
+</footer>
+</body></html>

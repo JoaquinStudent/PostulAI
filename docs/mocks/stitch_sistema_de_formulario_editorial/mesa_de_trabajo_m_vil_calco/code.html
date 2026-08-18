@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Mesa de Trabajo · Calco</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Archivo, Public Sans, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#e2e9f4",
+                      "primary": "#002b80",
+                      "secondary-fixed-dim": "#e4c538",
+                      "tertiary": "#6d0012",
+                      "inverse-primary": "#b5c4ff",
+                      "on-primary-container": "#a2b6ff",
+                      "secondary-fixed": "#ffe166",
+                      "primary-fixed-dim": "#b5c4ff",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed-dim": "#ffb3b0",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "primary-fixed": "#dbe1ff",
+                      "on-tertiary-fixed": "#410007",
+                      "background": "#f8f9ff",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#ff9f9d",
+                      "surface-bright": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "tertiary-container": "#97051e",
+                      "surface-container-highest": "#dce3ee",
+                      "on-tertiary-fixed-variant": "#92001b",
+                      "on-primary-fixed-variant": "#1e4098",
+                      "outline": "#747683",
+                      "on-surface-variant": "#444652",
+                      "on-secondary-fixed-variant": "#544600",
+                      "surface-tint": "#3b59b1",
+                      "on-primary-fixed": "#00164d",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d4dae6",
+                      "surface": "#f8f9ff",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#746100",
+                      "inverse-surface": "#2a313a",
+                      "surface-container": "#e8eefa",
+                      "surface-container-low": "#eef4ff",
+                      "secondary": "#6f5d00",
+                      "on-secondary-fixed": "#221b00",
+                      "primary-container": "#22439b",
+                      "outline-variant": "#c4c6d4",
+                      "surface-variant": "#dce3ee",
+                      "on-surface": "#151c24",
+                      "on-background": "#151c24",
+                      "secondary-container": "#ffde50",
+                      "tertiary-fixed": "#ffdad8",
+                      "inverse-on-surface": "#eaf1fd",
+                      "calco-green": "#1E7A5F",
+                      "calco-yellow": "#F5D547",
+                      "calco-border": "#C9D2DB"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "gutter": "16px",
+                      "container-max": "1100px",
+                      "base": "8px",
+                      "lg": "40px",
+                      "xs": "4px",
+                      "xl": "64px",
+                      "md": "24px"
+              },
+              "fontFamily": {
+                      "technical-data": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Public Sans"
+                      ],
+                      "headline-md-mobile": [
+                              "Archivo Narrow"
+                      ],
+                      "technical-label": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-md": [
+                              "Archivo Narrow"
+                      ],
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "headline-sm": [
+                              "Archivo Narrow"
+                      ],
+                      "display-lg": [
+                              "Archivo Narrow"
+                      ]
+              },
+              "fontSize": {
+                      "technical-data": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "technical-label": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.08em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        .highlight-yellow {
+            position: relative;
+            z-index: 1;
+        }
+        .highlight-yellow::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 2px;
+            width: 100%;
+            height: 6px;
+            background-color: #F5D547;
+            z-index: -1;
+            opacity: 0.8;
+        }
+        /* Custom scrollbar for horizontal carousel to keep it clean */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#F2F4F7] h-full font-body-md text-on-surface antialiased max-w-[390px] mx-auto overflow-hidden relative flex flex-col border-x border-calco-border bg-white shadow-xl">
+<!-- Top Action Bar -->
+<header class="flex items-center justify-between px-4 h-[52px] bg-white border-b border-calco-border shrink-0">
+<button aria-label="Volver" class="text-on-surface hover:bg-surface-variant p-2 rounded transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<div class="flex-1 min-w-0 px-2 text-center">
+<h1 class="font-headline-sm text-[16px] font-bold text-on-surface truncate">
+                Licitación Pública Nacional LPN-004-2024
+            </h1>
+</div>
+<button aria-label="Exportar" class="text-primary-container hover:bg-surface-variant p-2 rounded transition-colors flex items-center gap-1">
+<span class="font-technical-label text-[10px] hidden sm:inline">EXPORTAR</span>
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+</button>
+</header>
+<!-- Session Bar -->
+<div class="h-[24px] bg-[#F8F9FF] border-b border-calco-border flex items-center justify-center shrink-0">
+<span class="font-technical-label text-[10px] text-on-surface-variant tracking-wider">
+            SESIÓN TEMPORAL
+        </span>
+</div>
+<!-- Question Carousel -->
+<nav class="h-[56px] border-b border-calco-border bg-white flex items-center px-4 overflow-x-auto hide-scroll shrink-0">
+<div class="flex gap-2">
+<!-- Q1: Approved -->
+<button aria-label="Pregunta 1, Aprobada" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-green text-calco-green font-technical-data text-[12px] shrink-0">
+                1
+            </button>
+<!-- Q2: Approved -->
+<button aria-label="Pregunta 2, Aprobada" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-green text-calco-green font-technical-data text-[12px] shrink-0">
+                2
+            </button>
+<!-- Q3: Active -->
+<button aria-current="step" aria-label="Pregunta 3, Activa" class="w-[32px] h-[32px] flex items-center justify-center bg-primary-container text-white font-technical-data text-[12px] font-bold shrink-0 shadow-sm">
+                3
+            </button>
+<!-- Q4-Q8: Pending -->
+<button aria-label="Pregunta 4, Pendiente" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-border text-on-surface-variant font-technical-data text-[12px] shrink-0">
+                4
+            </button>
+<button aria-label="Pregunta 5, Pendiente" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-border text-on-surface-variant font-technical-data text-[12px] shrink-0">
+                5
+            </button>
+<button aria-label="Pregunta 6, Pendiente" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-border text-on-surface-variant font-technical-data text-[12px] shrink-0">
+                6
+            </button>
+<button aria-label="Pregunta 7, Pendiente" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-border text-on-surface-variant font-technical-data text-[12px] shrink-0">
+                7
+            </button>
+<button aria-label="Pregunta 8, Pendiente" class="w-[32px] h-[32px] flex items-center justify-center border border-calco-border text-on-surface-variant font-technical-data text-[12px] shrink-0">
+                8
+            </button>
+</div>
+</nav>
+<!-- Main Content Area (Scrollable) -->
+<main class="flex-1 overflow-y-auto bg-white p-4 pb-32">
+<!-- Technical Subtitle -->
+<div class="mb-4 flex items-center gap-2">
+<span class="font-technical-label text-[10px] text-on-surface-variant tracking-wider uppercase">
+                PREGUNTA 3 DE 8 · LÍMITE 300
+            </span>
+<div class="h-[1px] bg-calco-border flex-1"></div>
+</div>
+<!-- Question Text -->
+<h2 class="font-headline-sm text-[18px] text-on-surface mb-6 leading-tight">
+            Describa detalladamente la metodología que se implementará para garantizar la disponibilidad continua del servicio durante los picos de demanda estacionales.
+        </h2>
+<!-- Answer Field (Editable Area Simulation) -->
+<div class="relative mt-2">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-calco-border"></div>
+<div class="pl-4 font-body-md text-[16px] text-on-surface leading-relaxed outline-none min-h-[150px]" contenteditable="true">
+                Para asegurar la disponibilidad continua, implementaremos una arquitectura redundante en la nube con balanceo de carga automático. <span class="highlight-yellow">El sistema escalará horizontalmente de forma proactiva al detectar un incremento del 20% en el tráfico base</span>, garantizando que los tiempos de respuesta se mantengan inferiores a 200ms incluso durante los picos históricos registrados.
+            </div>
+<!-- Contextual Toolbar (Floating near cursor) -->
+<div class="absolute -top-10 right-0 bg-white border border-calco-border shadow-sm flex items-center p-1 rounded-sm">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors" title="Formato Técnico">
+<span class="material-symbols-outlined text-[16px]">code</span>
+</button>
+<div class="w-[1px] h-4 bg-calco-border mx-1"></div>
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors" title="Comentar">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Toolbar -->
+<div class="absolute bottom-0 w-full bg-white border-t border-calco-border flex flex-col z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<!-- Row 1: Character Limit Gauge -->
+<div class="h-[28px] border-b border-calco-border flex items-center px-4 bg-surface-bright">
+<div class="flex-1 h-[4px] bg-surface-variant rounded-full overflow-hidden mr-3">
+<!-- 95% Full Indicator -->
+<div class="h-full bg-primary-container" style="width: 95%;"></div>
+</div>
+<div class="font-technical-label text-[10px] text-primary-container tracking-tighter">
+<span class="font-bold">284</span> <span class="text-on-surface-variant">/ 300</span>
+</div>
+</div>
+<!-- Row 2: Action Buttons -->
+<div class="p-3 flex gap-2 items-center bg-white">
+<!-- Secondary Actions (Compact) -->
+<button aria-label="Acortar" class="flex items-center justify-center w-[40px] h-[40px] border border-calco-border rounded text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">compress</span>
+</button>
+<button aria-label="Regenerar" class="flex items-center justify-center w-[40px] h-[40px] border border-calco-border rounded text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</button>
+<button aria-label="Aprobar" class="flex items-center justify-center w-[40px] h-[40px] border border-calco-green text-calco-green rounded hover:bg-green-50 transition-colors">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+<!-- Primary Action (Prominent for thumb) -->
+<button class="flex-1 h-[40px] bg-primary-container text-white font-body-md text-[14px] font-medium rounded flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span>Copiar</span>
+</button>
+</div>
+</div>
+</body></html>

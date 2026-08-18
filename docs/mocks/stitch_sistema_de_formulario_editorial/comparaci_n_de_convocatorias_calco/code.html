@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CALCO - Comparación de Resultados</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#221b00",
+                        "on-secondary-fixed-variant": "#544600",
+                        "outline": "#747683",
+                        "surface-tint": "#3b59b1",
+                        "tertiary-fixed": "#ffdad8",
+                        "secondary-fixed-dim": "#e4c538",
+                        "surface-variant": "#dce3ee",
+                        "inverse-surface": "#2a313a",
+                        "on-tertiary-fixed": "#410007",
+                        "surface-dim": "#d4dae6",
+                        "surface-container": "#e8eefa",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#6f5d00",
+                        "surface-container-low": "#eef4ff",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "secondary-fixed": "#ffe166",
+                        "on-surface": "#151c24",
+                        "on-background": "#151c24",
+                        "on-secondary-container": "#746100",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#97051e",
+                        "tertiary": "#6d0012",
+                        "primary": "#002b80",
+                        "inverse-on-surface": "#eaf1fd",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#22439b",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "surface-container-high": "#e2e9f4",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9ff",
+                        "on-primary-container": "#a2b6ff",
+                        "on-surface-variant": "#444652",
+                        "secondary-container": "#ffde50",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "inverse-primary": "#b5c4ff",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#dce3ee",
+                        "on-primary-fixed": "#00164d",
+                        "on-tertiary-container": "#ff9f9d",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c4c6d4",
+                        "status-high": "#1E7A5F",
+                        "status-error": "#C6303A"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "lg": "40px",
+                        "gutter": "16px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "md": "24px",
+                        "xl": "64px",
+                        "container-max": "1100px"
+                    },
+                    "fontFamily": {
+                        "technical-label": ["JetBrains Mono"],
+                        "body-md": ["Public Sans"],
+                        "headline-md": ["Archivo Narrow"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "body-lg": ["Public Sans"],
+                        "display-lg": ["Archivo Narrow"],
+                        "technical-data": ["JetBrains Mono"],
+                        "headline-md-mobile": ["Archivo Narrow"]
+                    },
+                    "fontSize": {
+                        "technical-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "technical-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-md-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F2F4F7] text-on-surface font-body-md min-h-screen flex flex-col items-center">
+<!-- Session Bar -->
+<div class="w-full h-[28px] bg-[#F5D547] bg-opacity-25 flex items-center justify-center border-b border-outline-variant">
+<span class="font-technical-label text-technical-label text-on-surface uppercase tracking-wider">SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR</span>
+</div>
+<!-- TopAppBar -->
+<header class="w-full bg-surface border-b border-outline flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">CALCO</span>
+<nav class="hidden md:flex gap-md h-full items-center">
+<a class="h-full flex items-center text-on-surface-variant font-technical-label text-technical-label hover:bg-surface-container-low transition-colors px-xs" href="#">Buscar</a>
+<a class="h-full flex items-center text-primary border-b-2 border-primary font-technical-label text-technical-label hover:bg-surface-container-low transition-colors px-xs" href="#">Analizador</a>
+</nav>
+</div>
+<div class="flex items-center gap-md font-technical-label text-technical-label">
+<span class="text-on-surface-variant">Créditos: 450</span>
+<span class="text-primary cursor-pointer hover:underline">Nueva Consulta</span>
+<div class="flex gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">account_circle</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+</div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="w-full max-w-container-max flex-1 py-lg px-gutter md:px-lg flex flex-col gap-md">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-outline-variant pb-base">
+<h1 class="font-headline-md text-headline-md text-on-surface">6 convocatorias analizadas</h1>
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-md mt-sm md:mt-0 font-technical-label text-technical-label">
+<div class="flex border border-outline-variant rounded bg-surface overflow-hidden">
+<button class="px-sm py-xs bg-surface-container-highest text-on-surface border-r border-outline-variant hover:bg-surface-variant transition-colors">Encaje</button>
+<button class="px-sm py-xs text-on-surface-variant hover:bg-surface-container-low transition-colors border-r border-outline-variant">Fecha límite</button>
+<button class="px-sm py-xs text-on-surface-variant hover:bg-surface-container-low transition-colors">Esfuerzo</button>
+</div>
+<button class="bg-transparent border border-primary text-primary px-sm py-xs rounded hover:bg-surface-container-low transition-colors uppercase">Agregar más enlaces</button>
+</div>
+</div>
+<!-- List Section -->
+<div class="flex flex-col gap-base">
+<!-- Row 1 -->
+<div class="flex h-auto md:h-[96px] bg-surface border border-outline-variant flex-col md:flex-row relative group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-status-high"></div>
+<div class="flex-1 p-sm pl-md flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant">
+<h2 class="font-headline-sm text-[17px] text-on-surface truncate">Hackathon Regional IA</h2>
+<span class="font-technical-label text-[11px] text-on-surface-variant uppercase mt-xs tracking-wider">TechCorp · Tecnología · $10K USD</span>
+</div>
+<div class="w-full md:w-[120px] flex flex-col items-center justify-center p-sm border-b md:border-b-0 md:border-r border-outline-variant bg-surface-container-lowest">
+<span class="font-headline-md text-[28px] text-on-surface leading-none">84%</span>
+<span class="font-technical-label text-[10px] text-on-surface-variant mt-xs tracking-wider">ENCAJE</span>
+</div>
+<div class="flex-1 p-sm flex flex-col justify-center gap-xs border-b md:border-b-0 md:border-r border-outline-variant font-technical-data text-technical-data text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-high" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="truncate">Stack técnico coincide al 100%</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-error" style="font-variation-settings: 'FILL' 1;">remove_circle</span>
+<span class="truncate">Requiere video de 3 min</span>
+</div>
+</div>
+<div class="w-full md:w-[240px] p-sm flex flex-col items-end justify-center bg-surface-container-lowest">
+<span class="font-technical-label text-[10px] text-on-surface-variant uppercase mb-xs text-right">15 OCT · 8 PREGUNTAS · ~1.400 PALABRAS</span>
+<button class="bg-primary text-on-primary px-sm py-xs rounded font-technical-label text-technical-label uppercase w-full md:w-auto hover:bg-on-primary-fixed-variant transition-colors">Preparar</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="flex h-auto md:h-[96px] bg-surface border border-outline-variant flex-col md:flex-row relative group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#2E8B6F]"></div>
+<div class="flex-1 p-sm pl-md flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant">
+<h2 class="font-headline-sm text-[17px] text-on-surface truncate">Fondo Innovación Digital</h2>
+<span class="font-technical-label text-[11px] text-on-surface-variant uppercase mt-xs tracking-wider">Gobierno · Subvención · €50K</span>
+</div>
+<div class="w-full md:w-[120px] flex flex-col items-center justify-center p-sm border-b md:border-b-0 md:border-r border-outline-variant bg-surface-container-lowest">
+<span class="font-headline-md text-[28px] text-on-surface leading-none">71%</span>
+<span class="font-technical-label text-[10px] text-on-surface-variant mt-xs tracking-wider">ENCAJE</span>
+</div>
+<div class="flex-1 p-sm flex flex-col justify-center gap-xs border-b md:border-b-0 md:border-r border-outline-variant font-technical-data text-technical-data text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-high" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="truncate">Proyecto anterior es escalable</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-error" style="font-variation-settings: 'FILL' 1;">remove_circle</span>
+<span class="truncate">Pide balances auditados</span>
+</div>
+</div>
+<div class="w-full md:w-[240px] p-sm flex flex-col items-end justify-center bg-surface-container-lowest">
+<span class="font-technical-label text-[10px] text-on-surface-variant uppercase mb-xs text-right">02 NOV · 12 PREGUNTAS · ~3.500 PALABRAS</span>
+<button class="bg-primary text-on-primary px-sm py-xs rounded font-technical-label text-technical-label uppercase w-full md:w-auto hover:bg-on-primary-fixed-variant transition-colors">Preparar</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="flex h-auto md:h-[96px] bg-surface border border-outline-variant flex-col md:flex-row relative group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#3E9C7F]"></div>
+<div class="flex-1 p-sm pl-md flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant">
+<h2 class="font-headline-sm text-[17px] text-on-surface truncate">Beca Maestría STEM</h2>
+<span class="font-technical-label text-[11px] text-on-surface-variant uppercase mt-xs tracking-wider">Fundación XYZ · Educación · Matrícula</span>
+</div>
+<div class="w-full md:w-[120px] flex flex-col items-center justify-center p-sm border-b md:border-b-0 md:border-r border-outline-variant bg-surface-container-lowest">
+<span class="font-headline-md text-[28px] text-on-surface leading-none">63%</span>
+<span class="font-technical-label text-[10px] text-on-surface-variant mt-xs tracking-wider">ENCAJE</span>
+</div>
+<div class="flex-1 p-sm flex flex-col justify-center gap-xs border-b md:border-b-0 md:border-r border-outline-variant font-technical-data text-technical-data text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-high" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="truncate">Promedio académico superior</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-error" style="font-variation-settings: 'FILL' 1;">remove_circle</span>
+<span class="truncate">Ensayo de 2.000 palabras</span>
+</div>
+</div>
+<div class="w-full md:w-[240px] p-sm flex flex-col items-end justify-center bg-surface-container-lowest">
+<span class="font-technical-label text-[10px] text-on-surface-variant uppercase mb-xs text-right">20 DIC · 4 PREGUNTAS · ~2.500 PALABRAS</span>
+<button class="bg-primary text-on-primary px-sm py-xs rounded font-technical-label text-technical-label uppercase w-full md:w-auto hover:bg-on-primary-fixed-variant transition-colors">Preparar</button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="flex h-auto md:h-[96px] bg-surface border border-outline-variant flex-col md:flex-row relative group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#6B8BA4]"></div>
+<div class="flex-1 p-sm pl-md flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant">
+<h2 class="font-headline-sm text-[17px] text-on-surface truncate">Aceleradora Startups</h2>
+<span class="font-technical-label text-[11px] text-on-surface-variant uppercase mt-xs tracking-wider">VC Group · Inversión · $50K USD</span>
+</div>
+<div class="w-full md:w-[120px] flex flex-col items-center justify-center p-sm border-b md:border-b-0 md:border-r border-outline-variant bg-surface-container-lowest">
+<span class="font-headline-md text-[28px] text-on-surface leading-none">52%</span>
+<span class="font-technical-label text-[10px] text-on-surface-variant mt-xs tracking-wider">ENCAJE</span>
+</div>
+<div class="flex-1 p-sm flex flex-col justify-center gap-xs border-b md:border-b-0 md:border-r border-outline-variant font-technical-data text-technical-data text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-high" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="truncate">Mercado objetivo validado</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-status-error" style="font-variation-settings: 'FILL' 1;">remove_circle</span>
+<span class="truncate">Piden 5% de equity</span>
+</div>
+</div>
+<div class="w-full md:w-[240px] p-sm flex flex-col items-end justify-center bg-surface-container-lowest">
+<span class="font-technical-label text-[10px] text-on-surface-variant uppercase mb-xs text-right">10 NOV · 15 PREGUNTAS · ~4.000 PALABRAS</span>
+<button class="bg-primary text-on-primary px-sm py-xs rounded font-technical-label text-technical-label uppercase w-full md:w-auto hover:bg-on-primary-fixed-variant transition-colors">Preparar</button>
+</div>
+</div>
+<!-- Row 5 (Low Match) -->
+<div class="flex h-auto md:h-[96px] bg-surface border border-outline-variant flex-col md:flex-row relative opacity-80">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#C9D2DB]"></div>
+<div class="flex-1 p-sm pl-md flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant">
+<h2 class="font-headline-sm text-[17px] text-[#5A6672] truncate">Convocatoria Arte &amp; IA</h2>
+<span class="font-technical-label text-[11px] text-[#5A6672] uppercase mt-xs tracking-wider">Museo IA · Exposición · $2K USD</span>
+</div>
+<div class="w-full md:w-[120px] flex flex-col items-center justify-center p-sm border-b md:border-b-0 md:border-r border-outline-variant bg-surface-container-lowest">
+<span class="font-headline-md text-[28px] text-[#5A6672] leading-none">22%</span>
+<span class="font-technical-label text-[10px] text-[#5A6672] mt-xs tracking-wider">ENCAJE</span>
+</div>
+<div class="flex-1 p-sm flex flex-col justify-center gap-xs border-b md:border-b-0 md:border-r border-outline-variant font-technical-data text-technical-data text-[#5A6672]">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] opacity-70">check_circle</span>
+<span class="truncate">Uso de Stable Diffusion</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] opacity-70">remove_circle</span>
+<span class="truncate">No tienes portafolio visual</span>
+</div>
+</div>
+<div class="w-full md:w-[240px] p-sm flex flex-col items-end justify-center bg-surface-container-lowest">
+<span class="font-technical-label text-[10px] text-[#5A6672] uppercase mb-xs text-right">30 OCT · 5 PREGUNTAS · ~1.000 PALABRAS</span>
+<button class="bg-transparent border border-outline text-outline px-sm py-xs rounded font-technical-label text-technical-label uppercase w-full md:w-auto hover:bg-surface-variant transition-colors">Revisar</button>
+</div>
+</div>
+<!-- Row 6 (Low Match) -->
+<div class="flex h-auto md:h-[96px] bg-surface border border-outline-variant flex-col md:flex-row relative opacity-80">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#C9D2DB]"></div>
+<div class="flex-1 p-sm pl-md flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant">
+<h2 class="font-headline-sm text-[17px] text-[#5A6672] truncate">Fondo Cultura Local</h2>
+<span class="font-technical-label text-[11px] text-[#5A6672] uppercase mt-xs tracking-wider">Alcaldía · Ayuda · $5K USD</span>
+</div>
+<div class="w-full md:w-[120px] flex flex-col items-center justify-center p-sm border-b md:border-b-0 md:border-r border-outline-variant bg-surface-container-lowest">
+<span class="font-headline-md text-[28px] text-[#5A6672] leading-none">15%</span>
+<span class="font-technical-label text-[10px] text-[#5A6672] mt-xs tracking-wider">ENCAJE</span>
+</div>
+<div class="flex-1 p-sm flex flex-col justify-center gap-xs border-b md:border-b-0 md:border-r border-outline-variant font-technical-data text-technical-data text-[#5A6672]">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] opacity-70">check_circle</span>
+<span class="truncate">Residencia en la zona</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] opacity-70">remove_circle</span>
+<span class="truncate">Incompatible con otras becas</span>
+</div>
+</div>
+<div class="w-full md:w-[240px] p-sm flex flex-col items-end justify-center bg-surface-container-lowest">
+<span class="font-technical-label text-[10px] text-[#5A6672] uppercase mb-xs text-right">05 DIC · 10 PREGUNTAS · ~2.000 PALABRAS</span>
+<button class="bg-transparent border border-outline text-outline px-sm py-xs rounded font-technical-label text-technical-label uppercase w-full md:w-auto hover:bg-surface-variant transition-colors">Revisar</button>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="flex justify-center mt-md">
+<a class="font-technical-label text-technical-label text-primary hover:underline flex items-center gap-xs uppercase" href="#">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                Descargar el análisis del lote
+            </a>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center py-base px-gutter w-full max-w-container-max mx-auto font-technical-label text-technical-label text-on-surface-variant">
+<span class="uppercase">© 2024 CALCO SISTEMAS · DOCUMENTACIÓN OFICIAL</span>
+<div class="flex gap-md mt-sm md:mt-0">
+<a class="hover:text-primary transition-opacity duration-200" href="#">Privacidad</a>
+<a class="hover:text-primary transition-opacity duration-200" href="#">Términos de Uso</a>
+<a class="hover:text-primary transition-opacity duration-200" href="#">API Docs</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CALCO - Ajustes</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#b5c4ff",
+                    "on-surface": "#151c24",
+                    "on-surface-variant": "#444652",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#dce3ee",
+                    "surface-tint": "#3b59b1",
+                    "inverse-primary": "#b5c4ff",
+                    "surface-variant": "#dce3ee",
+                    "primary": "#002b80",
+                    "on-tertiary-fixed-variant": "#92001b",
+                    "surface": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "on-background": "#151c24",
+                    "surface-dim": "#d4dae6",
+                    "tertiary": "#6d0012",
+                    "primary-container": "#22439b",
+                    "inverse-on-surface": "#eaf1fd",
+                    "on-secondary-fixed-variant": "#544600",
+                    "secondary": "#6f5d00",
+                    "surface-container-low": "#eef4ff",
+                    "background": "#f8f9ff",
+                    "secondary-container": "#ffde50",
+                    "on-primary-container": "#a2b6ff",
+                    "tertiary-fixed-dim": "#ffb3b0",
+                    "inverse-surface": "#2a313a",
+                    "surface-container-high": "#e2e9f4",
+                    "on-tertiary-fixed": "#410007",
+                    "on-secondary-fixed": "#221b00",
+                    "secondary-fixed-dim": "#e4c538",
+                    "primary-fixed": "#dbe1ff",
+                    "outline": "#747683",
+                    "on-tertiary-container": "#ff9f9d",
+                    "tertiary-container": "#97051e",
+                    "tertiary-fixed": "#ffdad8",
+                    "on-secondary-container": "#746100",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e8eefa",
+                    "secondary-fixed": "#ffe166",
+                    "on-primary-fixed": "#00164d",
+                    "on-primary-fixed-variant": "#1e4098",
+                    "outline-variant": "#c4c6d4",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "container-max": "1100px",
+                    "md": "24px",
+                    "lg": "40px",
+                    "base": "8px",
+                    "sm": "12px",
+                    "gutter": "16px",
+                    "xl": "64px"
+            },
+            "fontFamily": {
+                    "display-lg": [
+                            "Archivo Narrow"
+                    ],
+                    "body-lg": [
+                            "Public Sans"
+                    ],
+                    "body-md": [
+                            "Public Sans"
+                    ],
+                    "headline-md-mobile": [
+                            "Archivo Narrow"
+                    ],
+                    "technical-label": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-md": [
+                            "Archivo Narrow"
+                    ],
+                    "headline-sm": [
+                            "Archivo Narrow"
+                    ],
+                    "technical-data": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "technical-label": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.08em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-sm": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "technical-data": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-[#F2F4F7] text-on-surface font-body-md min-h-screen flex flex-col items-center">
+<div class="w-full h-[28px] bg-[#F5D547] bg-opacity-25 flex items-center justify-center font-technical-label text-technical-label px-gutter border-b border-outline-variant">
+<span>SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR</span>
+<a class="ml-4 underline hover:text-primary transition-colors" href="#">Iniciar sesión completa</a>
+</div>
+<header class="bg-surface dark:bg-surface flex justify-between items-center w-full h-16 px-gutter max-w-container-max mx-auto border-b border-outline dark:border-outline-variant">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tighter cursor-pointer">CALCO</div>
+<div class="flex items-center gap-md">
+<span class="font-technical-label text-technical-label text-on-surface-variant">Créditos: 450</span>
+<button class="font-technical-label text-technical-label bg-transparent border border-primary text-primary px-sm py-xs rounded hover:bg-surface-container-low transition-colors">Nueva Consulta</button>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-low transition-colors p-xs rounded text-primary">account_circle</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-low transition-colors p-xs rounded text-primary">settings</span>
+</div>
+</div>
+</header>
+<main class="w-full max-w-container-max mx-auto mt-lg px-gutter flex-1 mb-xl bg-white border border-[#C9D2DB] flex">
+<aside class="w-[200px] border-r border-[#C9D2DB] py-md">
+<h2 class="font-headline-md text-headline-md px-md mb-md">Ajustes</h2>
+<nav class="flex flex-col gap-1 font-body-md text-body-md">
+<a class="flex items-center px-md py-sm bg-primary-container text-on-primary-container font-bold border-l-2 border-primary relative group" href="#">
+<span class="ml-[-2px] absolute h-full w-[2px] bg-primary left-0"></span>
+                    Proveedor de IA
+                </a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">Tu contexto</a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">Privacidad</a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">Apariencia</a>
+</nav>
+</aside>
+<section class="flex-1 max-w-[720px] px-lg py-md">
+<div class="mb-lg pb-lg border-b border-[#C9D2DB]">
+<h3 class="font-headline-sm text-headline-sm mb-md">Proveedor de IA</h3>
+<div class="flex items-center justify-between mb-md pb-md border-b border-outline-variant">
+<div>
+<span class="font-technical-label text-technical-label text-on-surface-variant block mb-xs">API KEY</span>
+<div class="flex items-center gap-sm">
+<span class="font-technical-data text-technical-data">••••••••••••</span>
+<span class="bg-[#1E7A5F] bg-opacity-10 text-[#1E7A5F] font-technical-label text-technical-label px-2 py-1 rounded-full border border-[#1E7A5F] border-opacity-20">CONECTADA</span>
+</div>
+</div>
+<div class="flex gap-md font-technical-label text-technical-label">
+<button class="underline text-on-surface hover:text-primary transition-colors">Reemplazar</button>
+<button class="underline text-error hover:text-on-error-container transition-colors">Desconectar</button>
+</div>
+</div>
+<div class="mb-lg pb-md border-b border-outline-variant">
+<span class="font-technical-label text-technical-label text-on-surface-variant block mb-xs">CRÉDITOS RESTANTES</span>
+<div class="font-display-lg text-display-lg mb-sm">450</div>
+<div class="w-full bg-surface-container-highest h-[2px] rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+</div>
+<div>
+<span class="font-technical-label text-technical-label text-on-surface-variant block mb-sm">SELECTOR DE MODELO</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-sm mb-sm">
+<button class="text-left p-sm border border-[#C9D2DB] rounded bg-white hover:bg-surface transition-colors">
+<div class="font-body-md text-body-md font-bold mb-xs">Económico</div>
+<div class="font-body-md text-body-md text-on-surface-variant mb-sm">Análisis básico y rápido.</div>
+<div class="font-technical-data text-technical-data text-on-surface-variant">0.1 cr/petición</div>
+</button>
+<button class="text-left p-sm border-2 border-primary rounded bg-surface transition-colors relative">
+<span class="material-symbols-outlined text-primary absolute top-xs right-xs text-[16px]">check_circle</span>
+<div class="font-body-md text-body-md font-bold mb-xs">Equilibrado</div>
+<div class="font-body-md text-body-md text-on-surface-variant mb-sm">Balance costo-calidad.</div>
+<div class="font-technical-data text-technical-data text-on-surface-variant">0.5 cr/petición</div>
+</button>
+<button class="text-left p-sm border border-[#C9D2DB] rounded bg-white hover:bg-surface transition-colors">
+<div class="font-body-md text-body-md font-bold mb-xs">Máxima calidad</div>
+<div class="font-body-md text-body-md text-on-surface-variant mb-sm">Análisis profundo detallado.</div>
+<div class="font-technical-data text-technical-data text-on-surface-variant">2.0 cr/petición</div>
+</button>
+</div>
+<p class="font-technical-label text-technical-label text-[#5A6672]">El análisis del lote usa siempre el modelo económico; la redacción usa el seleccionado.</p>
+</div>
+</div>
+<div class="mb-lg">
+<h3 class="font-headline-sm text-headline-sm mb-md">Privacidad</h3>
+<div class="flex items-start justify-between mb-md pb-md border-b border-outline-variant">
+<div>
+<div class="font-body-md text-body-md font-bold mb-xs">Recordar mi contexto en este dispositivo</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Almacena localmente tus preferencias y configuraciones para futuras sesiones.</div>
+</div>
+<button class="relative inline-flex items-center h-6 rounded-full w-11 bg-surface-container-highest transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mt-1">
+<span class="inline-block w-4 h-4 transform bg-white rounded-full transition-transform translate-x-1 border border-outline-variant"></span>
+</button>
+</div>
+<div class="mb-lg pb-md border-b border-outline-variant">
+<span class="font-technical-label text-technical-label text-on-surface-variant block mb-sm">NIVEL DE SEGURIDAD DE CLAVE</span>
+<div class="flex flex-col gap-sm">
+<label class="flex items-center gap-sm cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary h-4 w-4 border-outline-variant" name="security" type="radio"/>
+<span class="font-body-md text-body-md">Almacenar en memoria temporal (se borra al cerrar)</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer">
+<input class="text-primary focus:ring-primary h-4 w-4 border-outline-variant" name="security" type="radio"/>
+<span class="font-body-md text-body-md">Cifrar en almacenamiento local del navegador</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer">
+<input class="text-primary focus:ring-primary h-4 w-4 border-outline-variant" name="security" type="radio"/>
+<span class="font-body-md text-body-md">Requerir ingreso manual en cada sesión</span>
+</label>
+</div>
+</div>
+<div class="p-md border border-[#C6303A] bg-error-container bg-opacity-10 rounded">
+<h4 class="font-body-md text-body-md font-bold text-error mb-xs">Borrar todo</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Esto eliminará permanentemente la API Key, tu contexto guardado y cerrará la sesión actual de forma inmediata. No se puede deshacer.</p>
+<button class="font-body-md text-body-md bg-transparent border border-[#C6303A] text-[#C6303A] px-md py-sm rounded hover:bg-error-container hover:bg-opacity-20 transition-colors">Borrar todos mis datos</button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

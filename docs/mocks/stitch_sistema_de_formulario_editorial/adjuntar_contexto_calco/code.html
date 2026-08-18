@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Carga de Contexto</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "tertiary-fixed": "#ffdad8",
+                        "error-container": "#ffdad6",
+                        "primary": "#002b80",
+                        "outline": "#747683",
+                        "tertiary-container": "#97051e",
+                        "tertiary": "#6d0012",
+                        "surface-container-low": "#eef4ff",
+                        "secondary": "#6f5d00",
+                        "surface-tint": "#3b59b1",
+                        "surface": "#f8f9ff",
+                        "surface-container-highest": "#dce3ee",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed": "#dbe1ff",
+                        "outline-variant": "#c4c6d4",
+                        "surface-dim": "#d4dae6",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "surface-container": "#e8eefa",
+                        "on-surface-variant": "#444652",
+                        "inverse-surface": "#2a313a",
+                        "on-secondary-fixed-variant": "#544600",
+                        "surface-variant": "#dce3ee",
+                        "secondary-container": "#ffde50",
+                        "on-primary-fixed": "#00164d",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#221b00",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#a2b6ff",
+                        "inverse-primary": "#b5c4ff",
+                        "on-tertiary-fixed": "#410007",
+                        "inverse-on-surface": "#eaf1fd",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e2e9f4",
+                        "primary-container": "#22439b",
+                        "on-surface": "#151c24",
+                        "on-background": "#151c24",
+                        "on-secondary-container": "#746100",
+                        "secondary-fixed": "#ffe166",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "secondary-fixed-dim": "#e4c538",
+                        "on-tertiary-container": "#ff9f9d",
+                        "tertiary-fixed-dim": "#ffb3b0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "xl": "64px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "container-max": "1100px",
+                        "lg": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"],
+                        "technical-label": ["JetBrains Mono"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "display-lg": ["Archivo Narrow"],
+                        "body-md": ["Public Sans"],
+                        "technical-data": ["JetBrains Mono"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "technical-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                        "headline-md-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "technical-data": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom arbitrary colors required by brand guidelines specifically for these states */
+        .text-brand-success { color: #1E7A5F; }
+        .bg-brand-success-dim { background-color: rgba(30, 122, 95, 0.1); }
+        .text-brand-alert { color: #C6303A; }
+        .bg-brand-alert-dim { background-color: rgba(198, 48, 58, 0.1); }
+        .text-brand-gray { color: #5A6672; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- Session Bar -->
+<div class="w-full h-[28px] bg-[#F5D547]/25 border-b border-outline-variant flex items-center justify-center">
+<span class="font-technical-label text-technical-label text-on-surface uppercase tracking-widest">SESIÓN TEMPORAL · NADA SE GUARDA AL CERRAR</span>
+</div>
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full border-b border-outline-variant bg-surface">
+<div class="max-w-[1100px] mx-auto px-gutter flex justify-between items-center h-16">
+<div class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface flex items-center gap-xs">
+                CALCO
+            </div>
+<nav class="hidden md:flex gap-md h-full">
+<a class="h-full flex items-center text-on-surface-variant font-body-sm text-body-sm hover:bg-surface-container-low transition-colors px-xs active:bg-tertiary-fixed-dim duration-75" href="#">Dashboard</a>
+<a class="h-full flex items-center text-on-surface-variant font-body-sm text-body-sm hover:bg-surface-container-low transition-colors px-xs active:bg-tertiary-fixed-dim duration-75" href="#">Postulaciones</a>
+<a class="h-full flex items-center text-primary font-bold border-b-2 border-primary pb-1 hover:bg-surface-container-low transition-colors px-xs active:bg-tertiary-fixed-dim duration-75" href="#">Bases</a>
+<a class="h-full flex items-center text-on-surface-variant font-body-sm text-body-sm hover:bg-surface-container-low transition-colors px-xs active:bg-tertiary-fixed-dim duration-75" href="#">Historial</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="font-technical-data text-technical-data text-primary underline hover:text-primary-container transition-colors">Nueva Solicitud</button>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-on-surface transition-colors" data-icon="settings">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-on-surface transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full py-xl">
+<!-- Central Column -->
+<div class="w-full max-w-[680px] mx-auto px-gutter flex flex-col gap-lg">
+<!-- Header Section -->
+<section class="flex flex-col gap-base">
+<h1 class="font-headline-md text-headline-md md:font-headline-md md:text-headline-md font-headline-md-mobile text-headline-md-mobile text-on-surface">Adjunta tu contexto</h1>
+<p class="font-body-md text-body-md text-brand-gray">Se lee en tu navegador y se descarta al cerrar. No se sube a ningún servidor.</p>
+</section>
+<!-- Upload Zone -->
+<section class="w-full h-[220px] bg-surface-container-lowest border border-dashed border-outline-variant flex flex-col items-center justify-center gap-md relative">
+<div class="flex flex-col items-center gap-base">
+<span class="material-symbols-outlined text-[48px] text-brand-success" data-icon="check_circle">check_circle</span>
+<div class="flex items-center gap-sm">
+<span class="font-technical-data text-technical-data text-on-surface font-bold">contexto-personal.md</span>
+<span class="font-technical-label text-technical-label text-outline">14 KB</span>
+</div>
+</div>
+<button class="border border-primary-container text-primary-container bg-transparent px-md py-xs rounded-lg font-technical-data text-technical-data hover:bg-surface-container-low transition-colors focus:border-b-2 focus:border-b-primary outline-none">
+                    Reemplazar
+                </button>
+</section>
+<!-- Data Interpretation Section -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface border-b border-outline-variant pb-xs">Lo que Calco leyó</h2>
+<div class="w-full border border-outline-variant bg-surface-container-lowest flex flex-col">
+<!-- Fila 1 -->
+<div class="grid grid-cols-[120px_1fr_100px] gap-md p-md border-b border-outline-variant items-start">
+<div class="font-technical-label text-technical-label text-outline uppercase tracking-widest pt-1">PERFIL</div>
+<div class="font-body-md text-body-md text-on-surface">Ingeniero de Software Senior con enfoque en arquitectura distribuida.</div>
+<div class="font-technical-data text-technical-data text-outline text-right">1 registro</div>
+</div>
+<!-- Fila 2 -->
+<div class="grid grid-cols-[120px_1fr_100px] gap-md p-md border-b border-outline-variant items-start">
+<div class="font-technical-label text-technical-label text-outline uppercase tracking-widest pt-1">PROYECTOS</div>
+<div class="font-body-md text-body-md text-on-surface">Liderazgo en migración a microservicios, plataforma de e-commerce.</div>
+<div class="font-technical-data text-technical-data text-outline text-right">4 registros</div>
+</div>
+<!-- Fila 3 -->
+<div class="grid grid-cols-[120px_1fr_100px] gap-md p-md border-b border-outline-variant items-start">
+<div class="font-technical-label text-technical-label text-outline uppercase tracking-widest pt-1">LOGROS</div>
+<div class="flex flex-col gap-xs">
+<div class="inline-flex">
+<span class="bg-brand-alert-dim text-brand-alert font-technical-label text-technical-label px-sm py-[2px] rounded-full uppercase tracking-widest">SIN DATOS MEDIBLES</span>
+</div>
+<span class="font-technical-data text-technical-data text-outline">Incluye métricas como % o tiempos para mejorar tus respuestas.</span>
+</div>
+<div class="font-technical-data text-technical-data text-outline text-right"></div>
+</div>
+<!-- Fila 4 -->
+<div class="grid grid-cols-[120px_1fr_100px] gap-md p-md items-start">
+<div class="font-technical-label text-technical-label text-outline uppercase tracking-widest pt-1">HABILIDADES</div>
+<div class="font-body-md text-body-md text-on-surface">React, Node.js, AWS, Kubernetes, arquitectura de sistemas.</div>
+<div class="font-technical-data text-technical-data text-outline text-right">12 registros</div>
+</div>
+</div>
+</section>
+<!-- Toggle & Action Section -->
+<section class="flex flex-col gap-lg mt-md">
+<div class="flex items-start gap-md">
+<button aria-checked="false" class="mt-1 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-outline-variant transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 translate-x-0 transform rounded-full bg-surface-container-lowest shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface cursor-pointer">Recordar mi contexto en este dispositivo</span>
+<span class="font-technical-data text-technical-data text-outline">Se guarda solo en este navegador. Puedes borrarlo cuando quieras desde ajustes.</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary h-[48px] rounded-lg font-technical-data text-technical-data flex items-center justify-center hover:bg-on-primary-fixed-variant transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    Continuar
+                </button>
+</section>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full border-t border-outline-variant mt-xl bg-surface-container-low">
+<div class="max-w-[1100px] mx-auto px-gutter py-lg flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="font-headline-md text-headline-md font-bold text-primary">
+                CALCO
+            </div>
+<div class="flex flex-wrap justify-center gap-md font-label-caps text-label-caps uppercase tracking-widest text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="hover:text-primary transition-colors" href="#">Terminos de Uso</a>
+<a class="hover:text-primary transition-colors" href="#">Soporte</a>
+<a class="hover:text-primary transition-colors" href="#">Documentación</a>
+</div>
+<div class="font-technical-data text-technical-data text-outline">
+                © 2024 CALCO SISTEMAS - REGISTRO TÉCNICO
+            </div>
+</div>
+</footer>
+<script>
+        // Simple toggle interaction logic for demonstration
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.querySelector('button[role="switch"]');
+            const toggleCircle = toggleBtn.querySelector('span');
+
+            toggleBtn.addEventListener('click', () => {
+                const isChecked = toggleBtn.getAttribute('aria-checked') === 'true';
+                
+                if (isChecked) {
+                    toggleBtn.setAttribute('aria-checked', 'false');
+                    toggleBtn.classList.remove('bg-primary-container');
+                    toggleBtn.classList.add('bg-outline-variant');
+                    toggleCircle.classList.remove('translate-x-5');
+                    toggleCircle.classList.add('translate-x-0');
+                } else {
+                    toggleBtn.setAttribute('aria-checked', 'true');
+                    toggleBtn.classList.remove('bg-outline-variant');
+                    toggleBtn.classList.add('bg-primary-container');
+                    toggleCircle.classList.remove('translate-x-0');
+                    toggleCircle.classList.add('translate-x-5');
+                }
+            });
+        });
+    </script>
+</body></html>

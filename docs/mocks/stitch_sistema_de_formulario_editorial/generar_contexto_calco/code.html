@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calco - Arma tu contexto</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f8f9ff",
+                        "inverse-primary": "#b5c4ff",
+                        "secondary-fixed": "#ffe166",
+                        "tertiary": "#6d0012",
+                        "on-primary-fixed-variant": "#1e4098",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#dce3ee",
+                        "on-surface": "#151c24",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "on-primary-fixed": "#00164d",
+                        "primary": "#002b80",
+                        "surface-variant": "#dce3ee",
+                        "secondary-container": "#ffde50",
+                        "on-background": "#151c24",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e8eefa",
+                        "inverse-on-surface": "#eaf1fd",
+                        "surface-tint": "#3b59b1",
+                        "secondary": "#6f5d00",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-secondary-container": "#746100",
+                        "error-container": "#ffdad6",
+                        "outline": "#747683",
+                        "surface-dim": "#d4dae6",
+                        "surface-container-high": "#e2e9f4",
+                        "on-tertiary-fixed-variant": "#92001b",
+                        "secondary-fixed-dim": "#e4c538",
+                        "on-tertiary-fixed": "#410007",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#a2b6ff",
+                        "on-surface-variant": "#444652",
+                        "primary-container": "#22439b",
+                        "inverse-surface": "#2a313a",
+                        "outline-variant": "#c4c6d4",
+                        "surface-container-low": "#eef4ff",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#97051e",
+                        "tertiary-fixed": "#ffdad8",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#ff9f9d",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface": "#f2f4f7", /* Adjusted per prompt instructions for base sheet */
+                        "on-secondary-fixed": "#221b00",
+                        "custom-grey-text": "#5a6672",
+                        "custom-code-bg": "#ffffff",
+                        "custom-code-text": "#131a22",
+                        "custom-border": "#c9d2db"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem",
+                        "form": "4px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "base": "8px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "xs": "4px",
+                        "xl": "64px",
+                        "gutter": "16px",
+                        "container-max": "1100px",
+                        "center-col": "720px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Public Sans"],
+                        "headline-sm": ["Archivo Narrow"],
+                        "display-lg": ["Archivo Narrow"],
+                        "body-md": ["Public Sans"],
+                        "technical-data": ["JetBrains Mono"],
+                        "headline-md-mobile": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"],
+                        "technical-label": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "technical-data": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "headline-md-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "technical-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                        "custom-title": ["36px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                        "custom-card-title": ["16px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F2F4F7;
+            color: #151c24;
+        }
+        /* Utilitarian border utilities */
+        .ruled-border {
+            border: 1px solid #C9D2DB;
+        }
+        .ruled-border-bottom {
+            border-bottom: 1px solid #C9D2DB;
+        }
+        .ruled-border-top {
+            border-top: 1px solid #C9D2DB;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-white">
+<!-- Top Navigation -->
+<header class="w-full border-b border-custom-border bg-surface">
+<div class="max-w-[1440px] mx-auto px-lg flex justify-between items-center h-16">
+<div class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface flex items-center gap-xs">
+                CALCO
+            </div>
+<a class="text-primary hover:text-primary-container transition-colors underline underline-offset-4 text-body-md" href="#">
+                Ya tengo mi archivo
+            </a>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center pt-xl pb-xl px-gutter">
+<div class="w-full max-w-center-col space-y-xl">
+<!-- Header Section -->
+<section class="space-y-sm text-center md:text-left">
+<h1 class="font-headline-sm text-custom-title text-on-surface">Arma tu contexto una sola vez</h1>
+<p class="font-body-lg text-body-lg text-custom-grey-text">Es un archivo de texto con quién eres, qué has hecho y en qué eres bueno; se reutiliza en todas tus postulaciones.</p>
+</section>
+<!-- Code Block Section -->
+<section class="ruled-border rounded-form bg-custom-code-bg flex flex-col">
+<div class="flex justify-between items-center px-md py-sm ruled-border-bottom bg-surface-bright">
+<span class="font-technical-label text-technical-label text-on-surface uppercase">PROMPT GENERADOR</span>
+<button class="ruled-border rounded-form px-sm py-xs text-primary hover:bg-surface-container-low transition-colors font-technical-data text-technical-data flex items-center gap-xs" onclick="copyPrompt()">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                        Copiar
+                    </button>
+</div>
+<div class="p-md overflow-x-auto">
+<pre class="font-technical-data text-technical-data text-custom-code-text whitespace-pre-wrap leading-relaxed" id="prompt-content">Actúa como un entrevistador experto en desarrollo profesional y redacción de currículums técnicos.
+Tu objetivo es ayudarme a crear un 'archivo de contexto personal' exhaustivo y narrativo.
+
+Hazme preguntas una por una (no todas a la vez) para extraer:
+1. Mi trayectoria profesional y evolución.
+2. Proyectos específicos donde haya tenido impacto, enfocándote en obtener métricas y logros medibles.
+3. Mi stack técnico real (qué domino vs con qué he experimentado).
+4. Mis motivaciones, filosofía de trabajo y cómo enfrento fracasos o bloqueos.
+5. Soft skills demostrables a través de anécdotas.
+
+Cuando consideres que tienes suficiente información (aprox 5-7 interacciones), consolida todo en un único documento Markdown (.md) estructurado en primera persona, detallado pero conciso, evitando el formato clásico de CV por fechas. Debe leerse como un perfil profesional profundo listo para alimentar otras IAs.</pre>
+</div>
+</section>
+<!-- 3 Cards Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="bg-custom-code-bg ruled-border rounded-form p-md space-y-xs">
+<h3 class="font-headline-sm text-custom-card-title text-on-surface">Incluye números</h3>
+<p class="font-body-md text-sm text-on-surface-variant">Los datos empíricos dan credibilidad a las respuestas redactadas. Un "aumenté la eficiencia un 20%" es mejor que "mejoré procesos".</p>
+</div>
+<div class="bg-custom-code-bg ruled-border rounded-form p-md space-y-xs">
+<h3 class="font-headline-sm text-custom-card-title text-on-surface">Escribe los fracasos también</h3>
+<p class="font-body-md text-sm text-on-surface-variant">Explicar qué salió mal y cómo lo solucionaste demuestra madurez profesional y verdadera capacidad de iteración.</p>
+</div>
+<div class="bg-custom-code-bg ruled-border rounded-form p-md space-y-xs">
+<h3 class="font-headline-sm text-custom-card-title text-on-surface">No lo hagas un CV</h3>
+<p class="font-body-md text-sm text-on-surface-variant">El contexto debe ser narrativo y profundo. Evita hacer una lista cronológica de fechas y cargos vacíos de significado.</p>
+</div>
+</section>
+<!-- Info Note -->
+<section class="flex items-start gap-sm bg-surface-container-low p-sm ruled-border rounded-form">
+<span class="material-symbols-outlined text-custom-grey-text mt-[2px]">info</span>
+<p class="font-body-md text-technical-data text-custom-grey-text">Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe guardarse como archivo .md para adjuntarlo en el siguiente paso.</p>
+</section>
+<!-- Bottom Actions -->
+<section class="flex justify-between items-center pt-md ruled-border-top mt-xl">
+<a class="text-primary hover:text-primary-container transition-colors underline underline-offset-4 font-body-md text-body-md" href="#">
+                    Volver
+                </a>
+<button class="bg-primary-container text-white px-xl py-sm rounded-form font-body-lg text-body-md hover:bg-primary transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary-container flex items-center gap-xs">
+                    Continuar
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</section>
+</div>
+</main>
+<script>
+        function copyPrompt() {
+            const promptText = document.getElementById('prompt-content').innerText;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = document.querySelector('button[onclick="copyPrompt()"]');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>Copiado';
+                btn.classList.add('bg-surface-container-highest');
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('bg-surface-container-highest');
+                }, 2000);
+            });
+        }
+    </script>
+</body></html>
