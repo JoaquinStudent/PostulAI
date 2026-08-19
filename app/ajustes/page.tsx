@@ -19,7 +19,8 @@ import {
 } from "@/lib/ai/models";
 import { clearAll as clearStorage } from "@/lib/storage";
 import type { StorageMode } from "@/lib/types";
-import { Zap, PenTool } from "lucide-react";
+import { Zap, PenTool, BarChart3, Trash2 } from "lucide-react";
+import { useUsage, type UsageEntry } from "@/stores/usage";
 
 export default function AjustesPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function AjustesPage() {
     setStorageMode,
     clearAll,
   } = useSession();
-  const [section, setSection] = useState<"provider" | "context" | "privacy">(
+  const [section, setSection] = useState<"provider" | "context" | "usage" | "privacy">(
     "provider",
   );
 
@@ -71,8 +72,9 @@ export default function AjustesPage() {
               [
                 ["provider", t("Proveedor de IA")],
                 ["context", t("Tu contexto")],
+                ["usage", t("Consumo de IA")],
                 ["privacy", t("Privacidad")],
-              ] as ["provider" | "context" | "privacy", string][]
+              ] as ["provider" | "context" | "usage" | "privacy", string][]
             ).map(([key, label]) => (
               <button
                 key={key}
@@ -99,6 +101,7 @@ export default function AjustesPage() {
             {section === "context" && (
               <ContextSection context={context} />
             )}
+            {section === "usage" && <UsageSection />}
             {section === "privacy" && (
               <PrivacySection
                 storageMode={connection.storageMode}
@@ -401,6 +404,134 @@ function PrivacySection({
           </Button>
         )}
       </div>
+    </>
+  );
+}
+
+function UsageSection() {
+  const t = useT();
+  const { entries, clear } = useUsage();
+
+  const totalTokens = entries.reduce((a, e) => a + e.inputTokens + e.outputTokens, 0);
+  const totalCost = entries.reduce((a, e) => a + e.cost, 0);
+  const totalCalls = entries.length;
+
+  // Group by prompt label
+  const byPrompt = entries.reduce<Record<string, { calls: number; input: number; output: number; cost: number }>>((acc, e) => {
+    const key = e.prompt;
+    if (!acc[key]) acc[key] = { calls: 0, input: 0, output: 0, cost: 0 };
+    acc[key].calls++;
+    acc[key].input += e.inputTokens;
+    acc[key].output += e.outputTokens;
+    acc[key].cost += e.cost;
+    return acc;
+  }, {});
+
+  const sortedPrompts = Object.entries(byPrompt).sort((a, b) => b[1].cost - a[1].cost);
+
+  const maxCost = Math.max(...sortedPrompts.map(([, v]) => v.cost), 0.0001);
+
+  return (
+    <>
+      <h2 className="font-display text-xl font-semibold">{t("Consumo de IA")}</h2>
+      <p className="mt-1 text-sm text-ink-muted">{t("Consumo real de esta sesión. Se resetea al cerrar la pestaña.")}</p>
+
+      {/* Summary cards */}
+      <div className="mt-6 grid grid-cols-3 gap-3">
+        <div className="bg-surface border border-rule/40 rounded-xl p-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">{t("Llamadas AI")}</p>
+          <p className="font-display text-2xl font-bold mt-1">{totalCalls}</p>
+        </div>
+        <div className="bg-surface border border-rule/40 rounded-xl p-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">Tokens</p>
+          <p className="font-display text-2xl font-bold mt-1">{totalTokens.toLocaleString()}</p>
+          <p className="text-[11px] text-ink-muted">{entries.reduce((a, e) => a + e.inputTokens, 0).toLocaleString()} in · {entries.reduce((a, e) => a + e.outputTokens, 0).toLocaleString()} out</p>
+        </div>
+        <div className="bg-surface border border-rule/40 rounded-xl p-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">{t("Costo estimado")}</p>
+          <p className={`font-display text-2xl font-bold mt-1 ${totalCost > 0.1 ? "text-alert" : totalCost > 0.03 ? "text-stamp" : "text-confirm"}`}>
+            ${totalCost.toFixed(4)}
+          </p>
+        </div>
+      </div>
+
+      {/* Breakdown by prompt */}
+      {sortedPrompts.length > 0 && (
+        <div className="mt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted mb-3">{t("Desglose por operación")}</p>
+          <div className="bg-surface border border-rule/40 rounded-xl overflow-hidden">
+            <table className="w-full text-sm" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <thead>
+                <tr className="border-b border-rule/30 bg-paper">
+                  <th className="text-left px-4 py-2.5 text-[10px] font-mono uppercase tracking-[0.08em] text-ink-muted">{t("Operación")}</th>
+                  <th className="text-right px-4 py-2.5 text-[10px] font-mono uppercase tracking-[0.08em] text-ink-muted">{t("Llamadas AI")}</th>
+                  <th className="text-right px-4 py-2.5 text-[10px] font-mono uppercase tracking-[0.08em] text-ink-muted">Input</th>
+                  <th className="text-right px-4 py-2.5 text-[10px] font-mono uppercase tracking-[0.08em] text-ink-muted">Output</th>
+                  <th className="text-right px-4 py-2.5 text-[10px] font-mono uppercase tracking-[0.08em] text-ink-muted">{t("Costo estimado")}</th>
+                  <th className="px-4 py-2.5 w-28"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedPrompts.map(([label, data]) => (
+                  <tr key={label} className="border-b border-rule/20 hover:bg-paper/50">
+                    <td className="px-4 py-2.5">
+                      <span className="font-medium">{label}</span>
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-xs text-ink-muted">{data.calls}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-xs text-ink-muted">{data.input.toLocaleString()}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-xs text-ink-muted">{data.output.toLocaleString()}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-xs font-medium">${data.cost.toFixed(4)}</td>
+                    <td className="px-4 py-2.5">
+                      <div className="h-1.5 bg-rule/20 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${data.cost / maxCost > 0.6 ? "bg-stamp" : "bg-confirm"}`}
+                          style={{ width: `${(data.cost / maxCost) * 100}%` }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Recent log */}
+      {entries.length > 0 && (
+        <div className="mt-6">
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">{t("Últimas llamadas")}</p>
+            <button onClick={clear} className="flex items-center gap-1 text-xs text-ink-muted hover:text-alert transition-colors">
+              <Trash2 className="size-3" />
+              {t("Limpiar")}
+            </button>
+          </div>
+          <div className="space-y-1.5 max-h-64 overflow-y-auto">
+            {[...entries].reverse().slice(0, 20).map((e, i) => (
+              <div key={i} className="flex items-center justify-between px-3 py-2 bg-surface border border-rule/20 rounded-lg text-xs">
+                <div className="flex items-center gap-2 min-w-0">
+                  <BarChart3 className="size-3 text-stamp shrink-0" />
+                  <span className="font-medium truncate">{e.prompt}</span>
+                  <span className="text-ink-muted shrink-0">{e.model.split("/").pop()}</span>
+                </div>
+                <div className="flex items-center gap-3 shrink-0 ml-2">
+                  <span className="font-mono text-ink-muted">{(e.inputTokens + e.outputTokens).toLocaleString()} tok</span>
+                  <span className="font-mono font-medium">${e.cost.toFixed(4)}</span>
+                  <span className="text-ink-muted/50">{new Date(e.timestamp).toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" })}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {entries.length === 0 && (
+        <div className="mt-8 text-center py-12 border-2 border-dashed border-rule/30 rounded-2xl">
+          <BarChart3 className="size-8 text-ink-muted/30 mx-auto mb-3" />
+          <p className="text-sm text-ink-muted">{t("Sin consumo todavía. Analiza una convocatoria para empezar.")}</p>
+        </div>
+      )}
     </>
   );
 }

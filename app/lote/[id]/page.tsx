@@ -239,7 +239,7 @@ export default function OpportunityDetailPage({
     try {
       const model = safeguardModel(connection.models.economy || "openai/gpt-4o-mini");
       const messages = buildPR09Messages(opp.brief, context.raw, context.cvRaw, category);
-      const response = await complete({ model, messages, temperature: 0.2 });
+      const response = await complete({ model, messages, temperature: 0.2, label: "PR-09 Coach" });
       setCoach(parsePR09Response(response));
     } catch (err) {
       setCoachError(err instanceof Error ? err.message : "Error al generar recomendaciones");
@@ -264,7 +264,7 @@ export default function OpportunityDetailPage({
         language: opp.language === "en" ? "en" : opp.language === "pt" ? "pt" : "es",
         category,
       });
-      const response = await complete({ model, messages, temperature: 0.3 });
+      const response = await complete({ model, messages, temperature: 0.3, label: "PR-10 Carta" });
       const parsed = parsePR10Response(response);
       setLetter(parsed.text);
     } catch (err) {

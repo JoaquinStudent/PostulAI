@@ -214,6 +214,7 @@ export const useBatch = create<BatchState>((set, get) => ({
           model: economyModel,
           messages: buildPR03Messages(truncated),
           temperature: 0.1,
+          label: "PR-03 Extracción",
         });
 
         const extractedData = parsePR03Response(pr03Response);
@@ -223,6 +224,7 @@ export const useBatch = create<BatchState>((set, get) => ({
           model: economyModel,
           messages: buildPR04Messages(extractedData.brief, contextRaw, source.category),
           temperature: 0.1,
+          label: "PR-04 Encaje",
         });
 
         const fit = parsePR04Response(pr04Response);

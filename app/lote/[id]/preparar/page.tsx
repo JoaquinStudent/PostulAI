@@ -129,6 +129,7 @@ function QuestionLoadingView({
           model: economyModel,
           messages: [{ role: "user", content: buildPR05Prompt(rawText) }],
           temperature: 0.1,
+          label: "PR-05 Parser",
         });
         questions = parsePR05Response(response);
       } catch {

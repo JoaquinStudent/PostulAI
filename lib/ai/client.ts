@@ -1,4 +1,5 @@
 import { getApiKey } from "@/stores/session";
+import { useUsage, estimateCost } from "@/stores/usage";
 
 const BASE_URL = "https://openrouter.ai/api/v1";
 
@@ -13,6 +14,7 @@ export interface CompletionOptions {
   stream?: boolean;
   temperature?: number;
   max_tokens?: number;
+  label?: string;
 }
 
 export class AiError extends Error {
@@ -90,11 +92,27 @@ export async function complete(opts: CompletionOptions): Promise<string> {
   if (typeof content !== "string") {
     throw new AiError("Respuesta del modelo vacía o malformada.", "parse");
   }
+
+  // Track usage
+  const usage = data.usage;
+  if (usage) {
+    const inputTokens = usage.prompt_tokens ?? 0;
+    const outputTokens = usage.completion_tokens ?? 0;
+    useUsage.getState().log({
+      prompt: opts.label ?? opts.model,
+      model: opts.model,
+      inputTokens,
+      outputTokens,
+      cost: estimateCost(opts.model, inputTokens, outputTokens),
+      timestamp: Date.now(),
+    });
+  }
+
   return content;
 }
 
 export async function* streamComplete(
-  opts: CompletionOptions,
+  opts: CompletionOptions & { label?: string },
 ): AsyncGenerator<string, void, undefined> {
   const res = await fetchWithRetry(`${BASE_URL}/chat/completions`, {
     method: "POST",
@@ -113,6 +131,7 @@ export async function* streamComplete(
 
   const decoder = new TextDecoder();
   let buffer = "";
+  let totalOutput = 0;
 
   while (true) {
     const { done, value } = await reader.read();
@@ -126,12 +145,40 @@ export async function* streamComplete(
       const trimmed = line.trim();
       if (!trimmed.startsWith("data: ")) continue;
       const payload = trimmed.slice(6);
-      if (payload === "[DONE]") return;
+      if (payload === "[DONE]") {
+        // ponytail: estimate tokens from char count (~4 chars/token)
+        const inputEst = opts.messages.reduce((a, m) => a + m.content.length, 0) / 4;
+        const outputEst = totalOutput / 4;
+        useUsage.getState().log({
+          prompt: opts.label ?? opts.model,
+          model: opts.model,
+          inputTokens: Math.round(inputEst),
+          outputTokens: Math.round(outputEst),
+          cost: estimateCost(opts.model, Math.round(inputEst), Math.round(outputEst)),
+          timestamp: Date.now(),
+        });
+        return;
+      }
 
       try {
         const json = JSON.parse(payload);
         const delta = json.choices?.[0]?.delta?.content;
-        if (typeof delta === "string" && delta) yield delta;
+        if (typeof delta === "string" && delta) {
+          totalOutput += delta.length;
+          yield delta;
+        }
+        // Capture usage if present in final chunk
+        if (json.usage) {
+          const u = json.usage;
+          useUsage.getState().log({
+            prompt: opts.label ?? opts.model,
+            model: opts.model,
+            inputTokens: u.prompt_tokens ?? 0,
+            outputTokens: u.completion_tokens ?? 0,
+            cost: estimateCost(opts.model, u.prompt_tokens ?? 0, u.completion_tokens ?? 0),
+            timestamp: Date.now(),
+          });
+        }
       } catch {
         // skip malformed SSE chunks
       }

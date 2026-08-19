@@ -52,7 +52,7 @@ export function InterviewSim({ tips, brief, contextRaw, category, model }: Props
         answer: st.answer,
         category,
       });
-      const response = await complete({ model: safeguardModel(model), messages, temperature: 0.3 });
+      const response = await complete({ model: safeguardModel(model), messages, temperature: 0.3, label: "PR-11 Entrevista" });
       update(i, { feedback: parsePR11Response(response), loading: false });
     } catch (err) {
       update(i, { error: err instanceof Error ? err.message : "Error", loading: false });

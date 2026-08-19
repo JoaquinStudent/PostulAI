@@ -219,6 +219,7 @@ export const useDraft = create<DraftState>((set, get) => ({
         model,
         messages,
         temperature: 0.3,
+        label: "PR-06 Respuesta",
       })) {
         accumulated += chunk;
         set((s) => ({
@@ -339,6 +340,7 @@ export const useDraft = create<DraftState>((set, get) => ({
         model,
         messages,
         temperature: 0.3,
+        label: "PR-07 Refinar",
       })) {
         accumulated += chunk;
         set((s) => ({
@@ -433,6 +435,7 @@ export const useDraft = create<DraftState>((set, get) => ({
           },
         ],
         temperature: 0.1,
+        label: "PR-08 Gap",
       });
 
       const parsed = parsePR08Response(response);
