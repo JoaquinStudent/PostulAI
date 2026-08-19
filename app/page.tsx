@@ -60,7 +60,7 @@ function GlassCard({
 }) {
   return (
     <div
-      className={`relative rounded-2xl border border-rule/20 bg-surface/50 backdrop-blur-xl shadow-[0_2px_24px_rgba(0,0,0,0.04)] ${className}`}
+      className={`relative rounded-2xl border border-rule/30 bg-surface/60 backdrop-blur-xl shadow-[0_2px_24px_rgba(0,0,0,0.04)] ${className}`}
     >
       {children}
     </div>
@@ -178,7 +178,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-5 text-xs text-ink-muted/60 tracking-wide"
+              className="mt-5 text-xs text-ink-muted tracking-wide"
             >
               {t("Sin registro · Sin servidor · Tu clave API, tu control")}
             </motion.p>
@@ -445,17 +445,17 @@ export default function Home() {
                 <br />
                 {t("Postula con confianza.")}
               </h2>
-              <p className="mt-5 text-white/60 max-w-md mx-auto leading-relaxed lg:text-lg">
+              <p className="mt-5 text-white/75 max-w-md mx-auto leading-relaxed lg:text-lg">
                 {t("PostulAI analiza, te prepara y redacta. Tú revisas y envías.")}
               </p>
               <Link
                 href="/contexto"
-                className="inline-flex items-center justify-center gap-2 h-14 px-10 mt-10 rounded-full bg-surface text-stamp font-medium text-base hover:bg-surface/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
+                className="inline-flex items-center justify-center gap-2 h-14 px-10 mt-10 rounded-full bg-white text-[#0071E3] font-medium text-base hover:bg-white/90 active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
               >
                 {t("Empezar ahora")}
                 <ArrowRight className="size-4" />
               </Link>
-              <p className="mt-4 text-xs text-white/40 tracking-wide">
+              <p className="mt-4 text-xs text-white/60 tracking-wide">
                 {t("Solo necesitas una clave de OpenRouter")}
               </p>
             </div>
@@ -472,7 +472,7 @@ export default function Home() {
               {t("— Tu copiloto de postulaciones con IA")}
             </span>
           </div>
-          <p className="text-xs text-ink-muted/60 tracking-wide">
+          <p className="text-xs text-ink-muted tracking-wide">
             {t("Todo ocurre en tu navegador · Nada se guarda al cerrar")}
           </p>
         </div>

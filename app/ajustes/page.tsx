@@ -518,7 +518,7 @@ function UsageSection() {
                 <div className="flex items-center gap-3 shrink-0 ml-2">
                   <span className="font-mono text-ink-muted">{(e.inputTokens + e.outputTokens).toLocaleString()} tok</span>
                   <span className="font-mono font-medium">${e.cost.toFixed(4)}</span>
-                  <span className="text-ink-muted/50">{new Date(e.timestamp).toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" })}</span>
+                  <span className="text-ink-muted">{new Date(e.timestamp).toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" })}</span>
                 </div>
               </div>
             ))}
@@ -528,7 +528,7 @@ function UsageSection() {
 
       {entries.length === 0 && (
         <div className="mt-8 text-center py-12 border-2 border-dashed border-rule/30 rounded-2xl">
-          <BarChart3 className="size-8 text-ink-muted/30 mx-auto mb-3" />
+          <BarChart3 className="size-8 text-ink-muted mx-auto mb-3" />
           <p className="text-sm text-ink-muted">{t("Sin consumo todavía. Analiza una convocatoria para empezar.")}</p>
         </div>
       )}

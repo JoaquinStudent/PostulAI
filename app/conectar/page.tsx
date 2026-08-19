@@ -108,11 +108,11 @@ export default function ConectarPage() {
         </Link>
         <div className="hidden sm:flex items-center gap-1.5 text-xs tracking-wide">
           <span className="text-confirm font-medium">✓ {t("Contexto")}</span>
-          <span className="text-ink-muted/40 mx-1">—</span>
+          <span className="text-rule mx-1">—</span>
           <span className="px-2.5 py-0.5 rounded-full bg-stamp text-white text-[11px] font-medium">2</span>
           <span className="text-stamp font-medium">{t("Conectar")}</span>
-          <span className="text-ink-muted/40 mx-1">—</span>
-          <span className="text-ink-muted/60">3 {t("Analizar")}</span>
+          <span className="text-rule mx-1">—</span>
+          <span className="text-ink-muted">3 {t("Analizar")}</span>
         </div>
         <div className="flex items-center gap-2">
           <LocaleToggle />

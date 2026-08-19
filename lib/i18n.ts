@@ -257,6 +257,8 @@ const en: Dict = {
   "Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe guardarse como archivo .md para adjuntarlo en el siguiente paso.":
     "Any AI works (ChatGPT, Claude, Gemini) and the result should be saved as a .md file to attach in the next step.",
   "Ya tengo mi archivo": "I already have my file",
+  "Ver prompt completo": "Show full prompt",
+  "Ver menos": "Show less",
   "Adjunta tu contexto": "Attach your context",
   "Se lee en tu navegador y se descarta al cerrar. No se sube a ningún servidor.":
     "Read in your browser and discarded on close. Not uploaded to any server.",
@@ -536,6 +538,8 @@ const pt: Dict = {
   "Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe guardarse como archivo .md para adjuntarlo en el siguiente paso.":
     "Qualquer IA serve (ChatGPT, Claude, Gemini) e o resultado deve ser salvo como arquivo .md para anexar no próximo passo.",
   "Ya tengo mi archivo": "Já tenho meu arquivo",
+  "Ver prompt completo": "Ver prompt completo",
+  "Ver menos": "Ver menos",
   "Adjunta tu contexto": "Anexe seu contexto",
   "Se lee en tu navegador y se descarta al cerrar. No se sube a ningún servidor.":
     "Lido no seu navegador e descartado ao fechar. Não é enviado a nenhum servidor.",
@@ -811,6 +815,8 @@ const fr: Dict = {
   "Sirve cualquier IA (ChatGPT, Claude, Gemini) y el resultado debe guardarse como archivo .md para adjuntarlo en el siguiente paso.":
     "N'importe quelle IA convient (ChatGPT, Claude, Gemini) et le résultat doit être sauvé en .md pour l'étape suivante.",
   "Ya tengo mi archivo": "J'ai déjà mon fichier",
+  "Ver prompt completo": "Voir le prompt complet",
+  "Ver menos": "Voir moins",
   "Adjunta tu contexto": "Joignez votre contexte",
   "Se lee en tu navegador y se descarta al cerrar. No se sube a ningún servidor.":
     "Lu dans votre navigateur et supprimé à la fermeture. Aucun envoi vers un serveur.",

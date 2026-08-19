@@ -387,7 +387,7 @@ export default function OpportunityDetailPage({
                   ].map((dim) => (
                     <div key={dim.label}>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-ink-muted">{dim.label} <span className="text-ink-muted/50">({dim.weight})</span></span>
+                        <span className="text-xs text-ink-muted">{dim.label} ({dim.weight})</span>
                         <span className="text-xs font-mono font-bold">{dim.value}</span>
                       </div>
                       <div className="h-1.5 bg-rule/20 rounded-full overflow-hidden">

@@ -60,10 +60,10 @@ function Header({ view, onSkip }: { view: View; onSkip: () => void }) {
         <div className="hidden sm:flex items-center gap-1.5 text-xs tracking-wide">
           <span className="px-2.5 py-0.5 rounded-full bg-stamp text-white text-[11px] font-medium">1</span>
           <span className="text-stamp font-medium">{t("Contexto")}</span>
-          <span className="text-ink-muted/40 mx-1">—</span>
-          <span className="text-ink-muted/60">2 {t("Conectar")}</span>
-          <span className="text-ink-muted/40 mx-1">—</span>
-          <span className="text-ink-muted/60">3 {t("Analizar")}</span>
+          <span className="text-rule mx-1">—</span>
+          <span className="text-ink-muted">2 {t("Conectar")}</span>
+          <span className="text-rule mx-1">—</span>
+          <span className="text-ink-muted">3 {t("Analizar")}</span>
         </div>
         {view === "generator" && (
           <button
@@ -83,6 +83,7 @@ function Header({ view, onSkip }: { view: View; onSkip: () => void }) {
 function GeneratorView({ onContinue }: { onContinue: () => void }) {
   const t = useT();
   const [copied, setCopied] = useState(false);
+  const [promptExpanded, setPromptExpanded] = useState(false);
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(GENERATOR_PROMPT);
@@ -104,19 +105,33 @@ function GeneratorView({ onContinue }: { onContinue: () => void }) {
           <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
             {t("Prompt generador")}
           </span>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleCopy}
-            className="gap-1.5"
-          >
-            {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-            {copied ? t("Copiado") : t("Copiar")}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleCopy}
+              className="gap-1.5"
+            >
+              {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+              {copied ? t("Copiado") : t("Copiar")}
+            </Button>
+          </div>
         </div>
-        <pre className="p-6 font-mono text-sm leading-relaxed text-ink whitespace-pre-wrap">
-          {GENERATOR_PROMPT}
-        </pre>
+        <div className="relative">
+          <pre className={`p-6 font-mono text-sm leading-relaxed text-ink whitespace-pre-wrap transition-[max-height] duration-300 overflow-hidden ${promptExpanded ? "" : "max-h-48"}`}>
+            {GENERATOR_PROMPT}
+          </pre>
+          {!promptExpanded && (
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-surface to-transparent" />
+          )}
+          <button
+            onClick={() => setPromptExpanded(!promptExpanded)}
+            className="w-full py-2.5 text-center text-sm font-medium text-stamp hover:text-stamp/80 transition-colors border-t border-rule/20"
+          >
+            {promptExpanded ? t("Ver menos") : t("Ver prompt completo")}
+            <ChevronDown className={`inline-block ml-1.5 size-3.5 transition-transform ${promptExpanded ? "rotate-180" : ""}`} />
+          </button>
+        </div>
       </div>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

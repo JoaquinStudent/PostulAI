@@ -209,7 +209,7 @@ function TrackerCard({
           {item.notes}
         </button>
       ) : (
-        <button onClick={() => setEditingNotes(item.opportunityId)} className="text-[10px] text-ink-muted/50 hover:text-ink-muted flex items-center gap-1">
+        <button onClick={() => setEditingNotes(item.opportunityId)} className="text-[10px] text-ink-muted hover:text-ink flex items-center gap-1">
           <StickyNote className="size-2.5" /> Nota
         </button>
       )}

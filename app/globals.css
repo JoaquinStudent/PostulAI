@@ -126,10 +126,11 @@ body {
   --color-paper: #1C1C1E;
   --color-surface: #2C2C2E;
   --color-ink: #F5F5F7;
-  --color-ink-muted: #98989D;
-  --color-rule: #38383A;
-  --color-stamp: #0A84FF;
-  --color-alert: #FF453A;
+  --color-ink-muted: #AEAEB2;
+  --color-rule: #48484A;
+  --color-stamp: #409CFF;
+  --color-marker: #FFD60A;
+  --color-alert: #FF6961;
   --color-confirm: #30D158;
 }
 
@@ -138,10 +139,11 @@ body {
     --color-paper: #1C1C1E;
     --color-surface: #2C2C2E;
     --color-ink: #F5F5F7;
-    --color-ink-muted: #98989D;
-    --color-rule: #38383A;
-    --color-stamp: #0A84FF;
-    --color-alert: #FF453A;
+    --color-ink-muted: #AEAEB2;
+    --color-rule: #48484A;
+    --color-stamp: #409CFF;
+    --color-marker: #FFD60A;
+    --color-alert: #FF6961;
     --color-confirm: #30D158;
   }
 }
@@ -153,11 +155,11 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 [data-theme="dark"] .glass {
-  background: rgba(44, 44, 46, 0.72);
+  background: rgba(44, 44, 46, 0.82);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .glass {
-    background: rgba(44, 44, 46, 0.72);
+    background: rgba(44, 44, 46, 0.82);
   }
 }
 
